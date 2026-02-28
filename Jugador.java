@@ -1,41 +1,54 @@
 package JuegoPinguino;
 
 public abstract class Jugador {
-private int posicion=0;
-private String nombre="";
-private String color="";
 
-public Jugador(int posicion,String nombre,String color) {
-	this.posicion=posicion;
-	this.nombre=nombre;
-	this.color=color;
-}
+    private int posicion = 0;
+    private String nombre = "";
+    private String color = "";
+    private int turnosPerdidos = 0;
 
-public int getPosicion() {
-	return posicion;
-}
+    public Jugador(int posicion, String nombre, String color) {
+        this.posicion = posicion;
+        this.nombre = nombre;
+        this.color = color;
+    }
 
-public void setPosicion(int posicion) {
-	this.posicion = posicion;
-}
+    public int getPosicion() {
+        return posicion;
+    }
 
-public String getNombre() {
-	return nombre;
-}
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
 
-public void setNombre(String nombre) {
-	this.nombre = nombre;
-}
+    public String getNombre() {
+        return nombre;
+    }
 
-public String getColor() {
-	return color;
-}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-public void setColor(String color) {
-	this.color = color;
-}
- public void moverPosicion(int cantidad) {
-	 this.posicion+=cantidad;
-	 if (this.posicion<0) this.posicion=0;
- }
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getTurnosPerdidos() {
+        return turnosPerdidos;
+    }
+
+    public void setTurnosPerdidos(int turnosPerdidos) {
+        this.turnosPerdidos = turnosPerdidos;
+    }
+
+    public void moverPosicion(int cantidad) {
+        this.posicion += cantidad;
+        if (this.posicion < 0) {
+            this.posicion = 0;
+        }
+    }
 }
