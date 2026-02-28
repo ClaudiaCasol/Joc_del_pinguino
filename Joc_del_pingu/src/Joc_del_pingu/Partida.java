@@ -22,7 +22,6 @@ public class Partida {
 
     public void avanzarTurno() {
         turnoActual++;
-
         if (turnoActual >= jugadores.size()) {
             turnoActual = 0;
         }
@@ -54,27 +53,31 @@ public class Partida {
 
         Jugador jugador = getJugadorActual();
 
-        // Si el jugador tiene turnos perdidos
+        if (jugador instanceof Foca) {
+            Foca foca = (Foca) jugador;
+
+            if (foca.estaBloqueada()) {
+                foca.reducirBloqueo();
+                avanzarTurno();
+                return;
+            }
+        }
+
         if (jugador.getTurnosPerdidos() > 0) {
             jugador.setTurnosPerdidos(jugador.getTurnosPerdidos() - 1);
             avanzarTurno();
             return;
         }
 
-        // Movimiento por dado
         moverJugador(jugador, resultadoDado);
 
-        // Aplicar casilla
         Casilla casilla = tablero.getCasilla(jugador.getPosicion());
 
         if (casilla != null) {
             casilla.realizarAccion(this, jugador);
-
-            // Por si alguna casilla mueve directamente al jugador
             normalizarPosicion(jugador);
         }
 
-        // Comprobar victoria
         if (jugador.getPosicion() == tablero.getTamaño() - 1) {
             System.out.println("Ha ganado " + jugador.getNombre());
             finalizada = true;
