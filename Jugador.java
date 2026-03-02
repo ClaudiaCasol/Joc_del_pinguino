@@ -51,4 +51,18 @@ public abstract class Jugador {
             this.posicion = 0;
         }
     }
+
+    public void mover(int pasos) {
+        this.posicion += pasos;
+        if (this.posicion < 0) {
+            this.posicion = 0;
+        }
+    }
+
+    public void retroceder(int pasos) {
+        this.posicion -= pasos;
+        if (this.posicion < 0) {
+            this.posicion = 0;
+        }
+    }
 }
