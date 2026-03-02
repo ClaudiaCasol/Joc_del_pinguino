@@ -6,7 +6,6 @@ import java.util.Random;
 public class Inventario {
 
 	Random rand = new Random();
-	Random rando = new Random();
 	
 	
 	private ArrayList<Dado> dado = new ArrayList<Dado>();
@@ -45,31 +44,55 @@ public class Inventario {
 	
 	
 	public void agregarDado(Dado dado) {
-		this.dado.add(dado);
+		
+		if(this.dado.size() < 3) {
+			this.dado.add(dado);
+		} else {
+			System.out.println("No se puede añadir otro dado, tienes los dados máximos.");
+		}		
 	}
 	
 	public void agregarBolaNieve(BolaNieve bolaNieve) {
-		this.bolaNieve.add(bolaNieve);
+		
+		if(this.bolaNieve.size() < 6) {
+			this.bolaNieve.add(bolaNieve);
+		} else {
+			System.out.println("No se pueden añadir más bolas de nieve, tienes las bolas de nieve máximas.");
+		}
 	}
 	
 	public void agregarPez(Pez pez) {
-		this.pez.add(pez);
+		
+		if(this.pez.size() < 2) {
+			this.pez.add(pez);
+		} else {
+			System.out.println("No se pueden añadir más peces, tienes los peces máximos.");
+		}
 	}
 	
 	public void eliminarDado(Dado dado) {
-		this.dado.remove(dado);
+		
+		if(this.dado.size() > 1 && this.dado.size() <= 3) {
+			this.dado.remove(dado);
+		}
 	}
 	
 	public void eliminarBolaNieve(BolaNieve bolaNieve) {
-		this.bolaNieve.remove(bolaNieve);
+		
+		if(this.bolaNieve.size() > 0 && this.bolaNieve.size() <= 6) {
+			this.bolaNieve.remove(bolaNieve);
+		}
 	}
 	
 	public void eliminarPez(Pez pez) {
-		this.pez.remove(pez);
+		
+		if(this.pez.size() > 0 && this.pez.size() <= 2) {
+			this.pez.remove(pez);
+		}
 	}
 	
 	public void perderObjetoAleatorio() {
-		int opcion = rando.nextInt(3);
+		int opcion = rand.nextInt(3);
 		
 		switch(opcion) {
 		case 0: {
@@ -78,12 +101,12 @@ public class Inventario {
 			break;
 		}
 		case 1: {
-			BolaNieve b = bolaNieve.get(opcion);
+			BolaNieve b = bolaNieve.get(0);
 			this.eliminarBolaNieve(b);
 			break;
 		}
 		case 2: {
-			Pez p = pez.get(opcion);
+			Pez p = pez.get(0);
 			this.eliminarPez(p);
 			break;
 		}
