@@ -6,24 +6,43 @@ public class Partida {
 
     private Tablero tablero;
     private ArrayList<Jugador> jugadores;
-    private int turnoActual;
+
+    private int turnos = 0;
+    private int jugadorActual = 0;
+
     private boolean finalizada;
+    private Jugador ganador;
 
     public Partida(ArrayList<Jugador> jugadores) {
         this.tablero = new Tablero();
         this.jugadores = jugadores;
-        this.turnoActual = 0;
+        this.jugadorActual = 0;
+        this.turnos = 0;
         this.finalizada = false;
+        this.ganador = null;
+    }
+
+    public void iniciarPartida() {
+        this.turnos = 0;
+        this.jugadorActual = 0;
+        this.finalizada = false;
+        this.ganador = null;
+    }
+
+    public void finalizarPartida() {
+        this.finalizada = true;
     }
 
     public Jugador getJugadorActual() {
-        return jugadores.get(turnoActual);
+        return jugadores.get(jugadorActual);
     }
 
     public void avanzarTurno() {
-        turnoActual++;
-        if (turnoActual >= jugadores.size()) {
-            turnoActual = 0;
+        jugadorActual++;
+
+        if (jugadorActual >= jugadores.size()) {
+            jugadorActual = 0;
+            turnos++;
         }
     }
 
@@ -80,6 +99,7 @@ public class Partida {
 
         if (jugador.getPosicion() == tablero.getTamaño() - 1) {
             System.out.println("Ha ganado " + jugador.getNombre());
+            ganador = jugador;
             finalizada = true;
             return;
         }
@@ -104,5 +124,41 @@ public class Partida {
 
     public Tablero getTablero() {
         return tablero;
+    }
+
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
+
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public int getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(int turnos) {
+        this.turnos = turnos;
+    }
+
+    public int getJugadorActualIndex() {
+        return jugadorActual;
+    }
+
+    public void setJugadorActualIndex(int jugadorActual) {
+        this.jugadorActual = jugadorActual;
+    }
+
+    public Jugador getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(Jugador ganador) {
+        this.ganador = ganador;
     }
 }
