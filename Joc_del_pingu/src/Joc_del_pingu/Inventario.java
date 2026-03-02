@@ -113,6 +113,31 @@ public class Inventario {
 		}
 	}
 	
+	public void perderMitadInventario() {
+		
+		int mitadDado = dado.size() / 2;
+		int mitadBolaNieve = bolaNieve.size() / 2;
+		int mitadPez = pez.size() / 2;
+		
+		for(int i = 0; i < mitadDado; i++) {
+			if(!dado.isEmpty()) { //si la lista NO está vacía.
+				dado.remove(0); //entonces borra.
+			}
+		}
+		
+		for(int i = 0; i < mitadBolaNieve; i++) {
+			if(!bolaNieve.isEmpty()) {
+				bolaNieve.remove(0);
+			}
+		}
+		
+		for(int i = 0; i < mitadPez; i++) {
+			if(!pez.isEmpty()) {
+				pez.remove(0);
+			}
+		}
+	}
+	
 	public void totalObjetos() {
 		
 		int dadoRapido = 0;
