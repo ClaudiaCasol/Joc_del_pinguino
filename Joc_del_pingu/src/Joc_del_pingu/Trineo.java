@@ -10,9 +10,17 @@ public class Trineo extends Casilla{
 	 @Override
 	    public void realizarAccion(Partida partida, Jugador jugador) {
 	       
-		 System.out.println("¡Un trineo aparece!");
+		 boolean encontrado = false;
 	     
-		 for(int i = jugador.getPosicion(); i < 50; i++) {
+		 for(int i = jugador.getPosicion(); i < 50 && !encontrado; i++) {
+			 
+			 if(partida.getTablero().getCasilla(i) instanceof Trineo) {
+				 
+				 jugador.setPosicion(i);
+				 
+				 encontrado = true;
+			 
+			 }
 			 
 		 }
 		 

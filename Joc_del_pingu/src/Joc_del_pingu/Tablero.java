@@ -17,9 +17,9 @@ public class Tablero {
 			if (i == 0) {
 				// Primera casilla siempre normal.
 				Casilla casilla = new Casilla(i);
-				
+
 			} 
-			
+
 			else {
 				int tipo = random.nextInt(10);
 
@@ -46,12 +46,12 @@ public class Tablero {
 		}
 	}
 
-// DEVUELVE la lista completa de casillas
+	// DEVUELVE la lista completa de casillas
 	public ArrayList<Casilla> getCasillas() {
 		return casillas;
 	}
 
-// DEVUELVE una casilla concreta según posición
+	// DEVUELVE una casilla concreta según posición
 	public Casilla getCasilla(int posicion) {
 
 		if (posicion >= 0 && posicion < casillas.size()) {
@@ -61,17 +61,17 @@ public class Tablero {
 		}
 	}
 
-// DEVUELVE el tamaño del tablero
+	// DEVUELVE el tamaño del tablero
 	public int getTamaño() {
 		return tamaño;
 	}
 
-// Permite cambiar el tamaño (aunque normalmente no haría falta)
+	// Permite cambiar el tamaño (aunque normalmente no haría falta)
 	public void setTamaño(int tamaño) {
 		this.tamaño = tamaño;
 	}
 
-// Método para actualizar el tablero
+	// Método para actualizar el tablero
 	public void actualizarTablero() {
 		// De momento no hace nada
 	}
