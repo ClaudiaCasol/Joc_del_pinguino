@@ -33,7 +33,7 @@ public class Evento extends Casilla {
             case 2:
                 evento = "Pierdes el turno.";
                 System.out.println(evento);
-                partida.saltarTurno(); // SOLO si tienes algo así implementado
+                partida.saltarTurno(jugador); // SOLO si tienes algo así implementado
                 break;
         }
     }

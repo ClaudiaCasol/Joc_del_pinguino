@@ -43,51 +43,51 @@ public class Inventario {
 	}
 	
 	
-	public void agregarDado(Dado dado) {
+	public void agregarDado(Dado item) {
 		
 		if(this.dado.size() < 3) {
-			this.dado.add(dado);
+			this.dado.add(item);
 		} else {
 			System.out.println("No se puede añadir otro dado, tienes los dados máximos.");
 		}		
 	}
 	
-	public void agregarBolaNieve(BolaNieve bolaNieve) {
+	public void agregarBolaNieve(BolaNieve item) {
 		
 		if(this.bolaNieve.size() < 6) {
-			this.bolaNieve.add(bolaNieve);
+			this.bolaNieve.add(item);
 		} else {
 			System.out.println("No se pueden añadir más bolas de nieve, tienes las bolas de nieve máximas.");
 		}
 	}
 	
-	public void agregarPez(Pez pez) {
+	public void agregarPez(Pez item) {
 		
 		if(this.pez.size() < 2) {
-			this.pez.add(pez);
+			this.pez.add(item);
 		} else {
 			System.out.println("No se pueden añadir más peces, tienes los peces máximos.");
 		}
 	}
 	
-	public void eliminarDado(Dado dado) {
+	public void eliminarDado(Dado item) {
 		
 		if(this.dado.size() > 1 && this.dado.size() <= 3) {
-			this.dado.remove(dado);
+			this.dado.remove(item);
 		}
 	}
 	
-	public void eliminarBolaNieve(BolaNieve bolaNieve) {
+	public void eliminarBolaNieve(BolaNieve item) {
 		
 		if(this.bolaNieve.size() > 0 && this.bolaNieve.size() <= 6) {
-			this.bolaNieve.remove(bolaNieve);
+			this.bolaNieve.remove(item);
 		}
 	}
 	
-	public void eliminarPez(Pez pez) {
+	public void eliminarPez(Pez item) {
 		
 		if(this.pez.size() > 0 && this.pez.size() <= 2) {
-			this.pez.remove(pez);
+			this.pez.remove(item);
 		}
 	}
 	

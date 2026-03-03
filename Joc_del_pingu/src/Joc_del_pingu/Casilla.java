@@ -13,8 +13,6 @@ public abstract class Casilla {
 	 return posicion;
  }
  
- public abstract void realizarAccion(Partida partida, Jugador jugador) {
-	 
- }
+ public abstract void realizarAccion(Partida partida, Jugador jugador);
  
 }

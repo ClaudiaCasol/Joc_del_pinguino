@@ -4,9 +4,9 @@ public class Pinguino extends Jugador {
 
     private Inventario inv;
 
-    public Pinguino(int posicion, String nombre, String color) {
+    public Pinguino(int posicion, String nombre, String color, Inventario inv) {
         super(posicion, nombre, color);
-        this.inv = new Inventario();
+        this.inv = inv;
     }
 
     public Inventario getInv() {
@@ -18,24 +18,34 @@ public class Pinguino extends Jugador {
     }
 
     public void gestionarBatalla(Pinguino p2) {
-        // TODO: implementar cuando toque la "guerra"
-    }
-
-    public void usarObjeto(Objetos item) {
-        if (item != null) {
-            item.usar(this);
-        }
+        //implementar cuando toque la "guerra"
     }
 
     public void anadirItem(Objetos item) {
-        if (item != null && inv != null) {
-            inv.agregarObjeto(item);
+        if (item instanceof BolaNieve) {
+        	inv.agregarBolaNieve((BolaNieve) item);
+        }
+        
+        if(item instanceof Dado) {
+        	inv.agregarDado((Dado) item);
+        }
+        
+        if(item instanceof Pez) {
+        	inv.agregarPez((Pez) item);
         }
     }
 
-    public void quitarItem(Objetos item) {
-        if (item != null && inv != null) {
-            inv.eliminarObjeto(item);
+    public void eliminarItem(Objetos item) {
+        if (item instanceof BolaNieve) {
+            inv.eliminarBolaNieve((BolaNieve) item);
+        }
+        
+        if(item instanceof Dado) {
+        	inv.eliminarDado((Dado) item);
+        }
+        
+        if(item instanceof Pez) {
+        	inv.eliminarPez((Pez) item);
         }
     }
 
