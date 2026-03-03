@@ -5,42 +5,44 @@ import java.util.Random;
 
 public class Tablero {
 	private ArrayList<Casilla> casillas = new ArrayList<>();
-	private int tamano = 40;
+	private int tamaño = 50;
 
 
 	public Tablero() {
 		Random random = new Random();
 
-		for (int i = 0; i < tamano; i++) {
+		for (int i = 0; i < tamaño; i++) {
 
-			Casilla nuevaCasilla;
 
 			if (i == 0) {
-				// Primera casilla siempre normal (por ejemplo SueloQuebradizo)
-				nuevaCasilla = new SueloQuebradizo(i);
-			} else {
-				int tipo = random.nextInt(5);
+				// Primera casilla siempre normal.
+				Casilla casilla = new Casilla(i);
+				
+			} 
+			
+			else {
+				int tipo = random.nextInt(10);
 
 				switch (tipo) {
 				case 0:
-					nuevaCasilla = new Oso(i);
+					casillas.add(new Oso(i));
 					break;
 				case 1:
-					nuevaCasilla = new Trineo(i);
+					casillas.add(new Trineo(i));
 					break;
 				case 2:
-					nuevaCasilla = new Agujero(i);
+					casillas.add(new Agujero(i));
 					break;
 				case 3:
-					nuevaCasilla = new Evento(i);
+					casillas.add(new Evento(i));
 					break;
-				default:
-					nuevaCasilla = new SueloQuebradizo(i);
+				case 4:
+					casillas.add(new SueloQuebradizo(i));
 					break;
+				case 5, 6, 7, 8, 9: //Hacemos esto para que la casilla normal sea más común					
+					casillas.add(new Casilla(i));
 				}
 			}
-
-			casillas.add(nuevaCasilla);
 		}
 	}
 
@@ -61,12 +63,12 @@ public class Tablero {
 
 // DEVUELVE el tamaño del tablero
 	public int getTamaño() {
-		return tamano;
+		return tamaño;
 	}
 
 // Permite cambiar el tamaño (aunque normalmente no haría falta)
 	public void setTamaño(int tamaño) {
-		this.tamano = tamaño;
+		this.tamaño = tamaño;
 	}
 
 // Método para actualizar el tablero
