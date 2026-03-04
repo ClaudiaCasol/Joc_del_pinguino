@@ -118,7 +118,7 @@ public class Partida {
         }
     }
 
-    public boolean isFinalizada() {
+    public boolean estaFinalizada() {
         return finalizada;
     }
 
@@ -146,11 +146,7 @@ public class Partida {
         this.turnos = turnos;
     }
 
-    public int getJugadorActualIndex() {
-        return jugadorActual;
-    }
-
-    public void setJugadorActualIndex(int jugadorActual) {
+    public void setJugadorActual(int jugadorActual) {
         this.jugadorActual = jugadorActual;
     }
 
