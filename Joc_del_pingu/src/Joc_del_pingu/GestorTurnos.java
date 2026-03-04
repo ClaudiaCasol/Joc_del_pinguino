@@ -1,4 +1,4 @@
-package JuegoPinguino;
+package Joc_del_pingu;
 
 public class GestorTurnos {
 private boolean validacion=false;
