@@ -16,7 +16,7 @@ public class Tablero {
 
 			if (i == 0) {
 				// Primera casilla siempre normal.
-				Casilla casilla = new Casilla(i);
+				casillas.add(new Casilla(i));
 
 			} 
 
