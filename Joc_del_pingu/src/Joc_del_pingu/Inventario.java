@@ -169,4 +169,13 @@ public class Inventario {
 			return false;
 		}
 	}
+	public boolean usarPez() {
+
+    if(!pez.isEmpty()) {
+        pez.remove(0);
+        return true;
+    }
+
+    return false;
+}
 }
