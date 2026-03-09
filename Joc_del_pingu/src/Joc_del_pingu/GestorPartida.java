@@ -13,28 +13,30 @@ public class GestorPartida {
 	    this.jugadores = jugadores;
 	    this.gestorTurnos = new GestorTurnos(jugadores);
 	}
-    public void nuevaPartida(ArrayList<Jugador> jugadores, Tablero tablero){
-        partida = new Partida (jugadores);
-        partida.setTablero(tablero);
-        partida.iniciarPartida();
-    }
+
     public void iniciarPartida() {
     	
     }
-    public void jugarTunro() {
-    	
+    public void siguienteTurno() {
+        gestorTurnos.siguienteTurno();
     }
     public void activarCasilla(Jugador j) {
-    	
+
+    }
+    public Jugador getJugadorActual() {
+        return gestorTurnos.getJugadorActual();
+    }
+    public void moverJugador(Jugador j, int pasos) {
+        j.moverPosicion(pasos);
     }
     public boolean comprobarGanador(Jugador j) {
-    	return true;
+
+        if (j.getPosicion() >= tablero.getTamano() - 1) {
+            System.out.println(j.getNombre() + " ha ganado la partida!");
+            return true;
+        }
+
+        return false;
     }
 
-    public int tirarDado(Jugador j, Dado dadoOpcional){
-        if(dadoOpcional != null) {
-                        
-        }
-    }
-        
 }
