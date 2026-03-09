@@ -6,11 +6,13 @@ public abstract class Jugador {
 	private String nombre = "";
 	private String color = "";
 	private int turnosPerdidos = 0;
+	private Inventario inventario;
 
-	public Jugador(int posicion, String nombre, String color) {
+	public Jugador(int posicion, String nombre, String color,Inventario inventario) {
 		this.posicion = posicion;
 		this.nombre = nombre;
 		this.color = color;
+		this.inventario=inventario;
 	}
 
 	public int getPosicion() {
@@ -32,6 +34,7 @@ public abstract class Jugador {
 	public String getColor() {
 		return color;
 	}
+	
 
 	public void setColor(String color) {
 		this.color = color;
@@ -57,5 +60,8 @@ public abstract class Jugador {
 		if (this.posicion < 0) {
 			this.posicion = 0;
 		}
+	}
+	public Inventario getInventario() {
+		return inventario;
 	}
 }

@@ -5,8 +5,8 @@ public class Foca extends Jugador {
     private boolean bloqueada = false;
     private int turnosBloqueada = 0;
 
-    public Foca(int posicion, String nombre, String color) {
-        super(posicion, nombre, color);
+    public Foca(int posicion, String nombre, String color, Inventario inv) {
+        super(posicion, nombre, color,inv);
     }
 
     public boolean isBloqueada() {
@@ -38,14 +38,10 @@ public class Foca extends Jugador {
     }
 
     public void atacarJugador(Pinguino p) {
+    	p.getInventario().perderMitadInventario();
     }
 
-    public void perderMitadInventario(Pinguino p) {
-        if (p != null && p.getInv() != null) {
-            p.getInv().perderObjetoAleatorio();
-        }
-    }
-
+   
     @Override
     public String toString() {
         return "Foca " + getNombre() +
