@@ -5,8 +5,8 @@ public class GestorJugador {
 	public void jugadorSeMueve(Jugador j, int pasos, Tablero t) {
 		int nuevaPos = j.getPosicion() + pasos; //calculamos la nueva posición del jugador.
 		
-		if(nuevaPos >= t.getTamaño()) { //si se pasa del tablero, se queda en la última casilla.
-			nuevaPos = t.getTamaño() - 1; 
+		if(nuevaPos >= t.getTamano()) { //si se pasa del tablero, se queda en la última casilla.
+			nuevaPos = t.getTamano() - 1; 
 		}
 		
 		if(nuevaPos < 0) { //lo dejamos en 0 si queda en negativo.
@@ -37,8 +37,8 @@ public class GestorJugador {
 	
 	public void pinguinoGuerra(Pinguino p1, Pinguino p2) {
 		
-		int bolas1 = p1.getInv().getBolaNieve().size();
-		int bolas2 = p2.getInv().getBolaNieve().size();
+		int bolas1 = p1.getInventario().getBolaNieve().size();
+		int bolas2 = p2.getInventario().getBolaNieve().size();
 		
 		System.out.println("Guerra de bolas de nieve entre el " + p1.getNombre() + " y el " + p2.getNombre());
 		
@@ -56,12 +56,12 @@ public class GestorJugador {
 			System.out.println("Empate. Ningún jugador avanza.");
 		}
 		
-		while(p1.getInv().getBolaNieve().size() > 0) { //esto es para que el jugador 1 pierda las bolas de nieve.
-			p1.getInv().getBolaNieve().remove(0);
+		while(p1.getInventario().getBolaNieve().size() > 0) { //esto es para que el jugador 1 pierda las bolas de nieve.
+			p1.getInventario().getBolaNieve().remove(0);
 		}
 		
-		while(p1.getInv().getBolaNieve().size() > 0) { //el jugador 2 pierde las bolas de nieve.
-			p2.getInv().getBolaNieve().remove(0);
+		while(p1.getInventario().getBolaNieve().size() > 0) { //el jugador 2 pierde las bolas de nieve.
+			p2.getInventario().getBolaNieve().remove(0);
 		}
 	}
 	
@@ -69,14 +69,14 @@ public class GestorJugador {
 		if(p.getPosicion() == f.getPosicion()) { //si el jugador y la foca estan en la misma casilla.
 			System.out.println("La foca se encuentra con " + p.getNombre());
 			
-			if(p.getInv().tienePez()) {
+			if(p.getInventario().tienePez()) {
 				System.out.println(p.getNombre() + " usa un pez para sobornar a la foca.");
 				
 				f.bloquear(2); //la foca queda bloqueada dos turnos.
 			} else {
 				System.out.println("La foca golpea al pinguino y pierde la mitad del inventario.");
 				
-				p.getInv().perderMitadInventario();
+				p.getInventario().perderMitadInventario();
 			}
 		}
 	}
