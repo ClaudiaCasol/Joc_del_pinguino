@@ -18,14 +18,13 @@ public class GestorPartida {
 
     public void nuevaPartida(ArrayList<Jugador> jugadores, Tablero tablero){
         partida = new Partida (jugadores);
-        partida.setTablero(tablero)
+        partida.setTablero(tablero);
         partida.iniciarPartida();
     }
 
     public int tirarDado(Jugador j, Dado dadoOpcional){
-        if {
-            dadoOpcional != null;
-            
+        if(dadoOpcional != null) {
+                        
         }
     }
         
