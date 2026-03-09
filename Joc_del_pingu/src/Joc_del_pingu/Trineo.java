@@ -10,19 +10,18 @@ public class Trineo extends Casilla{
 	 @Override
 	    public void realizarAccion(Partida partida, Jugador jugador) {
 	       
-		 boolean encontrado = false;
-	     
-		 for(int i = jugador.getPosicion(); i < 50 && !encontrado; i++) {
-			 
-			 if(partida.getTablero().getCasilla(i) instanceof Trineo) {
-				 
-				 jugador.setPosicion(i);
-				 
-				 encontrado = true;
-			 
-			 }
-			 
-		 }
-		 
-	    }
+		   int posicionActual = jugador.getPosicion();
+
+        for (int i = posicionActual + 1; i < partida.getTablero().getTamano(); i++) {
+
+            if (partida.getTablero().getCasilla(i) instanceof Trineo) {
+
+                jugador.setPosicion(i);
+                System.out.println("¡Usas un trineo y avanzas al siguiente!");
+                return;
+            }
+        }
+
+        System.out.println("No hay más trineos adelante.");
+    }
 }
