@@ -53,8 +53,8 @@ public class Partida {
             nuevaPos = 0;
         }
 
-        if (nuevaPos >= tablero.getTamaño()) {
-            nuevaPos = tablero.getTamaño() - 1;
+        if (nuevaPos >= tablero.getTamano()) {
+            nuevaPos = tablero.getTamano() - 1;
         }
 
         jugador.setPosicion(nuevaPos);
@@ -97,7 +97,7 @@ public class Partida {
             normalizarPosicion(jugador);
         }
 
-        if (jugador.getPosicion() == tablero.getTamaño() - 1) {
+        if (jugador.getPosicion() == tablero.getTamano() - 1) {
             System.out.println("Ha ganado " + jugador.getNombre());
             ganador = jugador;
             finalizada = true;
@@ -113,8 +113,8 @@ public class Partida {
             jugador.setPosicion(0);
         }
 
-        if (jugador.getPosicion() >= tablero.getTamaño()) {
-            jugador.setPosicion(tablero.getTamaño() - 1);
+        if (jugador.getPosicion() >= tablero.getTamano()) {
+            jugador.setPosicion(tablero.getTamano() - 1);
         }
     }
 

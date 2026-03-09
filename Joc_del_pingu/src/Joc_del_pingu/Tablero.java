@@ -5,13 +5,13 @@ import java.util.Random;
 
 public class Tablero {
 	private ArrayList<Casilla> casillas = new ArrayList<>();
-	private int tamaño = 50;
+	private int tamano = 50;
 
 
 	public Tablero() {
 		Random random = new Random();
 
-		for (int i = 0; i < tamaño; i++) {
+		for (int i = 0; i < tamano; i++) {
 
 
 			if (i == 0) {
@@ -62,13 +62,13 @@ public class Tablero {
 	}
 
 	// DEVUELVE el tamaño del tablero
-	public int getTamaño() {
-		return tamaño;
+	public int getTamano() {
+		return tamano;
 	}
 
 	// Permite cambiar el tamaño (aunque normalmente no haría falta)
-	public void setTamaño(int tamaño) {
-		this.tamaño = tamaño;
+	public void setTamano(int tamaño) {
+		this.tamano = tamaño;
 	}
 
 	// Método para actualizar el tablero

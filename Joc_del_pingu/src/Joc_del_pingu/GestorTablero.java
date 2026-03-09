@@ -17,7 +17,7 @@ public class GestorTablero {
 		
 		Jugador jugador = partida.getJugadorActual(); //devuelve el turno del jugador.
 		
-		if(jugador.getPosicion() >= partida.getTablero().getTamaño() - 1) { //comprobamos si el jugador ha llegado a la última casilla.
+		if(jugador.getPosicion() >= partida.getTablero().getTamano() - 1) { //comprobamos si el jugador ha llegado a la última casilla.
 			System.out.println("Ha ganado " + jugador.getNombre());
 			
 			partida.setGanador(jugador); //guarda el jugador ganador.
