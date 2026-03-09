@@ -1,27 +1,29 @@
 package Joc_del_pingu;
 
+import java.util.ArrayList;
+
 public class GestorTurnos {
 private boolean validacion=false;
 private int turnoActual=0;
 private int jugadorActual=0;
+private ArrayList<Jugador> jugadores;
 
-public GestorTurnos() {
-	validacion=false;
-	turnoActual=1;
-	jugadorActual=1;
+
+public GestorTurnos(ArrayList<Jugador> jugadores) {
+    this.jugadores = jugadores;
 }
 public void validarTurno() {
-	if (turnoActual > 0 && jugadorActual > 0 && jugadorActual <= 4) {
-	    validacion = true;
-	} else {
-	    validacion = false;
-	}
+	 if (turnoActual > 0 && jugadorActual >= 0 && jugadorActual < jugadores.size()) {
+	        validacion = true;
+	    } else {
+	        validacion = false;
+	    }
 	
 }
 public void siguienteTurno() {
 	jugadorActual++;
-	if (jugadorActual>4) {
-		jugadorActual=1;
+	if (jugadorActual>=jugadores.size()) {
+		jugadorActual=0;
 		turnoActual++;
 	}
 }
@@ -31,8 +33,8 @@ public boolean isValidacion() {
 public int getTurnoActual() {
 	return turnoActual;
 }
-public int getJugadorActual() {
-	return jugadorActual;
+public Jugador getJugadorActual() {
+	return jugadores.get(jugadorActual);
 }
 
 
