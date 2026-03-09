@@ -1,5 +1,4 @@
-package JuegoPinguino;
-
+package Joc_del_pingu;
 import java.util.Random;
 
 public class Interrogante extends Casilla {
@@ -30,7 +29,7 @@ public class Interrogante extends Casilla {
             case 1:
                 // Obtener 1-3 bolas de nieve
                 int bolas = random.nextInt(3) + 1;
-                jugador.addBolasNieve(bolas);
+                jugador.addBolaNieve(bolas);
                 System.out.println("¡Has obtenido " + bolas + " bolas de nieve!");
                 break;
 
