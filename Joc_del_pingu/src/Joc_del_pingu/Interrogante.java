@@ -1,4 +1,5 @@
 package Joc_del_pingu;
+
 import java.util.Random;
 
 public class Interrogante extends Casilla {
@@ -18,21 +19,25 @@ public class Interrogante extends Casilla {
 
             case 0:
                 // Obtener pez
-                if (jugador.getPeces() < 2) {
-                    jugador.addPez();
+                if (jugador.getInventario().getPez().size() < 2) {
+                	jugador.getInventario().agregarPez(new Pez("Pez"));
                     System.out.println("¡Has obtenido un pez!");
                 } else {
                     System.out.println("Ya tienes el máximo de peces.");
                 }
                 break;
-
+                
             case 1:
-                // Obtener 1-3 bolas de nieve
+            	// Obtener 1-3 bolas de nieve
+                
                 int bolas = random.nextInt(3) + 1;
-                jugador.addBolaNieve(bolas);
+
+                for(int i = 0; i < bolas; i++) {
+                    jugador.getInventario().agregarBolaNieve(new BolaNieve("Bola"));
+                }
+
                 System.out.println("¡Has obtenido " + bolas + " bolas de nieve!");
                 break;
-
             case 2:
                 // Dado rápido (probabilidad baja)
                 if (random.nextInt(100) < 25) { // 25% probabilidad

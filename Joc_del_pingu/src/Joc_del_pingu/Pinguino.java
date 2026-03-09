@@ -2,57 +2,44 @@ package Joc_del_pingu;
 
 public class Pinguino extends Jugador {
 
-	private Inventario inv;
+	 public Pinguino(int posicion, String nombre, String color, Inventario inv) {
+	        super(posicion, nombre, color, inv);
+	    }
 
-	public Pinguino(int posicion, String nombre, String color, Inventario inv) {
-		super(posicion, nombre, color);
-		this.inv = inv;
-	}
+	    public void gestionarBatalla(Pinguino p2) {
+	        // implementar cuando toque la guerra
+	    }
 
-	public Inventario getInv() {
-		return inv;
-	}
+	    public void anadirItem(Objetos item) {
 
-	public void setInv(Inventario inv) {
-		this.inv = inv;
-	}
+	        if (item instanceof BolaNieve) {
+	            getInventario().agregarBolaNieve((BolaNieve) item);
+	        } 
+	        else if (item instanceof Dado) {
+	            getInventario().agregarDado((Dado) item);
+	        } 
+	        else if (item instanceof Pez) {
+	            getInventario().agregarPez((Pez) item);
+	        }
+	    }
 
-	public void gestionarBatalla(Pinguino p2) {
-		//implementar cuando toque la "guerra"
-	}
+	    public void eliminarItem(Objetos item) {
 
-	public void anadirItem(Objetos item) {
-		if (item instanceof BolaNieve) {
-			inv.agregarBolaNieve((BolaNieve) item);
-		}
+	        if (item instanceof BolaNieve) {
+	            getInventario().eliminarBolaNieve((BolaNieve) item);
+	        } 
+	        else if (item instanceof Dado) {
+	            getInventario().eliminarDado((Dado) item);
+	        } 
+	        else if (item instanceof Pez) {
+	            getInventario().eliminarPez((Pez) item);
+	        }
+	    }
 
-		if(item instanceof Dado) {
-			inv.agregarDado((Dado) item);
-		}
-
-		if(item instanceof Pez) {
-			inv.agregarPez((Pez) item);
-		}
-	}
-
-	public void eliminarItem(Objetos item) {
-		if (item instanceof BolaNieve) {
-			inv.eliminarBolaNieve((BolaNieve) item);
-		}
-
-		if(item instanceof Dado) {
-			inv.eliminarDado((Dado) item);
-		}
-
-		if(item instanceof Pez) {
-			inv.eliminarPez((Pez) item);
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "Pinguino " + getNombre() +
-				" (" + getColor() + ") - Posición: " +
-				getPosicion();
-	}
+	    @Override
+	    public String toString() {
+	        return "Pinguino " + getNombre() +
+	               " (" + getColor() + ") - Posición: " +
+	               getPosicion();
+	    }
 }
