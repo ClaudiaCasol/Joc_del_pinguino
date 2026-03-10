@@ -13,7 +13,7 @@ public GestorTurnos(ArrayList<Jugador> jugadores) {
     this.jugadores = jugadores;
 }
 public void validarTurno() {
-	 if (turnoActual > 0 && jugadorActual >= 0 && jugadorActual < jugadores.size()) {
+	 if (turnoActual >= 0 && jugadorActual >= 0 && jugadorActual < jugadores.size()) {
 	        validacion = true;
 	    } else {
 	        validacion = false;
