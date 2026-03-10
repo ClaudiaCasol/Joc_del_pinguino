@@ -34,7 +34,7 @@ public class Tablero {
 					casillas.add(new Agujero(i));
 					break;
 				case 3:
-					casillas.add(new Evento(i));
+					casillas.add(new Interrogante(i));
 					break;
 				case 4:
 					casillas.add(new SueloQuebradizo(i));
