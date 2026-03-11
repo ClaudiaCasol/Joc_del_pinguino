@@ -1,9 +1,10 @@
 package Joc_del_pingu;
 
 public class Pinguino extends Jugador {
-
+	private Inventario inventario;
 	 public Pinguino(int posicion, String nombre, String color, Inventario inv) {
 	        super(posicion, nombre, color, inv);
+	        this.inventario=inv;
 	    }
 
 	    public void gestionarBatalla(Pinguino p2) {
@@ -35,6 +36,9 @@ public class Pinguino extends Jugador {
 	            getInventario().eliminarPez((Pez) item);
 	        }
 	    }
+	    public Inventario getInventario() {
+			return inventario;
+		}
 
 	    @Override
 	    public String toString() {
