@@ -1,4 +1,9 @@
-package Joc_del_pingu;
+package Controladores;
+
+import Modelos.Casilla;
+import Modelos.Jugador;
+import Modelos.Partida;
+import Modelos.Pinguino;
 
 public class GestorTablero {
 

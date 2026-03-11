@@ -1,4 +1,9 @@
-package Joc_del_pingu;
+package Controladores;
+
+import Modelos.Foca;
+import Modelos.Jugador;
+import Modelos.Pinguino;
+import Modelos.Tablero;
 
 public class GestorJugador {
 
