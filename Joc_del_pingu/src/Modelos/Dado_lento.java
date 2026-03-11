@@ -1,4 +1,4 @@
-package Joc_del_pingu;
+package Modelos;
 
 public class Dado_lento extends Dado {
 	public Dado_lento(String nombre) {

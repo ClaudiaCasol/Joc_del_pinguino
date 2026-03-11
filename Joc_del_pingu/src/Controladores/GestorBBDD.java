@@ -1,7 +1,9 @@
-package Joc_del_pingu;
+package Controladores;
 
 import java.sql.Connection;
 import java.util.Scanner;
+
+import Modelos.Partida;
 
 public class GestorBBDD{
 

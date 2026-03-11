@@ -1,4 +1,4 @@
-package Joc_del_pingu;
+package Modelos;
 
 public abstract class Objetos {
 

@@ -1,8 +1,16 @@
-package Joc_del_pingu;
+package Controladores;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+import Modelos.Casilla;
+import Modelos.Dado;
+import Modelos.Foca;
+import Modelos.Jugador;
+import Modelos.Partida;
+import Modelos.Pinguino;
+import Modelos.Tablero;
 
 public class GestorPartida {
 	
