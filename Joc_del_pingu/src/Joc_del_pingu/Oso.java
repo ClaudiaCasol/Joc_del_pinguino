@@ -8,11 +8,14 @@ public class Oso extends Casilla {
     }
     @Override
     public void realizarAccion(Partida partida, Jugador jugador) {
-    	 if (jugador.getInventario().usarPez()) {
+    	if(jugador instanceof Pinguino) {
+    		Pinguino p= (Pinguino) jugador;
+    	 if (p.getInventario().usarPez()) {
              System.out.println("El jugador ha usado un pez para evitar al oso.");
          } else {
              System.out.println("¡Un oso te ataca! Vuelves al inicio.");
              jugador.setPosicion(0);
          }
      }
+    }
 }
