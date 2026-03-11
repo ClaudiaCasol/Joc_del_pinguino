@@ -3,7 +3,7 @@ package Joc_del_pingu;
 public class Pinguino extends Jugador {
 	private Inventario inventario;
 	 public Pinguino(int posicion, String nombre, String color, Inventario inv) {
-	        super(posicion, nombre, color, inv);
+	        super(posicion, nombre, color);
 	        this.inventario=inv;
 	    }
 
