@@ -1,12 +1,17 @@
 package Joc_del_pingu;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GestorPartida {
+	
+	Random random = new Random();
 
 	private Tablero tablero;
 	private GestorTurnos gestorTurnos;
+	private GestorTablero gestorTablero;
+	private GestorJugador gestorJugador;
 	private ArrayList<Jugador> jugadores;
   
 	public GestorPartida(Tablero tablero, ArrayList<Jugador> jugadores) {
@@ -48,10 +53,11 @@ public class GestorPartida {
     }
     public void activarCasilla(Jugador j) {
 
+    }
     public GestorPartida() {
         gestorTablero = new GestorTablero();
         gestorJugador = new GestorJugador();
-        random = new Random();
+        
         partida = null;
     }
 
@@ -121,4 +127,6 @@ public class GestorPartida {
     }
 
     partida.avanzarTurno();
+
+    }
 }
