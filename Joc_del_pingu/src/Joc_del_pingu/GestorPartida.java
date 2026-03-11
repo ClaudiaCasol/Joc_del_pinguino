@@ -1,6 +1,7 @@
 package Joc_del_pingu;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GestorPartida {
 
@@ -15,6 +16,31 @@ public class GestorPartida {
 	}
 
     public void iniciarPartida() {
+    	
+    	Scanner scan = new Scanner(System.in);
+    	
+    	System.out.println("¿Qué modo de juego quieres jugar?");
+    	System.out.println("1. Multijugador (mínimo 2 jugadores)");
+    	System.out.println("2. 4 jugadores + CPU (foca)");
+    	
+    	int modo = scan.nextInt();
+    	
+    	if(modo == 1) { //multijugador.
+    		if(jugadores.size() < 2) {
+    			System.out.println("Mínimo deben haber dos jugadores.");
+    			return;
+    		}
+    		
+    		System.out.println("Partida multijugador iniciada con " + jugadores.size() + " jugadores.");
+    	} else if(modo == 2) { //CPU
+    		Foca foca = new Foca(0, "Foca", "Gris");
+    		
+    		jugadores.add(foca);
+    		
+    		System.out.println("Partida iniciada con la foca.");
+    	} else {
+    		System.out.println("Opción no válida.");
+    	}
     	
     }
     public void siguienteTurno() {
