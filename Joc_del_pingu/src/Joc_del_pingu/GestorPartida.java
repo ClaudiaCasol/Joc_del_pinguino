@@ -12,6 +12,7 @@ public class GestorPartida {
 	private GestorTurnos gestorTurnos;
 	private GestorTablero gestorTablero;
 	private GestorJugador gestorJugador;
+	private Partida partida;
 	private ArrayList<Jugador> jugadores;
   
 	public GestorPartida(Tablero tablero, ArrayList<Jugador> jugadores) {
@@ -88,7 +89,7 @@ public class GestorPartida {
             return;
         }
 
-        if(partida.estaFinalizadaFinalizada()){
+        if(partida.estaFinalizada()){
             return;
         }
 
