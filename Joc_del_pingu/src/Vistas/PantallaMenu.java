@@ -27,66 +27,75 @@ public class PantallaMenu {
 
     @FXML
     private void initialize() {
-        // This method is called automatically after the FXML is loaded
-        // You can set initial values or add listeners here
-        System.out.println("pantallaPrincipalController initialized");
+        System.out.println("PantallaMenu inicializada");
     }
 
     @FXML
     private void handleNewGame() {
-        System.out.println("New Game clicked");
-        // TODO
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Pantalla Juego");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleSaveGame() {
         System.out.println("Save Game clicked");
-        // TODO
     }
 
     @FXML
     private void handleLoadGame() {
         System.out.println("Load Game clicked");
-        // TODO
     }
 
     @FXML
     private void handleQuitGame() {
         System.out.println("Quit Game clicked");
-        // TODO
         System.exit(0);
     }
-    
+
     @FXML
     private void handleLogin(ActionEvent event) {
+
         String username = userField.getText();
         String password = passField.getText();
 
         System.out.println("Login pressed: " + username + " / " + password);
 
-        // Basic check (just for demo, replace with real login logic)
         if (!username.isEmpty() && !password.isEmpty()) {
+
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/PantallaJuego.fxml"));
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
                 Parent pantallaJuegoRoot = loader.load();
+
                 Scene pantallaJuegoScene = new Scene(pantallaJuegoRoot);
 
-                // Get the current stage using the event
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
                 stage.setScene(pantallaJuegoScene);
                 stage.setTitle("Pantalla de Juego");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         } else {
-            System.out.println("Please. Enter user and password.");
+            System.out.println("Introduce usuario y contraseña.");
         }
     }
-
 
     @FXML
     private void handleRegister() {
         System.out.println("Register pressed");
-        // TODO
     }
 }
