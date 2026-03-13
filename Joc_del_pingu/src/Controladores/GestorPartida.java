@@ -81,7 +81,7 @@ public class GestorPartida {
         int resultado;
         
         if(dadoOpcional != null) {
-            resultado = dadoOpcional.lanzar(random);
+            resultado = dadoOpcional.tirarDado();
         }
         else {
             resultado = random.nextInt(6) + 1;
