@@ -17,6 +17,10 @@ public class Inventario {
 		this.bolaNieve = bolaNieve;
 		this.pez = pez;
 	}
+	
+	public Inventario() {
+		
+	}
 
 	public ArrayList<Dado> getDado() {
 		return dado;

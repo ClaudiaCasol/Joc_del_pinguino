@@ -121,7 +121,7 @@ public class Partida {
     public boolean estaFinalizada() {
         return finalizada;
     }
-
+    
     public Tablero getTablero() {
         return tablero;
     }

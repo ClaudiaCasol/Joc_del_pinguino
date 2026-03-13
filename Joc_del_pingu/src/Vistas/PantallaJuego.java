@@ -97,12 +97,12 @@ public class PantallaJuego {
 		
 		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 		Inventario inventario = new Inventario();
-		Dado dado = new Dado("normal", 1, 1, 6);
-		inventario.getLista().add(dado);
+		Dado dado = new Dado("normal");
+		inventario.agregarDado(dado);
 		
-		jugadores.add(new Pinguino("Jugador1", "Azul", 0, inventario));
+		jugadores.add(new Pinguino(0, "Jugador1", "Azul", inventario));
 
-		gestorPartida.nuevaPartida();
+		gestorPartida.iniciarPartida();
 		
 		gestorPartida.getPartida().setJugadores(jugadores);
 
@@ -165,7 +165,7 @@ public class PantallaJuego {
 	@FXML
 	private void handleDado(ActionEvent event) {
 		Pinguino pingu = (Pinguino) gestorPartida.getPartida().getJugadores().get(0);
-		Dado d = (Dado) pingu.getInventario().getLista().get(0);
+		Dado d = (Dado) pingu.getInventario().getDado().get(0);
 		
 		System.out.println("Pos pingu previa:" + pingu.getPosicion());
 		
