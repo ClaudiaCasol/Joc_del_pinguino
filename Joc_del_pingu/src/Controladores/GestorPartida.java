@@ -28,6 +28,10 @@ public class GestorPartida {
 	    this.jugadores = jugadores;
 	    this.gestorTurnos = new GestorTurnos(jugadores);
 	}
+	
+	public Partida getPartida() {
+		return partida;
+	}
 
     public void iniciarPartida() {
     	
