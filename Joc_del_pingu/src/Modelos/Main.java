@@ -1,11 +1,27 @@
 package Modelos;
 
-public class Main {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-	public static void main(String[] args) {
-		
-		//jugar(); ESTA FUNCIÓN SE EJECUTARÁ CUANDO EMPECEMOS CON JAVAFX.
+public class Main extends Application {
 
-	}
+    @Override
+    public void start(Stage stage) throws Exception {
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaMenu.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+
+        stage.setTitle("Joc del Pingu");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
 }
