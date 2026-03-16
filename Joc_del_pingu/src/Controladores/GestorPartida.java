@@ -6,6 +6,7 @@ import java.util.Random;
 import Modelos.Casilla;
 import Modelos.Dado;
 import Modelos.Foca;
+import Modelos.Inventario;
 import Modelos.Jugador;
 import Modelos.Partida;
 import Modelos.Pinguino;
@@ -103,4 +104,22 @@ public class GestorPartida {
 
         partida.avanzarTurno();
     }
+    public void iniciarPartida() {
+
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+
+        Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Dado dado = new Dado("normal");
+        inventario.agregarDado(dado);
+
+        jugadores.add(new Pinguino(0, "Jugador1", "Azul", inventario));
+
+        Tablero tablero = new Tablero();
+ 
+
+        partida = new Partida(jugadores);
+        partida.setTablero(tablero);
+        partida.iniciarPartida();
+    }
+    
 }
