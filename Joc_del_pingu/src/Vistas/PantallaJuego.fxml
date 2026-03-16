@@ -32,21 +32,9 @@
         </rowConstraints>
          <children>
             <Circle fx:id="P1" fill="#56ff1f" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="P2" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="P3" fill="#ff1fce" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="P4" fill="#fff01f" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </GridPane>
-      <Button fx:id="dado" layoutX="272.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleDado" text="Tirar Dado" />
-      <Text fx:id="dadoResultText" layoutX="266.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultado Dado" />
-      <Text fx:id="eventos" layoutX="78.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eventos" />
-      <Button fx:id="rapido" layoutX="378.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleRapido" text="Rapido" />
-      <Button fx:id="lento" layoutX="457.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleLento" text="Lento" />
-      <Button fx:id="peces" layoutX="527.0" layoutY="357.0" mnemonicParsing="false" onAction="#handlePeces" text="Peces" />
-      <Button fx:id="nieve" layoutX="170.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleNieve" text="Nieve" />
-      <Text fx:id="rapido_t" layoutX="386.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rapido" />
-      <Text fx:id="lento_t" layoutX="465.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lento" />
-      <Text fx:id="peces_t" layoutX="535.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Peces" />
-      <Text fx:id="nieve_t" layoutX="178.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nieve" />
+      <Button fx:id="dado" layoutX="138.0" layoutY="371.0" mnemonicParsing="false" onAction="#handleDado" text="Tirar Dado" />
+      <Text fx:id="dadoResultText" layoutX="224.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultado Dado" />
    </children>
 </AnchorPane>
