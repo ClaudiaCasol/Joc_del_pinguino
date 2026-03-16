@@ -36,12 +36,6 @@ public class GestorPartida {
         partida.iniciarPartida();
     }
 
-    public void iniciarPartida() {
-        if (partida != null) {
-            partida.iniciarPartida();
-        }
-    }
-
     public int tirarDado(Jugador j, Dado dadoOpcional) {
         int resultado;
 
