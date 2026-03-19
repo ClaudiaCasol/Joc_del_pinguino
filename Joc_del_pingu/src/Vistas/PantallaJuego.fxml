@@ -5,12 +5,13 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaJuego">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #7ec8e3, #cfefff);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaJuego">
    <children>
-      <GridPane fx:id="tablero" gridLinesVisible="true" layoutX="33.0" layoutY="58.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <GridPane fx:id="tablero" hgap="8.0" layoutX="33.0" layoutY="58.0" prefHeight="420.0" prefWidth="700.0" style="-fx-background-color: #dff6ff;; -fx-padding: 12; -fx-background-radius: 12;" vgap="8.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -35,6 +36,7 @@
             <Circle fx:id="P2" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
             <Circle fx:id="P3" fill="#ff1fce" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
             <Circle fx:id="P4" fill="#fff01f" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+            <StackPane prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #f5fdff; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);" />
          </children>
       </GridPane>
       <Button fx:id="dado" layoutX="272.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleDado" text="Tirar Dado" />
