@@ -26,5 +26,6 @@ public class Dado extends Objetos {
 	public int tirarDado() {
 
 		return rand.nextInt((numeroMaximo - numeroMinimo + 1)); //es + 1 per a que no es quedi a 0.
+		
 	}
 }
