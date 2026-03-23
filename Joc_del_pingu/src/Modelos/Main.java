@@ -9,27 +9,21 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-<<<<<<< Updated upstream
     public void start(Stage stage) throws Exception {
-=======
-    public void start(Stage stage) {
-        try {
-            // Cargar la primera pantalla (PantallaMenu)
-            Parent root = FXMLLoader.load(getClass().getResource("/Vistas/PantallaMenu.fxml"));
->>>>>>> Stashed changes
+    	
+    	
 
-            Scene scene = new Scene(root);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaMenu.fxml"));
+        Parent root = loader.load();
 
-            stage.setTitle("Joc del Pingu");
-            stage.setScene(scene);
-            stage.show();
+        Scene scene = new Scene(root);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        stage.setTitle("Joc del Pingu");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }

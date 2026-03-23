@@ -10,12 +10,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaMenu">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(#bde0fe,#90dbf4,#7cc6e6);;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaMenu">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar style="-fx-background-color: linear-gradient(#f5f5f5, #dcdcdc); -fx-border-color: #999; -fx-border-width: 0 0 1 0; -fx-border-color: #999; -fx-border-width: 0 0 1 0;" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Juego">
+          <Menu mnemonicParsing="false" text="Juego ▼">
                <items>
                   <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#handleNewGame" text="Juego nuevo" />
                   <MenuItem fx:id="saveGame" mnemonicParsing="false" onAction="#handleSaveGame" text="Guardar Juego " />
@@ -27,13 +26,14 @@
       </MenuBar>
    </top>
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Login" />
-            <TextField fx:id="userField" promptText="Username" />
-            <PasswordField fx:id="passField" promptText="Password" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#handleRegister" text="Register" />
+            <Label style="-fx-font-size: 22;; -fx-font-weight: bold;; -fx-text-fill: #0b3c5d;;" text="🐧 Juego del Pingüino" />
+            <TextField fx:id="userField" promptText="👤 Username" />
+            <PasswordField fx:id="passField" promptText="🔒 Password" />
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8;" text="Login" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#handleRegister" style="-fx-text-fill: white;; -fx-background-color: #2196F3; -fx-font-weight: bold;; -fx-background-radius: 8; -fx-border-radius: 8;" styleClass="-fx-text-fill:" text="Register" />
+            <Label style="-fx-font-size: 12; -fx-text-fill: #0b3c5d;;" text="❄ Bienvenido al juego del pingüino ❄" />
          </children>
       </VBox>
    </center>

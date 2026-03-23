@@ -1,29 +1,43 @@
 package Controladores;
 
-import java.sql.Connection;
-import java.util.Scanner;
+import Modelos.*;
 
-import Modelos.Partida;
+public class GestorBBDD {
 
-public class GestorBBDD{
+    private String urlBBDD;
+    private String username;
+    private String password;
 
-    private Connection con;
-
-    public GestorBBDD(){
-        con = null;
+    public String getUrlBBDD() {
+        return urlBBDD;
     }
 
-    public void conectar(Scanner scan){
-
-        con = BBDD.conectarBaseDatos(scan);
+    public void setUrlBBDD(String urlBBDD) {
+        this.urlBBDD = urlBBDD;
     }
 
-public void guardarPartida(Partida p){
-    if(p == null){
-        return;
+    public String getUsername() {
+        return username;
     }
-    String sql = "INSERT INTO PARTIDA (...) VALUES (...)";
 
-    BBDD.insert(con, sql);
-}
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void guardarBBDD(Partida p) {
+        // TODO: implementar guardado en base de datos
+    }
+
+    public Partida cargarBBDD(int id) {
+        // TODO: implementar carga desde base de datos
+        return null;
+    }
 }
