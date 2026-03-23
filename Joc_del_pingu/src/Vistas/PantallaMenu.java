@@ -35,12 +35,12 @@ public class PantallaMenu {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaModoJuego.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Pantalla Juego");
+            stage.setTitle("Seleccionar modo de juego");
 
         } catch (Exception e) {
             e.printStackTrace();
