@@ -1,0 +1,17 @@
+
+
+
+CREATE TABLE JUGADOR (
+id_jugador NUMBER(4) PRIMARY KEY,
+nombre VARCHAR2(10) NOT NULL UNIQUE, 
+color VARCHAR(7) NOT NULL,
+foca VARCHAR2(2) NOT NULL CHECK(foca IN ('SI', 'NO')),
+num_partidas_jugadas NUMBER(2)
+);
+
+CREATE TABLE USUARIO (
+nombre VARCHAR2(10) NOT NULL,
+contraseña VARCHAR2(10) NOT NULL UNIQUE
+);
+
+
