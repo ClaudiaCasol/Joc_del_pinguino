@@ -93,9 +93,9 @@ public class PantallaJuego {
 		 */
 
 		// Partida p = new Partida();
-		gestorPartida = new GestorPartida();
+		//gestorPartida = new GestorPartida();
 		
-		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+		/*ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 		Inventario inventario = new Inventario();
 		Dado dado = new Dado("normal");
 		inventario.agregarDado(dado);
@@ -107,7 +107,7 @@ public class PantallaJuego {
 		gestorPartida.getPartida().setJugadores(jugadores);
 
 		// Show board info
-		mostrarTiposDeCasillasEnTablero(gestorPartida.getPartida().getTablero());
+		mostrarTiposDeCasillasEnTablero(gestorPartida.getPartida().getTablero());*/
 	}
 
 	private void mostrarTiposDeCasillasEnTablero(Tablero t) {
@@ -164,22 +164,91 @@ public class PantallaJuego {
 	// Button actions
 	@FXML
 	private void handleDado(ActionEvent event) {
-		Pinguino pingu = (Pinguino) gestorPartida.getPartida().getJugadores().get(0);
-		Dado d = (Dado) pingu.getInventario().getDado().get(0);
-		
-		System.out.println("Pos pingu previa:" + pingu.getPosicion());
-		
-		int resultado = gestorPartida.tirarDado((Jugador) pingu, d);
-		
-		System.out.println("Pos pingu actual:" + pingu.getPosicion());
 
-		// Update the Text
-		dadoResultText.setText("Ha salido: " + resultado);
+	    Jugador actual = gestorPartida.getPartida().getJugadorActual();
 
-		// Update the position
-		moveP1(resultado);
+	    if (actual instanceof Pinguino) {
+
+	        Pinguino p = (Pinguino) actual;
+
+	        int resultado = new Dado("normal").tirarDado();
+
+	        p.moverPosicion(resultado);
+
+	        moverJugadorVisual(p);
+
+	        gestorPartida.getPartida().avanzarTurno();
+
+	        // 👇 SI EL SIGUIENTE ES CPU → juega sola
+	        jugarCPUAutomatico();
+	    }
 	}
+	private void jugarCPU() {
 
+	    Jugador actual = gestorPartida.getPartida().getJugadorActual();
+
+	    if (actual instanceof Foca) {
+
+	        int dado = new Dado("normal").tirarDado();
+
+	        actual.moverPosicion(dado);
+
+	        System.out.println("CPU mueve: " + dado);
+
+	        // opcional: mover ficha si tienes una para CPU
+
+	        gestorPartida.getPartida().avanzarTurno();
+	    }
+	}
+	private void moverJugadorVisual(Pinguino p) {
+
+	    int posicion = p.getPosicion();
+
+	    int row = posicion / COLUMNS;
+	    int col = posicion % COLUMNS;
+
+	    if (p.getNombre().equals("J1")) {
+	        GridPane.setRowIndex(P1, row);
+	        GridPane.setColumnIndex(P1, col);
+	    }
+
+	    if (p.getNombre().equals("J2")) {
+	        GridPane.setRowIndex(P2, row);
+	        GridPane.setColumnIndex(P2, col);
+	    }
+
+	    if (p.getNombre().equals("J3")) {
+	        GridPane.setRowIndex(P3, row);
+	        GridPane.setColumnIndex(P3, col);
+	    }
+
+	    if (p.getNombre().equals("J4")) {
+	        GridPane.setRowIndex(P4, row);
+	        GridPane.setColumnIndex(P4, col);
+	    }
+	}
+	
+	private void jugarCPUAutomatico() {
+
+	    Jugador actual = gestorPartida.getPartida().getJugadorActual();
+
+	    if (actual instanceof Foca) {
+
+	        Foca cpu = (Foca) actual;
+
+	        int dado = new Dado("normal").tirarDado();
+
+	        cpu.moverPosicion(dado);
+
+	        System.out.println("CPU mueve automáticamente: " + dado);
+
+	        //  MOVER VISUAL (si usas P2 por ejemplo)
+	        GridPane.setRowIndex(P2, cpu.getPosicion() / COLUMNS);
+	        GridPane.setColumnIndex(P2, cpu.getPosicion() % COLUMNS);
+
+	        gestorPartida.getPartida().avanzarTurno();
+	    }
+	}
 	
 /*	Old simple version
  * private void moveP1(int steps) {
@@ -285,6 +354,8 @@ public class PantallaJuego {
 	public void setGestorPartida(GestorPartida gestorPartida) {
 		this.gestorPartida = gestorPartida;
 	}
+	
+	
 	public void iniciarJuego(ArrayList<Jugador> jugadores) {
 
 	    gestorPartida = new GestorPartida();
@@ -292,6 +363,12 @@ public class PantallaJuego {
 	    Tablero tablero = new Tablero();
 
 	    gestorPartida.nuevaPartida(jugadores, tablero);
+
+	    // 🔥 MOSTRAR SOLO LOS NECESARIOS
+	    P1.setVisible(jugadores.size() >= 1);
+	    P2.setVisible(jugadores.size() >= 2);
+	    P3.setVisible(jugadores.size() >= 3);
+	    P4.setVisible(jugadores.size() >= 4);
 
 	    System.out.println("Partida iniciada con " + jugadores.size() + " jugadores");
 	}

@@ -74,14 +74,14 @@ public class PantallaModoJuego {
 	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
 	        Parent root = loader.load();
 
-	        // 🔥 AQUÍ SE CREAN LOS JUGADORES
+	        //  SE CREAN LOS JUGADORES
 	        ArrayList<Jugador> jugadores = new ArrayList<>();
 
 	        for (int i = 1; i <= numJugadores; i++) {
 	            jugadores.add(new Pinguino(0, "J" + i, "Color" + i, new Inventario()));
 	        }
 
-	        // 🔥 PASAR A LA SIGUIENTE PANTALLA
+	        //  LA SIGUIENTE PANTALLA
 	        PantallaJuego controller = loader.getController();
 	        controller.iniciarJuego(jugadores);
 
