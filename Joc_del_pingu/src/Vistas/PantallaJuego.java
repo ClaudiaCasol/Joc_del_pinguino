@@ -285,4 +285,14 @@ public class PantallaJuego {
 	public void setGestorPartida(GestorPartida gestorPartida) {
 		this.gestorPartida = gestorPartida;
 	}
+	public void iniciarJuego(ArrayList<Jugador> jugadores) {
+
+	    gestorPartida = new GestorPartida();
+
+	    Tablero tablero = new Tablero();
+
+	    gestorPartida.nuevaPartida(jugadores, tablero);
+
+	    System.out.println("Partida iniciada con " + jugadores.size() + " jugadores");
+	}
 }

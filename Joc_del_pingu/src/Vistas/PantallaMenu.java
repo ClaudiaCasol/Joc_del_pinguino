@@ -69,28 +69,25 @@ public class PantallaMenu {
         String username = userField.getText();
         String password = passField.getText();
 
-        System.out.println("Login pressed: " + username + " / " + password);
-
         if (!username.isEmpty() && !password.isEmpty()) {
 
+            System.out.println("Voy a PantallaModoJuego");
+
             try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaModoJuego.fxml"));
+                Parent root = loader.load();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
-                Parent pantallaJuegoRoot = loader.load();
-
-                Scene pantallaJuegoScene = new Scene(pantallaJuegoRoot);
+                Scene scene = new Scene(root);
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                stage.setScene(pantallaJuegoScene);
-                stage.setTitle("Pantalla de Juego");
+                stage.setScene(scene);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         } else {
-            System.out.println("Introduce usuario y contraseña.");
+            System.out.println("Introduce usuario y contraseña");
         }
     }
 
