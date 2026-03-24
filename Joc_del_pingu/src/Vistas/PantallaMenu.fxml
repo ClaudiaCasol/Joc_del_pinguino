@@ -28,7 +28,7 @@
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Label style="-fx-font-size: 22;; -fx-font-weight: bold;; -fx-text-fill: #0b3c5d;;" text="🐧 Juego del Pingüino" />
+            <Label style="-fx-font-size: 22;; -fx-font-weight: bold;; -fx-text-fill: #0b3c5d;" text="🐧 Juego del Pingüino" />
             <TextField fx:id="userField" promptText="👤 Username" />
             <PasswordField fx:id="passField" promptText="🔒 Password" />
             <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8;" text="Login" />
