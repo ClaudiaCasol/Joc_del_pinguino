@@ -32,19 +32,7 @@ public class PantallaMenu {
 
     @FXML
     private void handleNewGame() {
-
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaModoJuego.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Seleccionar modo de juego");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        abrirPantallaModoJuego((Stage) loginButton.getScene().getWindow());
     }
 
     @FXML
@@ -65,32 +53,30 @@ public class PantallaMenu {
 
     @FXML
     private void handleLogin(ActionEvent event) {
-
         String username = userField.getText();
         String password = passField.getText();
 
         System.out.println("Login pressed: " + username + " / " + password);
 
         if (!username.isEmpty() && !password.isEmpty()) {
-
-            try {
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
-                Parent pantallaJuegoRoot = loader.load();
-
-                Scene pantallaJuegoScene = new Scene(pantallaJuegoRoot);
-
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                stage.setScene(pantallaJuegoScene);
-                stage.setTitle("Pantalla de Juego");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            abrirPantallaModoJuego(stage);
         } else {
             System.out.println("Introduce usuario y contraseña.");
+        }
+    }
+
+    private void abrirPantallaModoJuego(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaModoJuego.fxml"));
+            Parent root = loader.load();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Seleccionar modo de juego");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

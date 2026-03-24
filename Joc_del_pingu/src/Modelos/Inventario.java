@@ -75,10 +75,7 @@ public class Inventario {
 	}
 
 	public void eliminarDado(Dado item) {
-
-		if(this.dado.size() > 1 && this.dado.size() <= 3) {
-			this.dado.remove(item);
-		}
+	    this.dado.remove(item);
 	}
 
 	public void eliminarBolaNieve(BolaNieve item) {

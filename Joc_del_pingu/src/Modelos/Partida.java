@@ -49,8 +49,8 @@ public class Partida {
     public void moverJugador(Jugador jugador, int pasos) {
         int nuevaPos = jugador.getPosicion() + pasos;
 
-        if (nuevaPos < 0) {
-            nuevaPos = 0;
+        if (nuevaPos < -1) {
+            nuevaPos = -1;
         }
 
         if (nuevaPos >= tablero.getTamano()) {
@@ -65,7 +65,6 @@ public class Partida {
     }
 
     public void jugarTurno(int resultadoDado) {
-
         if (finalizada) {
             return;
         }
@@ -90,11 +89,13 @@ public class Partida {
 
         moverJugador(jugador, resultadoDado);
 
-        Casilla casilla = tablero.getCasilla(jugador.getPosicion());
+        if (jugador.getPosicion() >= 0) {
+            Casilla casilla = tablero.getCasilla(jugador.getPosicion());
 
-        if (casilla != null) {
-            casilla.realizarAccion(this, jugador);
-            normalizarPosicion(jugador);
+            if (casilla != null) {
+                casilla.realizarAccion(this, jugador);
+                normalizarPosicion(jugador);
+            }
         }
 
         if (jugador.getPosicion() == tablero.getTamano() - 1) {
@@ -108,9 +109,8 @@ public class Partida {
     }
 
     private void normalizarPosicion(Jugador jugador) {
-
-        if (jugador.getPosicion() < 0) {
-            jugador.setPosicion(0);
+        if (jugador.getPosicion() < -1) {
+            jugador.setPosicion(-1);
         }
 
         if (jugador.getPosicion() >= tablero.getTamano()) {
@@ -121,7 +121,7 @@ public class Partida {
     public boolean estaFinalizada() {
         return finalizada;
     }
-    
+
     public Tablero getTablero() {
         return tablero;
     }

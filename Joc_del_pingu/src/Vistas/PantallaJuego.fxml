@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="829.0" style="-fx-background-color: linear-gradient(to bottom, #7ec8e3, #cfefff);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaJuego">
+<AnchorPane prefHeight="620.0" prefWidth="980.0"
+            style="-fx-background-color: linear-gradient(to bottom, #7ec8e3, #cfefff);"
+            xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Vistas.PantallaJuego">
+
    <children>
 
-      <GridPane fx:id="tablero" gridLinesVisible="true" layoutX="83.0" layoutY="67.0" prefHeight="420.0" prefWidth="700.0" style="-fx-background-color: #dff6ff; -fx-padding: 12; -fx-background-radius: 12;">
+      <Text layoutX="26.0" layoutY="64.0"
+            style="-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: #1f3b5b;"
+            text="SORTIDA" />
+
+      <StackPane fx:id="sortidaPane"
+                 layoutX="20.0" layoutY="78.0"
+                 prefHeight="150.0" prefWidth="80.0"
+                 style="-fx-background-color: #d9f0ff; -fx-border-color: #5dade2; -fx-border-width: 2; -fx-background-radius: 12; -fx-border-radius: 12;" />
+
+      <GridPane fx:id="tablero"
+                layoutX="130.0" layoutY="60.0"
+                prefHeight="470.0" prefWidth="820.0"
+                hgap="4.0" vgap="4.0"
+                gridLinesVisible="true"
+                style="-fx-background-color: #dff6ff; -fx-padding: 10; -fx-background-radius: 14;">
+
          <columnConstraints>
             <ColumnConstraints percentWidth="20.0" />
             <ColumnConstraints percentWidth="20.0" />
@@ -20,6 +41,7 @@
             <ColumnConstraints percentWidth="20.0" />
             <ColumnConstraints percentWidth="20.0" />
          </columnConstraints>
+
          <rowConstraints>
             <RowConstraints percentHeight="10.0" />
             <RowConstraints percentHeight="10.0" />
@@ -32,30 +54,36 @@
             <RowConstraints percentHeight="10.0" />
             <RowConstraints percentHeight="10.0" />
          </rowConstraints>
-         <children>
-            <Circle fx:id="P1" fill="#56ff1f" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="P2" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="P3" fill="#ff1fce" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="P4" fill="#fff01f" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-         </children>
       </GridPane>
 
-      <Button fx:id="dado" layoutX="266.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleDado" text="Tirar Dado" />
-      <Text fx:id="dadoResultText" layoutX="260.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultado Dado" />
-      <Text fx:id="eventos" layoutX="56.0" layoutY="535.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eventos" />
+      <Text fx:id="eventos"
+            layoutX="40.0" layoutY="582.0"
+            style="-fx-font-size: 14; -fx-fill: #1f3b5b;"
+            text="Preparant partida..." />
 
-      <Button fx:id="rapido" layoutX="388.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleRapido" text="Rapido" />
-      <Button fx:id="lento" layoutX="464.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleLento" text="Lento" />
-      <Button fx:id="peces" layoutX="556.0" layoutY="528.0" mnemonicParsing="false" onAction="#handlePeces" text="Peces" />
-      <Button fx:id="nieve" layoutX="155.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleNieve" text="Nieve" />
+      <Text fx:id="dadoResultText"
+            layoutX="390.0" layoutY="565.0"
+            style="-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: #1f3b5b;"
+            text="Resultado dado" />
 
-      <Text fx:id="rapido_t" layoutX="396.0" layoutY="523.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rapido" />
-      <Text fx:id="lento_t" layoutX="472.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lento" />
-      <Text fx:id="peces_t" layoutX="564.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Peces" />
-      <Text fx:id="nieve_t" layoutX="163.0" layoutY="523.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nieve" />
+      <SplitMenuButton fx:id="dadoMenu"
+                       layoutX="360.0" layoutY="575.0"
+                       mnemonicParsing="false"
+                       onAction="#handleDadoNormal"
+                       text="Tirar dado"
+                       style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;">
+         <items>
+            <MenuItem fx:id="opcionNormal" mnemonicParsing="false" onAction="#seleccionarDadoNormal" text="Dado normal" />
+            <MenuItem fx:id="opcionRapido" mnemonicParsing="false" onAction="#seleccionarDadoRapido" text="Dado rápido" />
+            <MenuItem fx:id="opcionLento" mnemonicParsing="false" onAction="#seleccionarDadoLento" text="Dado lento" />
+         </items>
+      </SplitMenuButton>
 
-      <Text layoutX="17.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 12; -fx-font-weight: bold; -fx-fill: #2c3e50;" text="SORTIDA" />
-      <StackPane layoutX="5.0" layoutY="65.0" prefHeight="65.0" prefWidth="72.0" style="-fx-background-color: #d9f0ff; -fx-border-color: #5dade2; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10;" />
+      <Button fx:id="inventarioButton"
+              layoutX="770.0" layoutY="575.0"
+              mnemonicParsing="false"
+              text="Inventari"
+              style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;" />
 
    </children>
 </AnchorPane>

@@ -3,7 +3,6 @@ package Controladores;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Modelos.Casilla;
 import Modelos.Dado;
 import Modelos.Foca;
 import Modelos.Inventario;
@@ -30,12 +29,6 @@ public class GestorPartida {
         return partida;
     }
 
-    public void nuevaPartida(ArrayList<Jugador> jugadores, Tablero tablero) {
-        partida = new Partida(jugadores);
-        partida.setTablero(tablero);
-        partida.iniciarPartida();
-    }
-    
     public int tirarDado(Jugador j, Dado dadoOpcional) {
         int resultado;
 
@@ -48,78 +41,34 @@ public class GestorPartida {
         return resultado;
     }
 
-    public void ejecutarTurnoCompleto() {
-
-        if (partida == null) {
-            return;
-        }
-
-        if (partida.estaFinalizada()) {
-            return;
-        }
-
-        Jugador jugadorActual = partida.getJugadorActual();
-
-        if (jugadorActual instanceof Foca) {
-            Foca foca = (Foca) jugadorActual;
-
-            if (foca.estaBloqueada()) {
-                foca.reducirBloqueo();
-                partida.avanzarTurno();
-                return;
-            }
-        }
-
-        if (jugadorActual.getTurnosPerdidos() > 0) {
-            jugadorActual.setTurnosPerdidos(jugadorActual.getTurnosPerdidos() - 1);
-            partida.avanzarTurno();
-            return;
-        }
-
-        Dado dadoSeleccionado = null;
-
-        if (jugadorActual instanceof Pinguino) {
-            Pinguino p = (Pinguino) jugadorActual;
-
-            if (p.getInventario() != null && !p.getInventario().getDado().isEmpty()) {
-                dadoSeleccionado = p.getInventario().getDado().get(0);
-            }
-        }
-
-        int resultadoDado = tirarDado(jugadorActual, dadoSeleccionado);
-
-        gestorJugador.jugadorSeMueve(jugadorActual, resultadoDado, partida.getTablero());
-
-        Casilla casillaActual = partida.getTablero().getCasilla(jugadorActual.getPosicion());
-
-        if (jugadorActual instanceof Pinguino && casillaActual != null) {
-            gestorTablero.ejecutarCasilla(partida, (Pinguino) jugadorActual, casillaActual);
-        }
-
-        gestorTablero.comprobarFinTurno(partida);
-
-        if (partida.estaFinalizada()) {
-            return;
-        }
-
-        partida.avanzarTurno();
-    }
-    public void iniciarPartida() {
-
+    public void iniciarPartida(int numeroJugadores) {
         ArrayList<Jugador> jugadores = new ArrayList<>();
 
-        Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        Dado dado = new Dado("normal");
-        inventario.agregarDado(dado);
+        String[] nombres = { "Jugador1", "Jugador2", "Jugador3", "Jugador4" };
+        String[] colores = { "Verde", "Azul", "Rosa", "Amarillo" };
 
-        jugadores.add(new Pinguino(0, "Jugador1", "Azul", inventario));
+        for (int i = 0; i < numeroJugadores; i++) {
+            Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            Dado dado = new Dado("normal");
+            inventario.agregarDado(dado);
+
+            jugadores.add(new Pinguino(-1, nombres[i], colores[i], inventario));
+        }
+
+        if (numeroJugadores == 4) {
+            jugadores.add(new Foca(-1, "FocaCPU", "Gris"));
+        }
 
         Tablero tablero = new Tablero();
- 
 
         partida = new Partida(jugadores);
         partida.setTablero(tablero);
         partida.iniciarPartida();
     }
-    
+
+    public void nuevaPartida(ArrayList<Jugador> jugadores, Tablero tablero) {
+        partida = new Partida(jugadores);
+        partida.setTablero(tablero);
+        partida.iniciarPartida();
+    }
 }

@@ -15,9 +15,9 @@ public class SueloQuebradizo extends Casilla {
 	                    + p.getInventario().getBolaNieve().size()
 	                    + p.getInventario().getDado().size();
 	        
-	        if ( total>5) {
+	        if (total>5) {
 	        	System.out.println("El hielo se rompe por el peso. Vuelves al inicio.");
-	        	jugador.setPosicion(0);
+	        	jugador.setPosicion(-1);
 	        }
 	        else if (total>0&& total<=5) {
 	        	System.out.println("El hielo se agrieta. Pierdes un turno.");
