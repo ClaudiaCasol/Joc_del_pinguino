@@ -29,4 +29,5 @@ public class GestorTablero {
 			partida.finalizarPartida();
 		}
 	}
+	
 }
