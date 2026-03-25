@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import Controladores.GestorPartida;
 import Modelos.Agujero;
+import Modelos.AudioManager;
+import Modelos.BolaNieve;
 import Modelos.Casilla;
 import Modelos.Dado;
 import Modelos.Dado_lento;
@@ -14,6 +16,7 @@ import Modelos.Inventario;
 import Modelos.Jugador;
 import Modelos.Oso;
 import Modelos.Partida;
+import Modelos.Pez;
 import Modelos.Pinguino;
 import Modelos.SueloQuebradizo;
 import Modelos.Trineo;
@@ -30,7 +33,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 public class PantallaJuego {
-
+	AudioManager audio = new AudioManager();
     @FXML
     private GridPane tablero;
 
@@ -63,7 +66,11 @@ public class PantallaJuego {
     @FXML
     private void initialize() {
         eventos.setText("Preparant partida...");
+        audio.reproducirMusica(
+        	    getClass().getResource("/sonido/intro.mp3").toExternalForm()
+        	);
     }
+    
 
     public void configurarPartida(int numeroJugadores) {
         this.numeroJugadores = numeroJugadores;
@@ -80,6 +87,10 @@ public class PantallaJuego {
 
         inventarioButton.setTooltip(tooltipInventari);
         actualizarTooltipInventario();
+        
+        audio.reproducirMusica(
+        	    getClass().getResource("/sonido/tablero.mp3").toExternalForm()
+        	);
     }
 
     private void generarTableroVisual() {
@@ -217,6 +228,42 @@ public class PantallaJuego {
     @FXML
     private void handleDadoNormal(ActionEvent event) {
         jugarTurno();
+        // sonido dado
+        audio.reproducirEfecto(
+            getClass().getResource("/sonido/dados.mp3").toExternalForm()
+        );
+        // jugador antes de mover (IMPORTANTE)
+        Pinguino p = (Pinguino) gestorPartida.getPartida().getJugadorActual();
+
+        // ejecutar turno
+        jugarTurno();
+
+        // sonido del dado
+        audio.reproducirEfecto(
+            getClass().getResource("/sonido/dados.mp3").toExternalForm()
+        );
+
+        // obtener casilla actual
+        Casilla casilla = gestorPartida.getPartida()
+            .getTablero()
+            .getCasillas()
+            .get(p.getPosicion());
+
+        //  sonidos según tipo 
+        if (casilla instanceof Oso) {
+            audio.reproducirEfecto(getClass().getResource("/sonido/oso.mp3").toExternalForm());
+        }
+        else if (casilla instanceof Agujero) {
+            audio.reproducirEfecto(getClass().getResource("/sonido/agujero.mp3").toExternalForm());
+        }
+       
+        else if (casilla instanceof Trineo) {
+            audio.reproducirEfecto(getClass().getResource("/sonido/trineo.mp3").toExternalForm());
+        }
+       
+        else if (casilla instanceof SueloQuebradizo) {
+            audio.reproducirEfecto(getClass().getResource("/sonido/sueloQuebradizo.mp3").toExternalForm());
+        }
     }
 
     @FXML
