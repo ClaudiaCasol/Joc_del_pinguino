@@ -30,7 +30,7 @@ public class Dado extends Objetos {
         return numeroMaximo;
     }
 
-    public int getMinimo() {
-        return numeroMinimo;
-    }
-}
+		return rand.nextInt((numeroMaximo - numeroMinimo + 1)); //es + 1 per a que no es quedi a 0.
+		
+	}
+

@@ -37,7 +37,7 @@ public class GestorPartida {
         } else {
             resultado = random.nextInt(6) + 1;
         }
-
+        
         return resultado;
     }
 
