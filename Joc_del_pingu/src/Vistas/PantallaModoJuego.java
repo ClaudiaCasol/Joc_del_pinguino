@@ -18,12 +18,12 @@ public class PantallaModoJuego {
     @FXML
     private void initialize() {
         comboJugadores.setItems(FXCollections.observableArrayList(
-                "2 jugadors",
-                "3 jugadors",
-                "4 jugadors + CPU"
+                "2 jugadores",
+                "3 jugadores",
+                "4 jugadores + CPU"
         ));
 
-        comboJugadores.setValue("2 jugadors");
+        comboJugadores.setValue("2 jugadores");
     }
 
     @FXML
@@ -52,11 +52,11 @@ public class PantallaModoJuego {
         String opcion = comboJugadores.getValue();
 
         switch (opcion) {
-            case "2 jugadors":
+            case "2 jugadores":
                 return 2;
-            case "3 jugadors":
+            case "3 jugadores":
                 return 3;
-            case "4 jugadors + CPU":
+            case "4 jugadores + CPU":
                 return 4;
             default:
                 return 2;
