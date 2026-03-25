@@ -1,6 +1,7 @@
 module Joc_del_pingu {
     requires javafx.controls;
     requires javafx.fxml;
+	requires javafx.media;
 <<<<<<< Updated upstream
 	requires javafx.graphics;
 =======
