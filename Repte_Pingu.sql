@@ -10,8 +10,9 @@ num_partidas_jugadas NUMBER(2)
 );
 
 CREATE TABLE USUARIO (
+id_usuario NUMBER(4) PRIMARY KEY,
 nombre VARCHAR2(10) NOT NULL,
-contraseña VARCHAR2(10) NOT NULL UNIQUE
+contraseña VARCHAR2(10) NOT NULL
 );
 
 
