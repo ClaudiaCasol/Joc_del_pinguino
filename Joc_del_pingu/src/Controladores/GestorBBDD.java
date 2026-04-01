@@ -1,9 +1,12 @@
 package Controladores;
 
+import java.sql.Connection;
+
 import Modelos.*;
 
 public class GestorBBDD {
 
+	private BBDD bbdd;
     private String urlBBDD;
     private String username;
     private String password;
@@ -33,7 +36,9 @@ public class GestorBBDD {
     }
 
     public void guardarBBDD(Partida p) {
-        // TODO: implementar guardado en base de datos
+        Connection con = bbdd.conectarBaseDatos();
+        
+        
     }
 
     public Partida cargarBBDD(int id) {
