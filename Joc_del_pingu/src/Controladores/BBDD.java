@@ -46,10 +46,10 @@ public class BBDD {
 		// PODEIS HARDCODEAR ESTAS CREDENCIALES SI VAIS A USAR SIEMPRE LAS MISMAS
 		//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 		System.out.println("¿Usuario?");
-		String user = scan.nextLine().trim();
+		String user = "DM1_2526_GRUP01";
 
 		System.out.println("¿Contraseña?");
-		String pwd = scan.nextLine(); // aquí NO hago trim por si la contraseña tuviera espacios
+		String pwd = "AGRUP01"; // aquí NO hago trim por si la contraseña tuviera espacios
 
 		// 3) Conectar
 		try {
