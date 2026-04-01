@@ -10,29 +10,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="620.0" prefWidth="980.0"
-            style="-fx-background-color: linear-gradient(to bottom, #7ec8e3, #cfefff);"
-            xmlns="http://javafx.com/javafx/21.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Vistas.PantallaJuego">
+<AnchorPane prefHeight="620.0" prefWidth="980.0" style="-fx-background-color: linear-gradient(to bottom, #7ec8e3, #cfefff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaJuego">
 
    <children>
 
-      <Text layoutX="26.0" layoutY="64.0"
-            style="-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: #1f3b5b;"
-            text="SORTIDA" />
+      <Text layoutX="26.0" layoutY="64.0" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: #1f3b5b;" text="SORTIDA" />
 
-      <StackPane fx:id="sortidaPane"
-                 layoutX="20.0" layoutY="78.0"
-                 prefHeight="150.0" prefWidth="80.0"
-                 style="-fx-background-color: #d9f0ff; -fx-border-color: #5dade2; -fx-border-width: 2; -fx-background-radius: 12; -fx-border-radius: 12;" />
+      <StackPane fx:id="sortidaPane" layoutX="20.0" layoutY="78.0" prefHeight="150.0" prefWidth="80.0" style="-fx-background-color: #d9f0ff; -fx-border-color: #5dade2; -fx-border-width: 2; -fx-background-radius: 12; -fx-border-radius: 12;" />
 
-      <GridPane fx:id="tablero"
-                layoutX="130.0" layoutY="60.0"
-                prefHeight="470.0" prefWidth="820.0"
-                hgap="4.0" vgap="4.0"
-                gridLinesVisible="true"
-                style="-fx-background-color: #dff6ff; -fx-padding: 10; -fx-background-radius: 14;">
+      <GridPane fx:id="tablero" gridLinesVisible="true" hgap="4.0" layoutX="130.0" layoutY="60.0" prefHeight="470.0" prefWidth="820.0" style="-fx-background-color: #dff6ff; -fx-padding: 10; -fx-background-radius: 14;" vgap="4.0">
 
          <columnConstraints>
             <ColumnConstraints percentWidth="20.0" />
@@ -56,22 +42,11 @@
          </rowConstraints>
       </GridPane>
 
-      <Text fx:id="eventos"
-            layoutX="40.0" layoutY="582.0"
-            style="-fx-font-size: 14; -fx-fill: #1f3b5b;"
-            text="Preparant partida..." />
+      <Text fx:id="eventos" layoutX="40.0" layoutY="582.0" style="-fx-font-size: 14; -fx-fill: #1f3b5b;" text="Preparando partida..." />
 
-      <Text fx:id="dadoResultText"
-            layoutX="390.0" layoutY="565.0"
-            style="-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: #1f3b5b;"
-            text="Resultado dado" />
+      <Text fx:id="dadoResultText" layoutX="390.0" layoutY="565.0" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: #1f3b5b;" text="Resultado dado" />
 
-      <SplitMenuButton fx:id="dadoMenu"
-                       layoutX="360.0" layoutY="575.0"
-                       mnemonicParsing="false"
-                       onAction="#handleDadoNormal"
-                       text="Tirar dado"
-                       style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;">
+      <SplitMenuButton fx:id="dadoMenu" layoutX="360.0" layoutY="575.0" mnemonicParsing="false" onAction="#handleDadoNormal" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;" text="Tirar dado">
          <items>
             <MenuItem fx:id="opcionNormal" mnemonicParsing="false" onAction="#seleccionarDadoNormal" text="Dado normal" />
             <MenuItem fx:id="opcionRapido" mnemonicParsing="false" onAction="#seleccionarDadoRapido" text="Dado rápido" />
@@ -79,11 +54,7 @@
          </items>
       </SplitMenuButton>
 
-      <Button fx:id="inventarioButton"
-              layoutX="770.0" layoutY="575.0"
-              mnemonicParsing="false"
-              text="Inventari"
-              style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;" />
+      <Button fx:id="inventarioButton" layoutX="770.0" layoutY="575.0" mnemonicParsing="false" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;" text="Inventari" />
 
    </children>
 </AnchorPane>
