@@ -20,7 +20,7 @@ public class BBDD {
 	 *         LA VARIABLE QUE DEVUELVE LA TENÉIS QUE GUARDAR PARA LAS DEMÁS
 	 *         FUNCIONES
 	 */
-	public static Connection conectarBaseDatos(Scanner scan) {
+	public static Connection conectarBaseDatos() {
 		System.out.println("Intentando conectarse a la base de datos...");
 
 		// 1) Elegir entorno con validación
@@ -30,7 +30,7 @@ public class BBDD {
 			// PODEIS HARDCODEAR ESTAS VARIABLES SI VAIS A USAR SIEMPRE LAS MISMAS
 			//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 			System.out.println("Selecciona centro o fuera de centro (CENTRO/FUERA):");
-			entorno = scan.nextLine().trim().toLowerCase();
+			entorno = "Centro";			
 
 			if (entorno.equalsIgnoreCase("centro") || entorno.equalsIgnoreCase("fuera")) {
 				valido = true;
