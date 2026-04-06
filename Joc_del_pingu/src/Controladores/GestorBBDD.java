@@ -80,10 +80,10 @@ public class GestorBBDD {
 			varray+= " '" + casillasBBDD.get(i) + "',";
 		}
 		varray += " '" + casillasBBDD.get(49) + "'";
-		String sql = "INSERT INTO PARTIDA VALUES(seq_tablero.NEXTVAL, "+turnos_tablero + ", " + turnos_tablero + ", ARRAY_CASILLAS(" + varray + "), SYSDATE, 1)";
+		String sql = "INSERT INTO PARTIDA VALUES(seq_tablero.NEXTVAL, "+ turnos_tablero + ", " + turnos_tablero + ", casillas_varray (" + varray + "), SYSDATE, 1)";
 		System.out.println(sql);
 
-		BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM TABLERO",
+		BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM PARTIDA",
 				new String[]{"TOTAL"});
 
 		BBDD.insert(con, sql);
