@@ -72,8 +72,8 @@ public class GestorBBDD {
 		//Hacemos el insert de jugador
 		for(int i = 0; i < t1.getJugadores().size(); i++) {
 			if(t1.getJugadores().get(i) instanceof Foca) {
-				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, " + t1.getJugadores().get(i).getNombre() + ", "
-						+ t1.getJugadores().get(i).getColor() + ", 'SI', " + i + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
+				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
+						+ t1.getJugadores().get(i).getColor() + "', 'SI', " + i + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
 						", seq_tablero.CURRVAL)";
 				
@@ -106,18 +106,18 @@ public class GestorBBDD {
 				String sqlInventario = "INSERT INTO INVENTARIO VALUES(seq_inventario.NEXTVAL, "+ n_peces + ", "+ n_bolas + ", " + n_dadoN + ", " + n_dadoR +
 						", "+ n_dadoL +", seq_jugador.CURRVAL)";
 				
-				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM TABLERO",
+				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM INVENTARIO",
 						new String[]{"TOTAL"});
 				
 				BBDD.insert(con, sqlInventario);
 			}
 			else {
-				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, " + t1.getJugadores().get(i).getNombre() + ", "
-						+ t1.getJugadores().get(i).getColor() + ", 'SI', " + i + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
+				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
+						+ t1.getJugadores().get(i).getColor() + "', 'SI', " + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
 						", seq_tablero.CURRVAL)";
 				
-				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM TABLERO",
+				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM JUGADOR",
 						new String[]{"TOTAL"});
 				
 				BBDD.insert(con, sqlJugador);
