@@ -6,6 +6,8 @@ public abstract class Jugador {
 	private String nombre = "";
 	private String color = "";
 	private int turnosPerdidos = 0;
+	private Inventario inventario;
+	private int partidasJugadas;
 	
 
 	public Jugador(int posicion, String nombre, String color) {
@@ -61,4 +63,11 @@ public abstract class Jugador {
 		}
 	}
 	
+	public Inventario getInventario() {
+		return inventario;
+	}
+	
+	public int getPartidasJugadas() {
+		return partidasJugadas;
+	}
 }
