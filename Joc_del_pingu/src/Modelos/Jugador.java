@@ -10,10 +10,11 @@ public abstract class Jugador {
 	private int partidasJugadas;
 	
 
-	public Jugador(int posicion, String nombre, String color) {
+	public Jugador(int posicion, String nombre, String color, Inventario inventario) {
 		this.posicion = posicion;
 		this.nombre = nombre;
 		this.color = color;
+		this.inventario = inventario;
 	}
 
 	public int getPosicion() {

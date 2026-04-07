@@ -1,10 +1,10 @@
 package Modelos;
 
 public class Pinguino extends Jugador {
-	private Inventario inventario;
+	
 	 public Pinguino(int posicion, String nombre, String color, Inventario inventario) {
-	        super(posicion, nombre, color);
-	        this.inventario=inventario;
+	        super(posicion, nombre, color, inventario);
+	      
 	    }
 
 	    public void gestionarBatalla(Pinguino p2) {
@@ -36,10 +36,7 @@ public class Pinguino extends Jugador {
 	            getInventario().eliminarPez((Pez) item);
 	        }
 	    }
-	    public Inventario getInventario() {
-			return inventario;
-		}
-
+	    
 	    @Override
 	    public String toString() {
 	        return "Pinguino " + getNombre() +

@@ -56,7 +56,10 @@ public class GestorPartida {
         }
 
         if (numeroJugadores == 4) {
-            jugadores.add(new Foca(-1, "FocaCPU", "Gris"));
+        	Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            Dado dado = new Dado("normal");
+            inventario.agregarDado(dado);
+            jugadores.add(new Foca(-1, "FocaCPU", "Gris", inventario));
         }
 
         Tablero tablero = new Tablero();

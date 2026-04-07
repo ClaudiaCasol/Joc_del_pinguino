@@ -5,8 +5,8 @@ public class Foca extends Jugador {
     private boolean bloqueada = false;
     private int turnosBloqueada = 0;
 
-    public Foca(int posicion, String nombre, String color) {
-        super(posicion, nombre, color);
+    public Foca(int posicion, String nombre, String color, Inventario inventario) {
+        super(posicion, nombre, color, inventario);
     }
 
     public boolean isBloqueada() {

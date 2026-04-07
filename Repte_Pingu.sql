@@ -22,7 +22,7 @@ REFERENCES USUARIO(id_usuario)
 
 CREATE TABLE JUGADOR (
 id_jugador NUMBER(10) PRIMARY KEY,
-nombre VARCHAR2(10) NOT NULL UNIQUE, 
+nombre VARCHAR2(10) NOT NULL, 
 color VARCHAR(7) NOT NULL,
 foca VARCHAR2(2) NOT NULL CHECK(foca IN ('SI', 'NO')),
 num_partidas_jugadas NUMBER(2),
