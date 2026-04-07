@@ -1,8 +1,10 @@
 module Joc_del_pingu {
     requires javafx.controls;
     requires javafx.fxml;
-	requires javafx.media;
+    requires java.sql;
 	requires javafx.graphics;
+
+	requires javafx.media;
 
 
     opens Vistas to javafx.fxml;

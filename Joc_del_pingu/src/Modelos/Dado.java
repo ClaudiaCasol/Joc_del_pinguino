@@ -6,10 +6,11 @@ public class Dado extends Objetos {
 
     private int numeroMaximo;
     private int numeroMinimo;
-    private Random rand = new Random();
+    Random rand = new Random();
 
     public Dado(String nombre) {
         super(nombre);
+
         this.numeroMaximo = 6;
         this.numeroMinimo = 1;
     }
@@ -22,15 +23,15 @@ public class Dado extends Objetos {
         this.numeroMinimo = numeroMinimo;
     }
 
-    public int tirarDado() {
-    	return rand.nextInt(numeroMaximo - numeroMinimo + 1) + numeroMinimo;
-    }
-
     public int getMaximo() {
         return numeroMaximo;
     }
 
-		return rand.nextInt((numeroMaximo - numeroMinimo + 1)); //es + 1 per a que no es quedi a 0.
-		
-	}
+    public int getMinimo() {
+        return numeroMinimo;
+    }
 
+    public int tirarDado() {
+        return rand.nextInt(numeroMaximo - numeroMinimo + 1) + numeroMinimo;
+    }
+}

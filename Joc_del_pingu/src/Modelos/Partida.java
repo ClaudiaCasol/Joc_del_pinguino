@@ -32,6 +32,10 @@ public class Partida {
     public void finalizarPartida() {
         this.finalizada = true;
     }
+    
+    public Jugador getJugador(int i) {
+    	return jugadores.get(i);
+    }
 
     public Jugador getJugadorActual() {
         return jugadores.get(jugadorActual);

@@ -11,7 +11,7 @@ public class Tablero {
 	public Tablero() {
 		Random random = new Random();
 
-		for (int i = 0; i < tamano; i++) {
+		for (int i = 0; i < tamano - 1; i++) {
 
 
 			if (i == 0) {
@@ -44,6 +44,8 @@ public class Tablero {
 				}
 			}
 		}
+		
+		casillas.add(new Casilla(50));
 	}
 
 	// DEVUELVE la lista completa de casillas

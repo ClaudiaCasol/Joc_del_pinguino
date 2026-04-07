@@ -11,8 +11,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
     	
-    	
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaMenu.fxml"));
         Parent root = loader.load();
 
