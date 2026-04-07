@@ -8,7 +8,9 @@ public class AudioManager {
     private MediaPlayer musica;
 
     public void reproducirMusica(String ruta) {
-        if (musica != null) musica.stop();
+        if (musica != null) {
+            musica.stop();
+        }
 
         Media media = new Media(ruta);
         musica = new MediaPlayer(media);
@@ -18,9 +20,20 @@ public class AudioManager {
     }
 
     public void reproducirEfecto(String ruta) {
-        Media media = new Media(ruta);
-        MediaPlayer efecto = new MediaPlayer(media);
-        efecto.setVolume(1.0);
-        efecto.play();
+        try {
+            Media media = new Media(ruta);
+            MediaPlayer efecto = new MediaPlayer(media);
+            efecto.setVolume(1.0);
+            efecto.play();
+        } catch (Exception e) {
+            System.out.println("Error reproduciendo sonido: " + ruta);
+            e.printStackTrace();
+        }
+    }
+
+    public void pararMusica() {
+        if (musica != null) {
+            musica.stop();
+        }
     }
 }

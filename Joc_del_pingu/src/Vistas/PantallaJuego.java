@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Controladores.GestorPartida;
 import Modelos.Agujero;
+import Modelos.AudioManager;
 import Modelos.Casilla;
 import Modelos.Dado;
 import Modelos.Dado_lento;
@@ -33,9 +34,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.animation.PauseTransition;
+
 
 public class PantallaJuego {
-
+	AudioManager audio = new AudioManager();
     @FXML
     private GridPane tablero;
 
@@ -278,7 +281,69 @@ public class PantallaJuego {
     // =========================
     @FXML
     private void handleDadoNormal(ActionEvent event) {
+
+        // jugador antes de mover
+        Pinguino p = (Pinguino) gestorPartida.getPartida().getJugadorActual();
+
+        // ejecutar turno
         jugarTurno();
+
+        // sonido del dado
+        var url = getClass().getResource("/audio/dados.mp3");
+
+        if (url != null) {
+            audio.reproducirEfecto(url.toExternalForm());
+        } else {
+            System.out.println("NO ENCUENTRA: dados.mp3");
+        }
+
+        // obtener casilla
+        Casilla casilla = gestorPartida.getPartida()
+            .getTablero()
+            .getCasillas()
+            .get(p.getPosicion());
+
+        // ⏱ delay para que no se solapen sonidos
+        PauseTransition pausa = new PauseTransition(Duration.seconds(0.5));
+
+        pausa.setOnFinished(e -> {
+
+        	if (casilla instanceof Oso) {
+        	    var urlOso = getClass().getResource("/audio/oso.mp3");
+        	    if (urlOso != null) {
+        	        audio.reproducirEfecto(urlOso.toExternalForm());
+        	    } else {
+        	        System.out.println("NO ENCUENTRA: oso.mp3");
+        	    }
+        	}
+        	else if (casilla instanceof Agujero) {
+        	    var urlAgujero = getClass().getResource("/audio/agujero.mp3");
+        	    if (urlAgujero != null) {
+        	        audio.reproducirEfecto(urlAgujero.toExternalForm());
+        	    } else {
+        	        System.out.println("NO ENCUENTRA: agujero.mp3");
+        	    }
+        	}
+        	else if (casilla instanceof Trineo) {
+        	    var urlTrineo = getClass().getResource("/audio/trineo.mp3");
+        	    if (urlTrineo != null) {
+        	        audio.reproducirEfecto(urlTrineo.toExternalForm());
+        	    } else {
+        	        System.out.println("NO ENCUENTRA: trineo.mp3");
+        	    }
+        	}
+        	else if (casilla instanceof SueloQuebradizo) {
+        	    var urlSuelo = getClass().getResource("/audio/sueloQuebradizo.mp3");
+        	    if (urlSuelo != null) {
+        	        audio.reproducirEfecto(urlSuelo.toExternalForm());
+        	    } else {
+        	        System.out.println("NO ENCUENTRA: sueloQuebradizo.mp3");
+        	    }
+        	}
+            System.out.println(getClass().getResource("/audio/dados.mp3"));
+        });
+
+        pausa.play();
     }
 
     @FXML
