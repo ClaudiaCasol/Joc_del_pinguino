@@ -12,16 +12,21 @@ public class AudioManager {
             musica.stop();
         }
 
-        Media media = new Media(ruta);
-        musica = new MediaPlayer(media);
-        musica.setCycleCount(MediaPlayer.INDEFINITE);
-        musica.setVolume(0.3);
-        musica.play();
+        try {
+            Media media = new Media(getClass().getResource(ruta).toExternalForm());
+            musica = new MediaPlayer(media);
+            musica.setCycleCount(MediaPlayer.INDEFINITE);
+            musica.setVolume(0.3);
+            musica.play();
+        } catch (Exception e) {
+            System.out.println("Error cargando música: " + ruta);
+            e.printStackTrace();
+        }
     }
 
     public void reproducirEfecto(String ruta) {
         try {
-            Media media = new Media(ruta);
+            Media media = new Media(getClass().getResource(ruta).toExternalForm());
             MediaPlayer efecto = new MediaPlayer(media);
             efecto.setVolume(1.0);
             efecto.play();

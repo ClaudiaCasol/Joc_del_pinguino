@@ -132,19 +132,19 @@ public class PantallaJuego {
         ImageView img = null;
 
         if (casilla instanceof Oso) {
-            img = cargarImagen("/images/oso.png", 40);
+            img = cargarImagen("/imatges/oso.png", 40);
         }
 
         if (casilla instanceof Trineo) {
-            img = cargarImagen("/images/trineo.png", 40);
+            img = cargarImagen("/imatges/trineo.png", 40);
         }
 
         if (casilla instanceof Interrogante) {
-            img = cargarImagen("/images/interrogante.png", 35);
+            img = cargarImagen("/imatges/interrogante.png", 35);
         }
 
         if (casilla instanceof SueloQuebradizo && indice == sueloQuebradizoActivo) {
-            img = cargarImagen("/images/hielo-roto.png", 40);
+            img = cargarImagen("/imatges/hielo-roto.png", 40);
         }
 
         if (img != null) {
