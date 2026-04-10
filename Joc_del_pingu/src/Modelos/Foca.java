@@ -8,6 +8,10 @@ public class Foca extends Jugador {
     public Foca(int posicion, String nombre, String color, Inventario inventario) {
         super(posicion, nombre, color, inventario);
     }
+    
+    public Foca(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int partidasJugadas, int turno) {
+    	super(posicion, nombre, color, inventario, turnosPerdidos, partidasJugadas, turno);
+    }
 
     public boolean isBloqueada() {
         return bloqueada;

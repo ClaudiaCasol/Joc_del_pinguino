@@ -49,7 +49,7 @@ public class GestorPartida {
 
         for (int i = 0; i < numeroJugadores; i++) {
             Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-            Dado dado = new Dado("normal");
+            Dado dado = new Dado();
             inventario.agregarDado(dado);
 
             jugadores.add(new Pinguino(-1, nombres[i], colores[i], inventario));
@@ -57,7 +57,7 @@ public class GestorPartida {
 
         if (numeroJugadores == 4) {
         	Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-            Dado dado = new Dado("normal");
+            Dado dado = new Dado();
             inventario.agregarDado(dado);
             jugadores.add(new Foca(-1, "FocaCPU", "Gris", inventario));
         }

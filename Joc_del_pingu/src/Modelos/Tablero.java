@@ -6,6 +6,10 @@ import java.util.Random;
 public class Tablero {
 	private ArrayList<Casilla> casillas = new ArrayList<>();
 	private int tamano = 50;
+	
+	public Tablero(ArrayList<Casilla> casillas) {
+		this.casillas = casillas;
+	}
 
 
 	public Tablero() {

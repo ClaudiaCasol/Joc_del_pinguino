@@ -6,9 +6,10 @@ public class Partida {
 
     private Tablero tablero;
     private ArrayList<Jugador> jugadores;
-
-    private int turnos = 0;
-    private int jugadorActual = 0;
+    
+    private String fecha;
+    private int turnos;
+    private int jugadorActual;
 
     private boolean finalizada;
     private Jugador ganador;
@@ -20,6 +21,14 @@ public class Partida {
         this.turnos = 0;
         this.finalizada = false;
         this.ganador = null;
+    }
+    
+    public Partida(ArrayList<Jugador> jugadores, Tablero tablero, String fecha, int turnos, int jugadorActual) {
+    	this.jugadores = jugadores;
+    	this.tablero = tablero;
+    	this.fecha = fecha;
+    	this.turnos = turnos;
+    	this.jugadorActual = jugadorActual;
     }
 
     public void iniciarPartida() {

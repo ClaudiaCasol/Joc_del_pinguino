@@ -8,8 +8,8 @@ public class Dado extends Objetos {
     private int numeroMinimo;
     Random rand = new Random();
 
-    public Dado(String nombre) {
-        super(nombre);
+    public Dado() {
+       
 
         this.numeroMaximo = 6;
         this.numeroMinimo = 1;

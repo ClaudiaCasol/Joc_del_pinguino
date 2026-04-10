@@ -30,11 +30,11 @@ public class Interrogante extends Casilla {
             System.out.println("Has conseguido un dado lento.");
         } else if (opcion < 80) {
             // 20%: pez
-            p.getInventario().agregarPez(new Pez("pez"));
+            p.getInventario().agregarPez(new Pez());
             System.out.println("Has conseguido un pez.");
         } else {
             // 20%: bola de nieve
-            p.getInventario().agregarBolaNieve(new BolaNieve("bolaNieve"));
+            p.getInventario().agregarBolaNieve(new BolaNieve());
             System.out.println("Has conseguido una bola de nieve.");
         }
     }
