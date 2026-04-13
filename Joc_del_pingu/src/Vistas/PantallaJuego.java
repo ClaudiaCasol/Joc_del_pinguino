@@ -40,7 +40,6 @@ import javafx.animation.PauseTransition;
 
 
 public class PantallaJuego {
-	
 	AudioManager audio = new AudioManager();
     @FXML
     private GridPane tablero;
@@ -258,7 +257,17 @@ public class PantallaJuego {
             if (j.getPosicion() < 0) {
                 mini.add(ficha, i % 2, i / 2);
             } else {
-                casillasVista.get(j.getPosicion()).getChildren().add(ficha);
+            	   StackPane celda = casillasVista.get(j.getPosicion());
+
+            	    //  separar fichas dentro de la casilla
+            	    ficha.setTranslateX((i % 2) * 20 - 10);
+            	    ficha.setTranslateY((i / 2) * 20 - 10);
+
+            	    celda.getChildren().add(ficha);
+
+            	    if (j.getPosicion() == ultimaPosicionAnimada) {
+            	        animarFicha(ficha);
+            	    }
 
                 if (j.getPosicion() == ultimaPosicionAnimada) {
                     animarFicha(ficha);
