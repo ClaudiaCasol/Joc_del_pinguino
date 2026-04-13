@@ -30,6 +30,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -38,6 +40,7 @@ import javafx.animation.PauseTransition;
 
 
 public class PantallaJuego {
+	
 	AudioManager audio = new AudioManager();
     @FXML
     private GridPane tablero;
@@ -94,11 +97,12 @@ public class PantallaJuego {
 
         inventarioButton.setTooltip(tooltipInventari);
         actualizarTooltipInventario();
+        audio.reproducirMusica("/audio/tablero.mp3");
     }
 
-   
+    // =========================
     // TABLERO
-   
+    // =========================
     private void generarTableroVisual() {
         tablero.getChildren().clear();
         casillasVista.clear();
@@ -197,9 +201,9 @@ public class PantallaJuego {
         return "-fx-background-color: #f5fdff; " + base;
     }
 
-    
+    // =========================
     // FICHAS
-  
+    // =========================
     private void crearFichas() {
         fichasVista.clear();
 
@@ -276,9 +280,9 @@ public class PantallaJuego {
         return new int[] { fila, col };
     }
 
-  
+    // =========================
     // DAUS
-    
+    // =========================
     @FXML
     private void handleDadoNormal(ActionEvent event) {
 
@@ -289,59 +293,51 @@ public class PantallaJuego {
         jugarTurno();
 
         // sonido del dado
-        var url = getClass().getResource("/audio/dados.mp3");
-        
-
-        if (url != null) {
-            audio.reproducirEfecto(url.toExternalForm());
-        } else {
-            System.out.println("NO ENCUENTRA: dados.mp3");
-        }
+        System.out.println("SONIDO DADO");
+        audio.reproducirEfecto("/audio/dados.mp3");
 
         // obtener casilla
+        int pos = p.getPosicion();
+
+        if (pos < 0) {
+            return;
+        }
+
         Casilla casilla = gestorPartida.getPartida()
             .getTablero()
             .getCasillas()
-            .get(p.getPosicion());
+            .get(pos);
 
-        // ⏱ delay para que no se solapen sonidos
-        PauseTransition pausa = new PauseTransition(Duration.seconds(0.5));
+        // delay para que no se solapen sonidos
+        PauseTransition pausa = new PauseTransition(Duration.seconds(1.2));
 
         pausa.setOnFinished(e -> {
 
         	if (casilla instanceof Oso) {
-        	    var urlOso = getClass().getResource("/audio/oso.mp3");
-        	    if (urlOso != null) {
-        	        audio.reproducirEfecto(urlOso.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: oso.mp3");
-        	    }
+        		  System.out.println("SONIDO OSO");
+        		audio.reproducirEfecto("/audio/oso.mp3");
         	}
         	else if (casilla instanceof Agujero) {
-        	    var urlAgujero = getClass().getResource("/audio/agujero.mp3");
-        	    if (urlAgujero != null) {
-        	        audio.reproducirEfecto(urlAgujero.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: agujero.mp3");
-        	    }
+        		  System.out.println("SONIDO agujero");
+        		audio.reproducirEfecto("/audio/agujero.mp3");
+        	   
         	}
         	else if (casilla instanceof Trineo) {
-        	    var urlTrineo = getClass().getResource("/audio/trineo.mp3");
-        	    if (urlTrineo != null) {
-        	        audio.reproducirEfecto(urlTrineo.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: trineo.mp3");
-        	    }
+        		  System.out.println("SONIDO trineo");
+        		audio.reproducirEfecto("/audio/trineo.mp3");
+        	   
         	}
         	else if (casilla instanceof SueloQuebradizo) {
-        	    var urlSuelo = getClass().getResource("/audio/sueloQuebradizo.mp3");
-        	    if (urlSuelo != null) {
-        	        audio.reproducirEfecto(urlSuelo.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: sueloQuebradizo.mp3");
-        	    }
+        		System.out.println("SONIDO suelo");
+        		audio.reproducirEfecto("/audio/sueloQuebradizo.mp3");
+        	  
         	}
-            System.out.println(getClass().getResource("/audio/dados.mp3"));
+        	else if (casilla instanceof Interrogante) {
+        		System.out.println("SONIDO suelo");
+        		audio.reproducirEfecto("/audio/exclamacion.mp3");
+        	  
+        	}
+        
         });
 
         pausa.play();
@@ -496,9 +492,9 @@ public class PantallaJuego {
         dadoMenu.setText("Tirar dado");
     }
 
-    
+    // =========================
     // INVENTARI I TEXTOS
-   
+    // =========================
     private void actualizarTextoTurno() {
         Jugador actual = gestorPartida.getPartida().getJugadorActual();
 
@@ -559,9 +555,9 @@ public class PantallaJuego {
         tooltipInventari.setText(texto);
     }
 
-  
+    // =========================
     // ANIMACIONS
-
+    // =========================
     private void animarCasillaDestino(StackPane celda) {
         ScaleTransition st = new ScaleTransition(Duration.millis(180), celda);
         st.setFromX(1.0);

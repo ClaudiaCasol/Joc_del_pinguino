@@ -5,7 +5,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class AudioManager {
-
+	private MediaPlayer efectoActual;
     private MediaPlayer musica;
 
     public void reproducirMusica(String ruta) {
@@ -14,14 +14,10 @@ public class AudioManager {
         }
 
         try {
-            URL url = getClass().getResource(ruta);
+            Media media = new Media(
+                new java.io.File("src" + ruta).toURI().toString()
+            );
 
-            if (url == null) {
-                System.out.println("NO ENCUENTRA: " + ruta);
-                return;
-            }
-
-            Media media = new Media(url.toExternalForm());
             musica = new MediaPlayer(media);
             musica.setCycleCount(MediaPlayer.INDEFINITE);
             musica.setVolume(0.3);
@@ -35,17 +31,18 @@ public class AudioManager {
 
     public void reproducirEfecto(String ruta) {
         try {
-            URL url = getClass().getResource(ruta);
-
-            if (url == null) {
-                System.out.println("NO ENCUENTRA: " + ruta);
-                return;
+            //parar sonido anterior si existe
+            if (efectoActual != null) {
+                efectoActual.stop();
             }
 
-            Media media = new Media(url.toExternalForm());
-            MediaPlayer efecto = new MediaPlayer(media);
-            efecto.setVolume(1.0);
-            efecto.play();
+            Media media = new Media(
+                new java.io.File("src" + ruta).toURI().toString()
+            );
+
+            efectoActual = new MediaPlayer(media);
+            efectoActual.setVolume(1.0);
+            efectoActual.play();
 
         } catch (Exception e) {
             System.out.println("Error reproduciendo sonido: " + ruta);
