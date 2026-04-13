@@ -13,11 +13,15 @@ public class AudioManager {
         }
 
         try {
-            Media media = new Media(getClass().getResource(ruta).toExternalForm());
+            Media media = new Media(
+                new java.io.File("src" + ruta).toURI().toString()
+            );
+
             musica = new MediaPlayer(media);
             musica.setCycleCount(MediaPlayer.INDEFINITE);
             musica.setVolume(0.3);
             musica.play();
+
         } catch (Exception e) {
             System.out.println("Error cargando música: " + ruta);
             e.printStackTrace();
@@ -26,10 +30,14 @@ public class AudioManager {
 
     public void reproducirEfecto(String ruta) {
         try {
-            Media media = new Media(getClass().getResource(ruta).toExternalForm());
+            Media media = new Media(
+                new java.io.File("src" + ruta).toURI().toString()
+            );
+
             MediaPlayer efecto = new MediaPlayer(media);
             efecto.setVolume(1.0);
             efecto.play();
+
         } catch (Exception e) {
             System.out.println("Error reproduciendo sonido: " + ruta);
             e.printStackTrace();

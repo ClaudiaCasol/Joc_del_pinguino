@@ -289,19 +289,19 @@ public class PantallaJuego {
         jugarTurno();
 
         // sonido del dado
-        var url = getClass().getResource("/audio/dados.mp3");
-
-        if (url != null) {
-            audio.reproducirEfecto(url.toExternalForm());
-        } else {
-            System.out.println("NO ENCUENTRA: dados.mp3");
-        }
+        audio.reproducirEfecto("/audio/dados.mp3");
 
         // obtener casilla
+        int pos = p.getPosicion();
+
+        if (pos < 0) {
+            return;
+        }
+
         Casilla casilla = gestorPartida.getPartida()
             .getTablero()
             .getCasillas()
-            .get(p.getPosicion());
+            .get(pos);
 
         // ⏱ delay para que no se solapen sonidos
         PauseTransition pausa = new PauseTransition(Duration.seconds(0.5));
@@ -309,36 +309,19 @@ public class PantallaJuego {
         pausa.setOnFinished(e -> {
 
         	if (casilla instanceof Oso) {
-        	    var urlOso = getClass().getResource("/audio/oso.mp3");
-        	    if (urlOso != null) {
-        	        audio.reproducirEfecto(urlOso.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: oso.mp3");
-        	    }
+        		audio.reproducirEfecto("/audio/oso.mp3");
         	}
         	else if (casilla instanceof Agujero) {
-        	    var urlAgujero = getClass().getResource("/audio/agujero.mp3");
-        	    if (urlAgujero != null) {
-        	        audio.reproducirEfecto(urlAgujero.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: agujero.mp3");
-        	    }
+        		audio.reproducirEfecto("/audio/agujero.mp3");
+        	   
         	}
         	else if (casilla instanceof Trineo) {
-        	    var urlTrineo = getClass().getResource("/audio/trineo.mp3");
-        	    if (urlTrineo != null) {
-        	        audio.reproducirEfecto(urlTrineo.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: trineo.mp3");
-        	    }
+        		audio.reproducirEfecto("/audio/trineo.mp3");
+        	   
         	}
         	else if (casilla instanceof SueloQuebradizo) {
-        	    var urlSuelo = getClass().getResource("/audio/sueloQuebradizo.mp3");
-        	    if (urlSuelo != null) {
-        	        audio.reproducirEfecto(urlSuelo.toExternalForm());
-        	    } else {
-        	        System.out.println("NO ENCUENTRA: sueloQuebradizo.mp3");
-        	    }
+        		audio.reproducirEfecto("/audio/sueloQuebradizo.mp3");
+        	  
         	}
             System.out.println(getClass().getResource("/audio/dados.mp3"));
         });
