@@ -19,6 +19,7 @@
             <ComboBox fx:id="comboJugadores" prefWidth="230.0" style="-fx-background-color: #9fdfff; -fx-font-size: 14px; -fx-background-radius: 16;" />
 
             <Button onAction="#iniciarPartida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" text="Empezar partida" />
+            <Button layoutX="225.0" layoutY="267.0" onAction="#iniciarPartida" prefHeight="45.0" prefWidth="227.0" style="-fx-background-color: #7fb3d5; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20 10 20; -fx-cursor: hand; -fx-opacity: 0.9;" text="Manual de usuario" />
          </children>
 
          <padding>
