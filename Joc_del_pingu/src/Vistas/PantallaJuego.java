@@ -30,6 +30,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -38,6 +40,7 @@ import javafx.animation.PauseTransition;
 
 
 public class PantallaJuego {
+	
 	AudioManager audio = new AudioManager();
     @FXML
     private GridPane tablero;
@@ -94,6 +97,7 @@ public class PantallaJuego {
 
         inventarioButton.setTooltip(tooltipInventari);
         actualizarTooltipInventario();
+        audio.reproducirMusica("/audio/tablero.mp3");
     }
 
     // =========================
@@ -289,6 +293,7 @@ public class PantallaJuego {
         jugarTurno();
 
         // sonido del dado
+        System.out.println("SONIDO DADO");
         audio.reproducirEfecto("/audio/dados.mp3");
 
         // obtener casilla
@@ -303,27 +308,36 @@ public class PantallaJuego {
             .getCasillas()
             .get(pos);
 
-        // ⏱ delay para que no se solapen sonidos
-        PauseTransition pausa = new PauseTransition(Duration.seconds(0.5));
+        // delay para que no se solapen sonidos
+        PauseTransition pausa = new PauseTransition(Duration.seconds(1.2));
 
         pausa.setOnFinished(e -> {
 
         	if (casilla instanceof Oso) {
+        		  System.out.println("SONIDO OSO");
         		audio.reproducirEfecto("/audio/oso.mp3");
         	}
         	else if (casilla instanceof Agujero) {
+        		  System.out.println("SONIDO agujero");
         		audio.reproducirEfecto("/audio/agujero.mp3");
         	   
         	}
         	else if (casilla instanceof Trineo) {
+        		  System.out.println("SONIDO trineo");
         		audio.reproducirEfecto("/audio/trineo.mp3");
         	   
         	}
         	else if (casilla instanceof SueloQuebradizo) {
+        		System.out.println("SONIDO suelo");
         		audio.reproducirEfecto("/audio/sueloQuebradizo.mp3");
         	  
         	}
-            System.out.println(getClass().getResource("/audio/dados.mp3"));
+        	else if (casilla instanceof Interrogante) {
+        		System.out.println("SONIDO suelo");
+        		audio.reproducirEfecto("/audio/exclamacion.mp3");
+        	  
+        	}
+        
         });
 
         pausa.play();
