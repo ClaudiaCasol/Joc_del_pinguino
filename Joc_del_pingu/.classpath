@@ -5,8 +5,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="sonido/|audio/" kind="src" path="src"/>
-	<classpathentry kind="src" path="src/audio"/>
+	<classpathentry excluding="sonido/|audio/|audio/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX">
 		<attributes>
 			<attribute name="module" value="true"/>

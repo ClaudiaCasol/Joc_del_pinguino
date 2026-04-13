@@ -96,9 +96,9 @@ public class PantallaJuego {
         actualizarTooltipInventario();
     }
 
-    // =========================
+   
     // TABLERO
-    // =========================
+   
     private void generarTableroVisual() {
         tablero.getChildren().clear();
         casillasVista.clear();
@@ -197,9 +197,9 @@ public class PantallaJuego {
         return "-fx-background-color: #f5fdff; " + base;
     }
 
-    // =========================
+    
     // FICHAS
-    // =========================
+  
     private void crearFichas() {
         fichasVista.clear();
 
@@ -276,9 +276,9 @@ public class PantallaJuego {
         return new int[] { fila, col };
     }
 
-    // =========================
+  
     // DAUS
-    // =========================
+    
     @FXML
     private void handleDadoNormal(ActionEvent event) {
 
@@ -290,6 +290,7 @@ public class PantallaJuego {
 
         // sonido del dado
         var url = getClass().getResource("/audio/dados.mp3");
+        
 
         if (url != null) {
             audio.reproducirEfecto(url.toExternalForm());
@@ -495,9 +496,9 @@ public class PantallaJuego {
         dadoMenu.setText("Tirar dado");
     }
 
-    // =========================
+    
     // INVENTARI I TEXTOS
-    // =========================
+   
     private void actualizarTextoTurno() {
         Jugador actual = gestorPartida.getPartida().getJugadorActual();
 
@@ -558,9 +559,9 @@ public class PantallaJuego {
         tooltipInventari.setText(texto);
     }
 
-    // =========================
+  
     // ANIMACIONS
-    // =========================
+
     private void animarCasillaDestino(StackPane celda) {
         ScaleTransition st = new ScaleTransition(Duration.millis(180), celda);
         st.setFromX(1.0);
