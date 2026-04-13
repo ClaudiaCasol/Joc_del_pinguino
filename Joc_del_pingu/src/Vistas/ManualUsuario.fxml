@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="876.0" style="-fx-background-color: linear-gradient(to bottom, #e8f9ff, #bfe9ff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox alignment="CENTER" prefHeight="98.0" prefWidth="634.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0b3d91;" text="🐧  Manual de usuario" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <ScrollPane fitToWidth="true" prefHeight="330.0" prefWidth="663.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox alignment="TOP_CENTER" prefHeight="503.0" prefWidth="861.0" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.6); -fx-background-radius: 20;">
+               <children>
+                  <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0b3d91;" text="❄ OBJETIVO" />
+                  <Label alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="Llega a la última casilla antes que los demás jugadores." wrapText="true" />
+                  <Label text="🎮 MODOS DE JUEGO" />
+                  <Label text="- Multijugador: mínimo 2 jugadores- 4 jugadores + CPU (foca)" wrapText="true" />
+                  <Label text="🎲 CÓMO JUGAR" />
+                  <Label text="Label" />
+                  <Label layoutX="26.0" layoutY="72.0" text=" 🐻 CASILLAS  " />
+                  <Label text="Label" />
+                  <Label layoutX="26.0" layoutY="64.0" text="🐟 OBJETOS" />
+                  <Label text="Label" />
+                  <Button mnemonicParsing="false" style="-fx-background-color: #7fb3d5; -fx-background-radius: 20;" text="Volver">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
