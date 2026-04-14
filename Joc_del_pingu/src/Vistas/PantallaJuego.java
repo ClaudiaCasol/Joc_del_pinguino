@@ -79,6 +79,26 @@ public class PantallaJuego {
 
     // per animar la fitxa/casella on acaba el moviment
     private int ultimaPosicionAnimada = -1;
+    
+    @FXML
+    private void handleNewGame(ActionEvent event) {
+        System.out.println("Nuevo juego");
+    }
+
+    @FXML
+    private void handleSaveGame() {
+        System.out.println("Guardar partida");
+    }
+
+    @FXML
+    private void handleLoadGame() {
+        System.out.println("Cargar partida");
+    }
+
+    @FXML
+    private void handleQuitGame() {
+        System.exit(0);
+    }
 
     @FXML
     private void initialize() {
