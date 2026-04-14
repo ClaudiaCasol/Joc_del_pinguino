@@ -364,12 +364,12 @@ public class PantallaJuego {
         	else if (casilla instanceof SueloQuebradizo) {
         		System.out.println("SONIDO suelo");
         		audio.reproducirEfecto("/audio/sueloQuebradizo.mp3");
-        	  
+        	  	
         	}
         	else if (casilla instanceof Interrogante) {
         		System.out.println("SONIDO suelo");
         		audio.reproducirEfecto("/audio/exclamacion.mp3");
-        	  
+        	  	
         	}
         
         });
