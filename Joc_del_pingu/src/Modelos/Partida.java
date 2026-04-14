@@ -24,11 +24,13 @@ public class Partida {
     }
     
     public Partida(ArrayList<Jugador> jugadores, Tablero tablero, String fecha, int turnos, int jugadorActual) {
-    	this.jugadores = jugadores;
-    	this.tablero = tablero;
-    	this.fecha = fecha;
-    	this.turnos = turnos;
-    	this.jugadorActual = jugadorActual;
+        this.jugadores = jugadores;
+        this.tablero = tablero;
+        this.fecha = fecha;
+        this.turnos = turnos;
+        this.jugadorActual = jugadorActual;
+        this.finalizada = false;
+        this.ganador = null;
     }
 
     public void iniciarPartida() {
@@ -43,7 +45,7 @@ public class Partida {
     }
     
     public Jugador getJugador(int i) {
-    	return jugadores.get(i);
+        return jugadores.get(i);
     }
 
     public Jugador getJugadorActual() {
@@ -60,14 +62,23 @@ public class Partida {
     }
 
     public void moverJugador(Jugador jugador, int pasos) {
-        int nuevaPos = jugador.getPosicion() + pasos;
+        int posicionActual = jugador.getPosicion();
+        int ultimaPosicion = tablero.getTamano() - 1;
+
+        int nuevaPos = posicionActual + pasos;
 
         if (nuevaPos < -1) {
             nuevaPos = -1;
         }
 
-        if (nuevaPos >= tablero.getTamano()) {
-            nuevaPos = tablero.getTamano() - 1;
+        // Rebot si se sobrepassa la casella final
+        if (nuevaPos > ultimaPosicion) {
+            int exceso = nuevaPos - ultimaPosicion;
+            nuevaPos = ultimaPosicion - exceso;
+        }
+
+        if (nuevaPos < -1) {
+            nuevaPos = -1;
         }
 
         jugador.setPosicion(nuevaPos);
@@ -111,6 +122,7 @@ public class Partida {
             }
         }
 
+        // Només guanya si cau exactament a l'última casella
         if (jugador.getPosicion() == tablero.getTamano() - 1) {
             System.out.println("Ha ganado " + jugador.getNombre());
             ganador = jugador;
