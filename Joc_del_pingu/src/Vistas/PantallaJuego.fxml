@@ -5,6 +5,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -57,6 +58,22 @@
       </SplitMenuButton>
 
       <Button fx:id="inventarioButton" layoutX="770.0" layoutY="575.0" mnemonicParsing="false" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 16; -fx-padding: 6 16 6 16; -fx-cursor: hand;" text="Inventari" />
+
+      <TextArea fx:id="consolaEventos"
+                editable="false"
+                focusTraversable="false"
+                layoutX="20.0"
+                layoutY="610.0"
+                prefHeight="150.0"
+                prefWidth="930.0"
+                wrapText="true"
+                style="-fx-control-inner-background: #eef9ff;
+                       -fx-font-size: 13px;
+                       -fx-text-fill: #1f3b5b;
+                       -fx-border-color: #5dade2;
+                       -fx-border-radius: 10;
+                       -fx-background-radius: 10;" />
+
       <MenuBar style="-fx-background-color: #7ec8e3;;">
         <menus>
           <Menu mnemonicParsing="false" text="Menu">

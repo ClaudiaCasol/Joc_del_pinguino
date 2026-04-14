@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,6 +60,9 @@ public class PantallaJuego {
     @FXML
     private Text dadoResultText;
 
+    @FXML
+    private TextArea consolaEventos;
+
     private GestorPartida gestorPartida;
     private int numeroJugadores = 2;
 
@@ -78,7 +82,7 @@ public class PantallaJuego {
 
     @FXML
     private void initialize() {
-        eventos.setText("Preparant partida...");
+        afegirMissatge("Preparant partida...");
     }
 
     public void configurarPartida(int numeroJugadores) {
@@ -97,6 +101,7 @@ public class PantallaJuego {
         inventarioButton.setTooltip(tooltipInventari);
         actualizarTooltipInventario();
         audio.reproducirMusica("/audio/tablero.mp3");
+        afegirMissatge("Partida iniciada amb " + numeroJugadores + " jugadors.");
     }
 
     // =========================
@@ -401,6 +406,7 @@ public class PantallaJuego {
 
         int resultado = gestorPartida.tirarDado(jugador, dadoElegido);
         dadoResultText.setText("Ha salido: " + resultado);
+        afegirMissatge(jugador.getNombre() + " ha tret un " + resultado);
 
         int antes = jugador.getPosicion();
         partida.jugarTurno(resultado);
@@ -422,11 +428,11 @@ public class PantallaJuego {
         }
 
         if (dadoElegido instanceof Dado_rapido) {
-            eventos.setText(jugador.getNombre() + " usa dado rápido y pasa de " + antes + " a " + despues);
+            afegirMissatge(jugador.getNombre() + " usa dado rápido y pasa de " + (antes + 1) + " a " + (despues + 1));
         } else if (dadoElegido instanceof Dado_lento) {
-            eventos.setText(jugador.getNombre() + " usa dado lento y pasa de " + antes + " a " + despues);
+            afegirMissatge(jugador.getNombre() + " usa dado lento y pasa de " + (antes + 1) + " a " + (despues + 1));
         } else {
-            eventos.setText(jugador.getNombre() + " pasa de " + antes + " a " + despues);
+            afegirMissatge(jugador.getNombre() + " pasa de " + (antes + 1) + " a " + (despues + 1));
         }
 
         generarTableroVisual();
@@ -438,7 +444,7 @@ public class PantallaJuego {
         }
 
         if (partida.estaFinalizada()) {
-            eventos.setText("Ha ganado " + partida.getGanador().getNombre());
+            afegirMissatge("Ha ganado " + partida.getGanador().getNombre());
             dadoMenu.setDisable(true);
         } else {
             actualizarTextoTurno();
@@ -504,13 +510,23 @@ public class PantallaJuego {
     // =========================
     // INVENTARI I TEXTOS
     // =========================
+    private void afegirMissatge(String text) {
+        if (eventos != null) {
+            eventos.setText(text);
+        }
+
+        if (consolaEventos != null) {
+            consolaEventos.appendText(text + "\n");
+        }
+    }
+
     private void actualizarTextoTurno() {
         Jugador actual = gestorPartida.getPartida().getJugadorActual();
 
         if (actual instanceof Foca) {
-            eventos.setText("Turno de la Foca CPU");
+            afegirMissatge("Turno de la Foca CPU");
         } else {
-            eventos.setText("Turno de " + actual.getNombre());
+            afegirMissatge("Turno de " + actual.getNombre());
         }
     }
 
