@@ -8,9 +8,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
@@ -23,28 +21,15 @@
 
             <StackPane fx:id="sortidaPane" layoutX="20.0" layoutY="78.0" prefHeight="150.0" prefWidth="80.0" style="-fx-background-color: #d9f0ff; -fx-border-color: #5dade2; -fx-border-width: 2; -fx-background-radius: 12; -fx-border-radius: 12;" />
 
-            <GridPane fx:id="tablero" gridLinesVisible="true" hgap="4.0" layoutX="130.0" layoutY="60.0" prefHeight="470.0" prefWidth="820.0" style="-fx-background-color: #dff6ff; -fx-padding: 10; -fx-background-radius: 14;" vgap="4.0">
-               <columnConstraints>
-                  <ColumnConstraints percentWidth="20.0" />
-                  <ColumnConstraints percentWidth="20.0" />
-                  <ColumnConstraints percentWidth="20.0" />
-                  <ColumnConstraints percentWidth="20.0" />
-                  <ColumnConstraints percentWidth="20.0" />
-               </columnConstraints>
-
-               <rowConstraints>
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-                  <RowConstraints percentHeight="10.0" />
-               </rowConstraints>
-            </GridPane>
+            <GridPane fx:id="tablero"
+                      gridLinesVisible="false"
+                      hgap="8.0"
+                      vgap="8.0"
+                      layoutX="160.0"
+                      layoutY="55.0"
+                      prefHeight="560.0"
+                      prefWidth="560.0"
+                      style="-fx-background-color: #dff6ff; -fx-padding: 12; -fx-background-radius: 14;" />
 
             <Text fx:id="eventos" layoutX="40.0" layoutY="582.0" style="-fx-font-size: 14; -fx-fill: #1f3b5b;" text="Preparando partida..." />
 
@@ -106,17 +91,17 @@
    </center>
 
    <top>
-      <MenuBar style="-fx-background-color: #7ec8e3;;" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="Menu">
-            <items>
-              <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#handleNewGame" text="Juego nuevo" />
-              <MenuItem fx:id="saveGame" mnemonicParsing="false" onAction="#handleSaveGame" text="Guardar Juego" />
-              <MenuItem fx:id="loadGame" mnemonicParsing="false" onAction="#handleLoadGame" text="Cargar Juego" />
-              <MenuItem fx:id="quitGame" mnemonicParsing="false" onAction="#handleQuitGame" text="Salir del Juego " />
-            </items>
-          </Menu>
-        </menus>
+      <MenuBar style="-fx-background-color: #7ec8e3;" BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Menu">
+               <items>
+                  <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#handleNewGame" text="Juego nuevo" />
+                  <MenuItem fx:id="saveGame" mnemonicParsing="false" onAction="#handleSaveGame" text="Guardar Juego" />
+                  <MenuItem fx:id="loadGame" mnemonicParsing="false" onAction="#handleLoadGame" text="Cargar Juego" />
+                  <MenuItem fx:id="quitGame" mnemonicParsing="false" onAction="#handleQuitGame" text="Salir del Juego " />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
    </top>
 </BorderPane>
