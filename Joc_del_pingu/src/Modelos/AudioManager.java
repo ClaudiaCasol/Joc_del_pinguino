@@ -7,10 +7,11 @@ import javafx.scene.media.MediaPlayer;
 public class AudioManager {
 	private MediaPlayer efectoActual;
     private MediaPlayer musica;
-
+    private double volumenGeneral = 1.0;
+    
     public void reproducirMusica(String ruta) {
         if (musica != null) {
-            musica.stop();
+        	return;
         }
 
         try {
@@ -20,7 +21,7 @@ public class AudioManager {
 
             musica = new MediaPlayer(media);
             musica.setCycleCount(MediaPlayer.INDEFINITE);
-            musica.setVolume(0.3);
+            musica.setVolume(volumenGeneral);
             musica.play();
 
         } catch (Exception e) {
@@ -41,7 +42,7 @@ public class AudioManager {
             );
 
             efectoActual = new MediaPlayer(media);
-            efectoActual.setVolume(1.0);
+            efectoActual.setVolume(volumenGeneral);;
             efectoActual.play();
 
         } catch (Exception e) {
@@ -49,7 +50,17 @@ public class AudioManager {
             e.printStackTrace();
         }
     }
+    public void setVolumen(double volumen) {
+        volumenGeneral = volumen;
 
+        if (musica != null) {
+            musica.setVolume(volumenGeneral);
+        }
+        if (efectoActual != null) {
+            efectoActual.setVolume(volumenGeneral);
+        }
+    }
+    
     public void pararMusica() {
         if (musica != null) {
             musica.stop();
