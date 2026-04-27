@@ -41,10 +41,15 @@ import javafx.animation.PauseTransition;
 
 
 public class PantallaJuego {
+	
+	@FXML
+	private Button btnSonido;
+
+	private boolean sonidoActivo = true;
 	AudioManager audio = new AudioManager();
     @FXML
     private GridPane tablero;
-
+    
     @FXML
     private StackPane sortidaPane;
 
@@ -62,7 +67,7 @@ public class PantallaJuego {
 
     @FXML
     private TextArea consolaEventos;
-
+   
     private GestorPartida gestorPartida;
     private int numeroJugadores = 2;
 
@@ -122,8 +127,21 @@ public class PantallaJuego {
         actualizarTooltipInventario();
         audio.reproducirMusica("/audio/tablero.mp3");
         afegirMissatge("Partida iniciada amb " + numeroJugadores + " jugadors.");
+        
     }
+    // Boton para parar el sonido
+    @FXML
+    private void toggleSonido() {
+        sonidoActivo = !sonidoActivo;
 
+        if (sonidoActivo) {
+            btnSonido.setText("🔊");
+            audio.setVolumen(1.0);
+        } else {
+            btnSonido.setText("🔇");
+            audio.setVolumen(0.0);
+        }
+    }
     // =========================
     // TABLERO
     // =========================
