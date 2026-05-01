@@ -44,24 +44,26 @@ public class GestorBBDD {
 		for(int i = 0; i < casillas.size(); i++) {
 			if(casillas.get(i) instanceof Agujero) {
 				casillasBBDD.add("Agujero");
-			}
-			else if(casillas.get(i) instanceof Interrogante) {
+				
+			} else if(casillas.get(i) instanceof Interrogante) {
 				casillasBBDD.add("Interrogante");
-			}
-			else if(casillas.get(i) instanceof SueloQuebradizo) {
+				
+			} else if(casillas.get(i) instanceof SueloQuebradizo) {
 				casillasBBDD.add("SueloQuebradizo");
 			}
 			else if(casillas.get(i) instanceof Trineo) {
 				casillasBBDD.add("Trineo");
-			}
-			else if(casillas.get(i) instanceof Casilla) {
+				
+			} else if(casillas.get(i) instanceof Casilla) {
 				casillasBBDD.add("Casilla");
-			}
-			else if(casillas.get(i) instanceof Oso) {
+				
+			} else if(casillas.get(i) instanceof Oso) {
 				casillasBBDD.add("Oso");
 			}
 		}
+		
 		String varray = "";
+		
 		for(int i = 0; i < casillasBBDD.size() - 1; i++) {
 			varray+= " '" + casillasBBDD.get(i) + "',";
 		}
@@ -115,8 +117,8 @@ public class GestorBBDD {
 						new String[]{"TOTAL"});
 
 				BBDD.insert(con, sqlInventario);
-			}
-			else {
+				
+			} else {
 				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
 						+ t1.getJugadores().get(i).getColor() + "', 'SI', " + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
@@ -191,6 +193,7 @@ public class GestorBBDD {
 					String tipo = c.toString(); //con el toString indicamos que se ha guardado un String.
 					casillas.add(tipo);
 				}
+				
 				for (int i = 0; i < casillas.size(); i++) {
 					if(casillas.get(i).equals("Casilla")) {
 						casilla.add(new Casilla(i));
@@ -295,8 +298,33 @@ public class GestorBBDD {
 		//Terminamos el SELECT de Jugador; Ya tenemos el ArrayList DE Jugadores con sus respectivos inventarios
 
 		Tablero tablero = new Tablero(casilla);
-		Partida partidaN = new Partida(jugadores, tablero, fecha, turnos, jugadorActual);
+		Partida partidaN = new Partida(idPartida, jugadores, tablero, fecha, turnos, jugadorActual);
 		return partidaN;
+	}
+	
+	public ArrayList<Partida> obtenerPartidas() {
+
+	    con = BBDD.conectarBaseDatos();
+
+	    ArrayList<Partida> lista = new ArrayList<>();
+
+	    ArrayList<LinkedHashMap<String, String>> resultados =
+	        BBDD.select(con, "SELECT ID_PARTIDA, TURNOS, JUGADOR_ACTUAL, FECHA_PARTIDA FROM PARTIDA");
+
+	    for (LinkedHashMap<String, String> fila : resultados) {
+
+	        int id = Integer.parseInt(fila.get("ID_PARTIDA"));
+	        int turnos = Integer.parseInt(fila.get("TURNOS"));
+	        int jugadorActual = Integer.parseInt(fila.get("JUGADOR_ACTUAL"));
+	        String fecha = fila.get("FECHA_PARTIDA");
+
+	        //aquí NO reconstruyes todo
+	        Partida p = new Partida(id, new ArrayList<>(), new Tablero(), fecha, turnos, jugadorActual);
+
+	        lista.add(p);
+	    }
+
+	    return lista;
 	}
 
 	public Partida cargarBBDD(int id) {

@@ -10,6 +10,7 @@ public class Partida {
     private String fecha;
     private int turnos;
     private int jugadorActual;
+    private int id;
 
     private boolean finalizada;
     private Jugador ganador;
@@ -23,8 +24,9 @@ public class Partida {
         this.ganador = null;
     }
     
-    public Partida(ArrayList<Jugador> jugadores, Tablero tablero, String fecha, int turnos, int jugadorActual) {
-        this.jugadores = jugadores;
+    public Partida(int id,ArrayList<Jugador> jugadores, Tablero tablero, String fecha, int turnos, int jugadorActual) {
+        this.id = id;
+    	this.jugadores = jugadores;
         this.tablero = tablero;
         this.fecha = fecha;
         this.turnos = turnos;
@@ -44,12 +46,24 @@ public class Partida {
         this.finalizada = true;
     }
     
+    public int getId() {
+    	return id;
+    }
+    
+    public String getFecha() {
+    	return fecha;
+    }
+    
     public Jugador getJugador(int i) {
         return jugadores.get(i);
     }
 
     public Jugador getJugadorActual() {
         return jugadores.get(jugadorActual);
+    }
+    
+    public int getJugadorActualIndex() {
+        return jugadorActual;
     }
 
     public void avanzarTurno() {

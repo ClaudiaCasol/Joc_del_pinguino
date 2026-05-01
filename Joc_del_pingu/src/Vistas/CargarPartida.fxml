@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="contenedor" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="300.0" spacing="20.0">
+               <padding>
+                  <Insets bottom="30.0" top="30.0" />
+               </padding>
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: rgba(200,230,255,0.9); -fx-background-radius: 15; -fx-padding: 15; -fx-border-color: #b3d9ff; -fx-border-radius: 15;">
+                     <children>
+                        <Label text="Partida 1" />
+                        <Label text="Fecha" />
+                        <Label text="Turno:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: rgba(200,230,255,0.9); -fx-background-radius: 15; -fx-padding: 15; -fx-border-color: #b3d9ff; -fx-border-radius: 15;" />
+                  <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: rgba(200,230,255,0.9); -fx-background-radius: 15; -fx-padding: 15; -fx-border-color: #b3d9ff; -fx-border-radius: 15;" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
