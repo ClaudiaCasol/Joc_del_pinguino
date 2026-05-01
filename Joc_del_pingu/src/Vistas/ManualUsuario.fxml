@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="876.0" style="-fx-background-color: linear-gradient(to bottom, #e8f9ff, #bfe9ff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="Vistas.ManualUsuario" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="876.0" style="-fx-background-color: linear-gradient(to bottom, #e8f9ff, #bfe9ff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <VBox alignment="CENTER" prefHeight="98.0" prefWidth="634.0" BorderPane.alignment="CENTER">
          <children>
@@ -26,12 +25,12 @@
                   <Label text="🎮 MODOS DE JUEGO" />
                   <Label text="- Multijugador: mínimo 2 jugadores- 4 jugadores + CPU (foca)" wrapText="true" />
                   <Label text="🎲 CÓMO JUGAR" />
-                  <Label text="Label" />
+                  <Label text="Lanza el dado para avanzar y usa los objetos del inventario." />
                   <Label layoutX="26.0" layoutY="72.0" text=" 🐻 CASILLAS  " />
-                  <Label text="Label" />
+                  <Label text="Hay diferentes tipos de casillas, algunas te ayudarán a avanzar y en otras vas a retroceder." />
                   <Label layoutX="26.0" layoutY="64.0" text="🐟 OBJETOS" />
-                  <Label text="Label" />
-                  <Button mnemonicParsing="false" style="-fx-background-color: #7fb3d5; -fx-background-radius: 20;" text="Volver">
+                  <Label text="Durante la partida vas a encontrar diferentes objetos, coge todos los que puedas y úsalos en el momento adecuado." />
+                  <Button mnemonicParsing="false" onAction="#volver" style="-fx-background-color: #7fb3d5; -fx-background-radius: 20;" text="Volver">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>

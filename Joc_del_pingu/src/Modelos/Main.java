@@ -20,10 +20,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
-        stage.setMaximized(true);
-
-        root.scaleXProperty().bind(scene.widthProperty().divide(1280.0));
-        root.scaleYProperty().bind(scene.heightProperty().divide(800.0));
+        
 
         stage.show();
     }

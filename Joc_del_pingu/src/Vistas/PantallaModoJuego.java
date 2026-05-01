@@ -47,6 +47,24 @@ public class PantallaModoJuego {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    private void irManual(ActionEvent event) {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/ManualUsuario.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Manual de usuario");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private int obtenerNumeroJugadores() {
         String opcion = comboJugadores.getValue();
