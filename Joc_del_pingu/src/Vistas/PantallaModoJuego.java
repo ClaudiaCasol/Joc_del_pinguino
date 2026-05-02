@@ -31,23 +31,22 @@ public class PantallaModoJuego {
         try {
             int numeroJugadores = obtenerNumeroJugadores();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PantallaJuego.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaMenu.fxml"));
             Parent root = loader.load();
 
-            PantallaJuego controller = loader.getController();
-            controller.configurarPartida(numeroJugadores);
-            controller.prepararPantalla();
+            PantallaMenu controller = loader.getController();
+            controller.setnumJugadores(numeroJugadores);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Pantalla de Juego");
+            stage.setTitle("Pantalla de Login");
             stage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void irManual(ActionEvent event) {
 

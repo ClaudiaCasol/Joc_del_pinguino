@@ -1,5 +1,6 @@
 package Vistas;
 
+import Modelos.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -12,7 +13,16 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+
+
 public class PantallaMenu {
+	
+	private int numJugadores;
+	private int actual;
+
 
     @FXML private MenuItem newGame;
     @FXML private MenuItem saveGame;
@@ -24,6 +34,14 @@ public class PantallaMenu {
 
     @FXML private Button loginButton;
     @FXML private Button registerButton;
+    
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
+    
+
+    
+    public void setnumJugadores(int numJugadores) {
+    	this.numJugadores = numJugadores;
+    }
 
     @FXML
     private void initialize() {
@@ -51,23 +69,72 @@ public class PantallaMenu {
         System.exit(0);
     }
 
+    
     @FXML
     private void handleLogin(ActionEvent event) {
-        String username = userField.getText();
-        String password = passField.getText();
 
-        System.out.println("Login pressed: " + username + " / " + password);
+        try {
+            String user = userField.getText().trim();
+            String pass = passField.getText().trim();
 
-        if (!username.isEmpty() && !password.isEmpty()) {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            abrirPantallaModoJuego(stage);
-        } else {
-            System.out.println("Introduce usuario y contraseña.");
+            Usuario u = new Usuario(user, pass);
+            
+            
+
+            /*if (!GestorBBDD.validarUsuario(u)) {
+                //textoJugador.setText("Usuario incorrecto");
+                return;
+            }
+
+            if (usuarios.stream().anyMatch(x -> x.getNombre().equals(user))) {
+                //textoJugador.setText("Ese usuario ya estÃ¡ en la partida");
+                return;
+            }*/
+
+            usuarios.add(u);
+            actual++;
+
+            if (actual < numJugadores) {
+                userField.clear();
+                passField.clear();
+                actualizarTexto();
+            } else {
+                irAlJuego(event);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private void actualizarTexto() {
+        //textoJugador.setText("Jugador " + (actual + 1));
+    }
+    
+    private void irAlJuego(ActionEvent event) throws IOException {
+
+    	try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
+            Parent root = loader.load();
+
+            PantallaJuego controller = loader.getController();
+            controller.configurarPartida(numJugadores, usuarios);
+            controller.prepararPantalla();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Pantalla de Juego");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void abrirPantallaModoJuego(Stage stage) {
         try {
+        	
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaModoJuego.fxml"));
             Parent root = loader.load();
 

@@ -107,14 +107,14 @@ public class PantallaJuego {
 
     @FXML
     private void initialize() {
-        afegirMissatge("Preparant partida...");
+        afegirMissatge("Preparando partida...");
     }
 
     public void configurarPartida(int numeroJugadores) {
         this.numeroJugadores = numeroJugadores;
     }
 
-    public void prepararPantalla() {
+   public void prepararPantalla() {
         gestorPartida = new GestorPartida();
         gestorPartida.iniciarPartida(numeroJugadores);
 
@@ -126,9 +126,10 @@ public class PantallaJuego {
         inventarioButton.setTooltip(tooltipInventari);
         actualizarTooltipInventario();
         audio.reproducirMusica("/audio/tablero.mp3");
-        afegirMissatge("Partida iniciada amb " + numeroJugadores + " jugadors.");
+        afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
         
     }
+    
     // Boton para parar el sonido
     @FXML
     private void toggleSonido() {

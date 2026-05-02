@@ -48,3 +48,25 @@ CONSTRAINT fk_jugador_inventario
 FOREIGN KEY (id_jugador)
 REFERENCES JUGADOR(id_jugador)
 );
+
+CREATE OR REPLACE FUNCTION existe (v_nombre VARCHAR2, v_contraseña VARCHAR2)
+RETURN VARCHAR2
+
+IS
+    v_res VARCHAR2(2);
+    v_num NUMBER(10);
+    
+BEGIN
+    SELECT COUNT(*) INTO v_num
+    FROM USUARIO
+    WHERE nombre = v_nombre AND contraseña = v_contraseña;
+    
+    IF v_num > 0 THEN
+    v_res := 's';
+    
+    ELSE
+    v_res := 'n';
+    END IF;
+RETURN v_res;
+END;
+/

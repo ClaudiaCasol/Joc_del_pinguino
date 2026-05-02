@@ -1,7 +1,9 @@
 package Controladores;
 
 import java.sql.Array;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import Modelos.*;
+
+
 
 public class GestorBBDD {
 
@@ -167,7 +171,7 @@ public class GestorBBDD {
 		con = BBDD.conectarBaseDatos();
 		
 		//HACEMOS EL SELECT QUE NECESITAMOS DE LA TABLA TABLERO
-		ArrayList<LinkedHashMap<String, String>> partida = //se guarda en un arraylist hashmap por si el select te devuelve más de un resultado.
+		ArrayList<LinkedHashMap<String, String>> partida = //se guarda en un arraylist hashmap por si el select te devuelve mÃ¡s de un resultado.
 				
 				BBDD.select(con, "SELECT ID_PARTIDA, TURNOS, JUGADOR_ACTUAL, FECHA_PARTIDA FROM PARTIDA WHERE ID_TABLERO = " + indice);
 		
@@ -318,7 +322,7 @@ public class GestorBBDD {
 	        int jugadorActual = Integer.parseInt(fila.get("JUGADOR_ACTUAL"));
 	        String fecha = fila.get("FECHA_PARTIDA");
 
-	        //aquí NO reconstruyes todo
+	        //aquÃ­ NO reconstruyes todo
 	        Partida p = new Partida(id, new ArrayList<>(), new Tablero(), fecha, turnos, jugadorActual);
 
 	        lista.add(p);
@@ -330,5 +334,47 @@ public class GestorBBDD {
 	public Partida cargarBBDD(int id) {
 		// TODO: implementar carga desde base de datos
 		return null;
+	}
+	
+	
+	public static boolean validarUsuario(Usuario usuario) {
+	    
+	    Connection con = BBDD.conectarBaseDatos();
+	    
+	    String sql = "SELECT EXISTE('" + usuario.getNombre() + "', '" + usuario.getContraseña() + "') AS RES FROM dual";
+	    
+	    ArrayList<LinkedHashMap<String, String>> res = BBDD.select(con, sql);
+	    
+	    BBDD.cerrar(con);
+	    
+	    if (res.get(0).get("RES").toUpperCase().equals("S")) {
+	    	
+	        return true;
+	        
+	    }
+	    
+	    else {
+	    	return false;
+	    
+	    }
+	    
+	}
+	
+	public static boolean crearUsuario(Usuario u) {
+	    String sql = "INSERT INTO USUARIO (ID_USUARIO, NOMBRE, CONTRASEÃ‘A) VALUES (8, ?, ?)";
+
+	    try (Connection con = BBDD.conectarBaseDatos();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setString(1, u.getNombre());
+	        ps.setString(2, u.getContraseña());
+
+	        ps.executeUpdate();
+	        return true;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 }
