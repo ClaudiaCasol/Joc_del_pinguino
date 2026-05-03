@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -7,17 +8,53 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(#bde0fe,#90dbf4,#7cc6e6);;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaMenu">
+<BorderPane prefHeight="400.0" prefWidth="600.0"
+            style="-fx-background-color: linear-gradient(#bde0fe,#90dbf4,#7cc6e6);"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Vistas.PantallaMenu">
+
    <top>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Label style="-fx-font-size: 22;; -fx-font-weight: bold;; -fx-text-fill: #0b3c5d;" text="🐧 Juego del Pingüino" />
+
+            <Label fx:id="textoJugador"
+                   text="Perfil del jugador 1"
+                   style="
+                       -fx-background-color: rgba(255,255,255,0.35);
+                       -fx-padding: 6 18;
+                       -fx-background-radius: 15;
+                       -fx-font-size: 14;
+                       -fx-font-weight: bold;
+                       -fx-text-fill: #0b3c5d;
+                   " />
+
+            <Label text="🐧 Juego del Pingüino"
+                   style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #0b3c5d;" />
+
             <TextField fx:id="userField" promptText="👤 Username" />
             <PasswordField fx:id="passField" promptText="🔒 Password" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-radius: 8;" text="Login" />
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#handleRegister" style="-fx-text-fill: white;; -fx-background-color: #2196F3; -fx-font-weight: bold;; -fx-background-radius: 8; -fx-border-radius: 8;" styleClass="-fx-text-fill:" text="Register" />
-            <Label style="-fx-font-size: 12; -fx-text-fill: #0b3c5d;;" text="❄ Bienvenido al juego del pingüino ❄" />
+
+            <Button fx:id="loginButton"
+                    text="Iniciar sesión"
+                    onAction="#handleLogin"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;" />
+
+            <Button fx:id="registerButton"
+                    text="Registrar"
+                    onAction="#handleRegister"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;" />
+
+            <Label text="❄ Bienvenido al juego del pingüino ❄"
+                   style="-fx-font-size: 12; -fx-text-fill: #0b3c5d;" />
+
          </children>
+
+         <padding>
+            <Insets top="20" bottom="20"/>
+         </padding>
+
       </VBox>
    </top>
+
 </BorderPane>

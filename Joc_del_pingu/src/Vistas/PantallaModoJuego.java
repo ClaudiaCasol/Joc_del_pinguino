@@ -64,6 +64,24 @@ public class PantallaModoJuego {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    private void irCargarPartida(ActionEvent event) {
+         try {
+
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/CargarPartida.fxml"));
+             Parent root = loader.load();
+
+             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+             stage.setScene(new Scene(root));
+             stage.setTitle("Cargar Partida");
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
+
 
     private int obtenerNumeroJugadores() {
         String opcion = comboJugadores.getValue();

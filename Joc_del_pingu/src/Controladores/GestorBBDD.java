@@ -361,7 +361,7 @@ public class GestorBBDD {
 	}
 	
 	public static boolean crearUsuario(Usuario u) {
-	    String sql = "INSERT INTO USUARIO (ID_USUARIO, NOMBRE, CONTRASEÃ‘A) VALUES (8, ?, ?)";
+	    String sql = "INSERT INTO USUARIO (ID_USUARIO, NOMBRE, CONTRASEÑA) VALUES (SEQ_USUARIO.NEXTVAL, ?, ?)";
 
 	    try (Connection con = BBDD.conectarBaseDatos();
 	         PreparedStatement ps = con.prepareStatement(sql)) {

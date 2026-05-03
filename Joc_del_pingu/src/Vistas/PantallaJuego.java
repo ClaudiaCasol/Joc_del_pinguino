@@ -1,7 +1,6 @@
 package Vistas;
 
 import java.util.ArrayList;
-
 import Controladores.GestorPartida;
 import Modelos.Agujero;
 import Modelos.AudioManager;
@@ -18,6 +17,7 @@ import Modelos.Partida;
 import Modelos.Pinguino;
 import Modelos.SueloQuebradizo;
 import Modelos.Trineo;
+import Modelos.Usuario;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -34,6 +34,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -41,237 +42,244 @@ import javafx.animation.PauseTransition;
 
 
 public class PantallaJuego {
-	
+
 	@FXML
 	private Button btnSonido;
 
 	private boolean sonidoActivo = true;
 	AudioManager audio = new AudioManager();
-    @FXML
-    private GridPane tablero;
-    
-    @FXML
-    private StackPane sortidaPane;
+	@FXML
+	private GridPane tablero;
 
-    @FXML
-    private SplitMenuButton dadoMenu;
+	@FXML
+	private StackPane sortidaPane;
 
-    @FXML
-    private Button inventarioButton;
+	@FXML
+	private SplitMenuButton dadoMenu;
 
-    @FXML
-    private Text eventos;
+	@FXML
+	private Button inventarioButton;
 
-    @FXML
-    private Text dadoResultText;
+	@FXML
+	private Text eventos;
 
-    @FXML
-    private TextArea consolaEventos;
-   
-    private GestorPartida gestorPartida;
-    private int numeroJugadores = 2;
+	@FXML
+	private Text dadoResultText;
 
-    private static final int COLUMNS = 5;
+	@FXML
+	private TextArea consolaEventos;
 
-    private final ArrayList<StackPane> casillasVista = new ArrayList<>();
-    private final ArrayList<Circle> fichasVista = new ArrayList<>();
+	private GestorPartida gestorPartida;
+	private int numeroJugadores = 2;
 
-    private String tipoDadoSeleccionado = "normal";
-    private Tooltip tooltipInventari = new Tooltip();
+	private static final int COLUMNS = 5;
 
-    // mostra el gel trencat només el torn en què s'activa
-    private int sueloQuebradizoActivo = -1;
+	private final ArrayList<StackPane> casillasVista = new ArrayList<>();
+	private final ArrayList<Circle> fichasVista = new ArrayList<>();
 
-    // per animar la fitxa/casella on acaba el moviment
-    private int ultimaPosicionAnimada = -1;
-    
-    @FXML
-    private void handleNewGame(ActionEvent event) {
-        System.out.println("Nuevo juego");
-    }
+	private String tipoDadoSeleccionado = "normal";
+	private Tooltip tooltipInventari = new Tooltip();
+	private ArrayList<Usuario> usuarios;
 
-    @FXML
-    private void handleSaveGame() {
-        System.out.println("Guardar partida");
-    }
+	// mostra el gel trencat només el torn en què s'activa
+	private int sueloQuebradizoActivo = -1;
 
-    @FXML
-    private void handleLoadGame() {
-        System.out.println("Cargar partida");
-    }
+	// per animar la fitxa/casella on acaba el moviment
+	private int ultimaPosicionAnimada = -1;
 
-    @FXML
-    private void handleQuitGame() {
-        System.exit(0);
-    }
 
-    @FXML
-    private void initialize() {
-        afegirMissatge("Preparando partida...");
-    }
+	@FXML
+	private void handleNewGame(ActionEvent event) {
+		System.out.println("Nuevo juego");
+	}
 
-    public void configurarPartida(int numeroJugadores) {
-        this.numeroJugadores = numeroJugadores;
-    }
+	@FXML
+	private void handleSaveGame() {
+		System.out.println("Guardar partida");
+	}
 
-   public void prepararPantalla() {
-        gestorPartida = new GestorPartida();
-        gestorPartida.iniciarPartida(numeroJugadores);
+	@FXML
+	private void handleLoadGame() {
+		System.out.println("Cargar partida");
+	}
 
-        generarTableroVisual();
-        crearFichas();
-        actualizarPosicionesVisuales();
-        actualizarTextoTurno();
+	@FXML
+	private void handleQuitGame() {
+		System.exit(0);
+	}
 
-        inventarioButton.setTooltip(tooltipInventari);
-        actualizarTooltipInventario();
-        audio.reproducirMusica("/audio/tablero.mp3");
-        afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
-        
-    }
-    
-    // Boton para parar el sonido
-    @FXML
-    private void toggleSonido() {
-        sonidoActivo = !sonidoActivo;
+	@FXML
+	private void initialize() {
+		afegirMissatge("Preparando partida...");
+	}
 
-        if (sonidoActivo) {
-            btnSonido.setText("🔊");
-            audio.setVolumen(1.0);
-        } else {
-            btnSonido.setText("🔇");
-            audio.setVolumen(0.0);
-        }
-    }
-    // =========================
-    // TABLERO
-    // =========================
-    private void generarTableroVisual() {
-        tablero.getChildren().clear();
-        casillasVista.clear();
+	public void configurarPartida(int numeroJugadores, ArrayList<Usuario> usuario) {
+		this.numeroJugadores = numeroJugadores;
+		this.usuarios = usuario;
+	}
 
-        ArrayList<Casilla> casillas = gestorPartida.getPartida().getTablero().getCasillas();
+	public void setUsuarios(ArrayList<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
 
-        for (int i = 0; i < casillas.size(); i++) {
-            StackPane celda = crearCeldaVisual(casillas.get(i), i);
+	public void prepararPantalla() {
+		gestorPartida = new GestorPartida();
+		gestorPartida.iniciarPartida(numeroJugadores, usuarios);
 
-            int[] rc = convertirIndiceASerp(i);
-            tablero.add(celda, rc[1], rc[0]);
-            casillasVista.add(celda);
-        }
-    }
+		generarTableroVisual();
+		crearFichas();
+		actualizarPosicionesVisuales();
+		actualizarTextoTurno();
 
-    private StackPane crearCeldaVisual(Casilla casilla, int indice) {
+		inventarioButton.setTooltip(tooltipInventari);
+		actualizarTooltipInventario();
+		audio.reproducirMusica("/audio/tablero.mp3");
+		afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
 
-        StackPane celda = new StackPane();
-        celda.setPrefSize(140, 78);
-        celda.setStyle(estiloCasilla(casilla));
+	}
 
-        Text numero = new Text(String.valueOf(indice + 1));
-        numero.setStyle("-fx-font-size: 10; -fx-fill: #2c3e50; -fx-font-weight: bold;");
+	// Boton para parar el sonido
+	@FXML
+	private void toggleSonido() {
+		sonidoActivo = !sonidoActivo;
 
-        StackPane.setAlignment(numero, Pos.TOP_RIGHT);
-        numero.setTranslateX(-5);
-        numero.setTranslateY(5);
+		if (sonidoActivo) {
+			btnSonido.setText("🔊");
+			audio.setVolumen(1.0);
+		} else {
+			btnSonido.setText("🔇");
+			audio.setVolumen(0.0);
+		}
+	}
+	
+	private void generarTableroVisual() {
+		tablero.getChildren().clear();
+		casillasVista.clear();
 
-        celda.getChildren().add(numero);
+		ArrayList<Casilla> casillas = gestorPartida.getPartida().getTablero().getCasillas();
 
-        ImageView img = null;
+		for (int i = 0; i < casillas.size(); i++) {
+			StackPane celda = crearCeldaVisual(casillas.get(i), i);
 
-        if (casilla instanceof Oso) {
-            img = cargarImagen("/imatges/oso.png", 40);
-        }
+			int[] rc = convertirIndiceASerp(i);
+			tablero.add(celda, rc[1], rc[0]);
+			casillasVista.add(celda);
+		}
+	}
 
-        if (casilla instanceof Trineo) {
-            img = cargarImagen("/imatges/trineo.png", 40);
-        }
+	private StackPane crearCeldaVisual(Casilla casilla, int indice) {
 
-        if (casilla instanceof Interrogante) {
-            img = cargarImagen("/imatges/interrogante.png", 35);
-        }
+		StackPane celda = new StackPane();
+		celda.setPrefSize(140, 78);
+		celda.setStyle(estiloCasilla(casilla));
 
-        if (casilla instanceof SueloQuebradizo && indice == sueloQuebradizoActivo) {
-            img = cargarImagen("/imatges/hielo-roto.png", 40);
-        }
+		Text numero = new Text(String.valueOf(indice + 1));
+		numero.setStyle("-fx-font-size: 10; -fx-fill: #2c3e50; -fx-font-weight: bold;");
 
-        if (img != null) {
-            celda.getChildren().add(img);
-        }
+		StackPane.setAlignment(numero, Pos.TOP_RIGHT);
+		numero.setTranslateX(-5);
+		numero.setTranslateY(5);
 
-        String estiloBase = estiloCasilla(casilla);
+		celda.getChildren().add(numero);
 
-        celda.setOnMouseEntered(e -> {
-            celda.setStyle(estiloBase + "-fx-border-color: #0b3d91; -fx-border-width: 2;");
-        });
+		ImageView img = null;
 
-        celda.setOnMouseExited(e -> {
-            celda.setStyle(estiloBase);
-        });
+		if (casilla instanceof Oso) {
+			img = cargarImagen("/imatges/oso.png", 40);
+		}
 
-        return celda;
-    }
+		if (casilla instanceof Trineo) {
+			img = cargarImagen("/imatges/trineo.png", 40);
+		}
 
-    private ImageView cargarImagen(String path, double size) {
-        Image img = new Image(getClass().getResourceAsStream(path));
-        ImageView iv = new ImageView(img);
-        iv.setFitWidth(size);
-        iv.setFitHeight(size);
-        return iv;
-    }
+		if (casilla instanceof Interrogante) {
+			img = cargarImagen("/imatges/interrogante.png", 35);
+		}
 
-    private String estiloCasilla(Casilla casilla) {
-        String base = "-fx-background-radius: 8; "
-                + "-fx-border-radius: 8; "
-                + "-fx-border-color: rgba(60,60,60,0.35); "
-                + "-fx-border-width: 1;";
+		if (casilla instanceof SueloQuebradizo && indice == sueloQuebradizoActivo) {
+			img = cargarImagen("/imatges/hielo-roto.png", 40);
+		}
 
-        if (casilla instanceof Oso) {
-            return "-fx-background-color: #e07a5f; " + base;
-        }
-        if (casilla instanceof Trineo) {
-            return "-fx-background-color: #ffd166; " + base;
-        }
-        if (casilla instanceof Agujero) {
-            return "-fx-background-color: #5dade2; " + base;
-        }
-        if (casilla instanceof Interrogante) {
-            return "-fx-background-color: #cdb4db; " + base;
-        }
-        if (casilla instanceof SueloQuebradizo) {
-            return "-fx-background-color: #d6f0ff; " + base;
-        }
+		if (img != null) {
+			celda.getChildren().add(img);
+		}
 
-        return "-fx-background-color: #f5fdff; " + base;
-    }
+		String estiloBase = estiloCasilla(casilla);
 
-    // =========================
-    // FICHAS
-    // =========================
-    private void crearFichas() {
+		celda.setOnMouseEntered(e -> {
+			celda.setStyle(estiloBase + "-fx-border-color: #0b3d91; -fx-border-width: 2;");
+		});
+
+		celda.setOnMouseExited(e -> {
+			celda.setStyle(estiloBase);
+		});
+
+		return celda;
+	}
+
+	private ImageView cargarImagen(String path, double size) {
+		Image img = new Image(getClass().getResourceAsStream(path));
+		ImageView iv = new ImageView(img);
+		iv.setFitWidth(size);
+		iv.setFitHeight(size);
+		return iv;
+	}
+
+	private String estiloCasilla(Casilla casilla) {
+		String base = "-fx-background-radius: 8; "
+				+ "-fx-border-radius: 8; "
+				+ "-fx-border-color: rgba(60,60,60,0.35); "
+				+ "-fx-border-width: 1;";
+
+		if (casilla instanceof Oso) {
+			return "-fx-background-color: #e07a5f; " + base;
+		}
+		if (casilla instanceof Trineo) {
+			return "-fx-background-color: #ffd166; " + base;
+		}
+		if (casilla instanceof Agujero) {
+			return "-fx-background-color: #5dade2; " + base;
+		}
+		if (casilla instanceof Interrogante) {
+			return "-fx-background-color: #cdb4db; " + base;
+		}
+		if (casilla instanceof SueloQuebradizo) {
+			return "-fx-background-color: #d6f0ff; " + base;
+		}
+
+		return "-fx-background-color: #f5fdff; " + base;
+	}
+
+	private void crearFichas() {
         fichasVista.clear();
 
         ArrayList<Jugador> jugadores = gestorPartida.getPartida().getJugadores();
 
         for (int i = 0; i < jugadores.size(); i++) {
 
-            Circle ficha = new Circle(12);
+            Circle ficha = new Circle(15);
             ficha.setStroke(Color.BLACK);
 
             switch (i) {
                 case 0:
-                    ficha.setFill(Color.web("#56ff1f"));
+                    ficha.setFill(new ImagePattern(
+                        new Image(getClass().getResource("/imatges/skipper.jpg").toExternalForm())));
                     break;
                 case 1:
-                    ficha.setFill(Color.DODGERBLUE);
+                    ficha.setFill(new ImagePattern(
+                        new Image(getClass().getResource("/imatges/kowalski.jpg").toExternalForm())));
                     break;
                 case 2:
-                    ficha.setFill(Color.web("#ff1fce"));
+                    ficha.setFill(new ImagePattern(
+                        new Image(getClass().getResource("/imatges/rico.jpg").toExternalForm())));
                     break;
                 case 3:
-                    ficha.setFill(Color.web("#fff01f"));
+                    ficha.setFill(new ImagePattern(
+                        new Image(getClass().getResource("/imatges/private.jpg").toExternalForm())));
                     break;
                 default:
-                    ficha.setFill(Color.GRAY);
+                    ficha.setFill(new ImagePattern(
+                        new Image(getClass().getResource("/imatges/focaPingu.jpg").toExternalForm())));
                     break;
             }
 
@@ -279,366 +287,357 @@ public class PantallaJuego {
         }
     }
 
-    private void actualizarPosicionesVisuales() {
-
-        for (StackPane celda : casillasVista) {
-            celda.getChildren().removeIf(n -> n instanceof Circle);
-        }
-
-        sortidaPane.getChildren().clear();
-
-        GridPane mini = new GridPane();
-        mini.setHgap(6);
-        mini.setVgap(6);
-        mini.setAlignment(Pos.CENTER);
-
-        ArrayList<Jugador> jugadores = gestorPartida.getPartida().getJugadores();
-
-        for (int i = 0; i < jugadores.size(); i++) {
-            Jugador j = jugadores.get(i);
-            Circle ficha = fichasVista.get(i);
-
-            if (j.getPosicion() < 0) {
-                mini.add(ficha, i % 2, i / 2);
-            } else {
-            	   StackPane celda = casillasVista.get(j.getPosicion());
-
-            	    //  separar fichas dentro de la casilla
-            	    ficha.setTranslateX((i % 2) * 20 - 10);
-            	    ficha.setTranslateY((i / 2) * 20 - 10);
-
-            	    celda.getChildren().add(ficha);
-
-            	    if (j.getPosicion() == ultimaPosicionAnimada) {
-            	        animarFicha(ficha);
-            	    }
-
-                if (j.getPosicion() == ultimaPosicionAnimada) {
-                    animarFicha(ficha);
-                }
-            }
-        }
-
-        sortidaPane.getChildren().add(mini);
-    }
-
-    private int[] convertirIndiceASerp(int indice) {
-        int fila = indice / COLUMNS;
-        int col = indice % COLUMNS;
-
-        if (fila % 2 == 1) {
-            col = COLUMNS - 1 - col;
-        }
-
-        return new int[] { fila, col };
-    }
-
-    // =========================
-    // DAUS
-    // =========================
-    @FXML
-    private void handleDadoNormal(ActionEvent event) {
-
-        // jugador antes de mover
-        Pinguino p = (Pinguino) gestorPartida.getPartida().getJugadorActual();
-
-        // ejecutar turno
-        jugarTurno();
-
-        // sonido del dado
-        System.out.println("SONIDO DADO");
-        audio.reproducirEfecto("/audio/dados.mp3");
-
-        // obtener casilla
-        int pos = p.getPosicion();
-
-        if (pos < 0) {
-            return;
-        }
-
-        Casilla casilla = gestorPartida.getPartida()
-            .getTablero()
-            .getCasillas()
-            .get(pos);
-
-        // delay para que no se solapen sonidos
-        PauseTransition pausa = new PauseTransition(Duration.seconds(1.2));
-
-        pausa.setOnFinished(e -> {
-
-        	if (casilla instanceof Oso) {
-        		  System.out.println("SONIDO OSO");
-        		audio.reproducirEfecto("/audio/oso.mp3");
-        	}
-        	else if (casilla instanceof Agujero) {
-        		  System.out.println("SONIDO agujero");
-        		audio.reproducirEfecto("/audio/agujero.mp3");
-        	   
-        	}
-        	else if (casilla instanceof Trineo) {
-        		  System.out.println("SONIDO trineo");
-        		audio.reproducirEfecto("/audio/trineo.mp3");
-        	   
-        	}
-        	else if (casilla instanceof SueloQuebradizo) {
-        		System.out.println("SONIDO suelo");
-        		audio.reproducirEfecto("/audio/sueloQuebradizo.mp3");
-        	  	
-        	}
-        	else if (casilla instanceof Interrogante) {
-        		System.out.println("SONIDO suelo");
-        		audio.reproducirEfecto("/audio/exclamacion.mp3");
-        	  	
-        	}
-        
-        });
-
-        pausa.play();
-    }
-
-    @FXML
-    private void seleccionarDadoNormal(ActionEvent event) {
-        tipoDadoSeleccionado = "normal";
-        dadoMenu.setText("Tirar dado");
-    }
-
-    @FXML
-    private void seleccionarDadoRapido(ActionEvent event) {
-        tipoDadoSeleccionado = "rapido";
-        dadoMenu.setText("Tirar rápido");
-    }
-
-    @FXML
-    private void seleccionarDadoLento(ActionEvent event) {
-        tipoDadoSeleccionado = "lento";
-        dadoMenu.setText("Tirar lento");
-    }
-
-    private void jugarTurno() {
-        if (gestorPartida == null || gestorPartida.getPartida() == null) {
-            return;
-        }
-
-        Partida partida = gestorPartida.getPartida();
-
-        if (partida.estaFinalizada()) {
-            return;
-        }
-
-        ejecutarUnTurno();
-
-        while (!partida.estaFinalizada() && partida.getJugadorActual() instanceof Foca) {
-            ejecutarUnTurno();
-        }
-    }
-
-    private void ejecutarUnTurno() {
-
-        Partida partida = gestorPartida.getPartida();
-        Jugador jugador = partida.getJugadorActual();
-
-        Dado dadoElegido = null;
-
-        if (!(jugador instanceof Foca)) {
-            dadoElegido = buscarDadoSegunTipo(jugador, tipoDadoSeleccionado);
-        }
-
-        int resultado = gestorPartida.tirarDado(jugador, dadoElegido);
-        dadoResultText.setText("Ha salido: " + resultado);
-        afegirMissatge(jugador.getNombre() + " ha tret un " + resultado);
-
-        int antes = jugador.getPosicion();
-        partida.jugarTurno(resultado);
-        int despues = jugador.getPosicion();
-
-        consumirDadoEspecialSiHaceFalta(jugador, dadoElegido);
-
-        ultimaPosicionAnimada = despues;
-
-        // reset visual del hielo roto
-        sueloQuebradizoActivo = -1;
-
-        // si cae en suelo quebradizo, mostramos imagen solo este turno
-        if (despues >= 0 && despues < partida.getTablero().getCasillas().size()) {
-            Casilla c = partida.getTablero().getCasillas().get(despues);
-            if (c instanceof SueloQuebradizo) {
-                sueloQuebradizoActivo = despues;
-            }
-        }
-
-        if (dadoElegido instanceof Dado_rapido) {
-            afegirMissatge(jugador.getNombre() + " usa dado rápido y pasa de " + (antes + 1) + " a " + (despues + 1));
-        } else if (dadoElegido instanceof Dado_lento) {
-            afegirMissatge(jugador.getNombre() + " usa dado lento y pasa de " + (antes + 1) + " a " + (despues + 1));
-        } else {
-            afegirMissatge(jugador.getNombre() + " pasa de " + (antes + 1) + " a " + (despues + 1));
-        }
-
-        generarTableroVisual();
-        actualizarPosicionesVisuales();
-        actualizarTooltipInventario();
-
-        if (despues >= 0 && despues < casillasVista.size()) {
-            animarCasillaDestino(casillasVista.get(despues));
-        }
-
-        if (partida.estaFinalizada()) {
-            afegirMissatge("Ha ganado " + partida.getGanador().getNombre());
-            dadoMenu.setDisable(true);
-        } else {
-            actualizarTextoTurno();
-        }
-    }
-
-    private Dado buscarDadoSegunTipo(Jugador jugador, String tipo) {
-
-        if (!(jugador instanceof Pinguino)) {
-            return null;
-        }
-
-        Pinguino p = (Pinguino) jugador;
-
-        if (p.getInventario() == null) {
-            return null;
-        }
-
-        ArrayList<Dado> dados = p.getInventario().getDado();
-
-        for (Dado d : dados) {
-            if (tipo.equalsIgnoreCase("rapido") && d instanceof Dado_rapido) {
-                return d;
-            }
-
-            if (tipo.equalsIgnoreCase("lento") && d instanceof Dado_lento) {
-                return d;
-            }
-
-            if (tipo.equalsIgnoreCase("normal")
-                    && !(d instanceof Dado_rapido)
-                    && !(d instanceof Dado_lento)) {
-                return d;
-            }
-        }
-
-        for (Dado d : dados) {
-            if (!(d instanceof Dado_rapido) && !(d instanceof Dado_lento)) {
-                return d;
-            }
-        }
-
-        return null;
-    }
-
-    private void consumirDadoEspecialSiHaceFalta(Jugador jugador, Dado dadoUsado) {
-        if (!(jugador instanceof Pinguino) || dadoUsado == null) {
-            return;
-        }
-
-        Pinguino p = (Pinguino) jugador;
-
-        if (!(dadoUsado instanceof Dado_rapido) && !(dadoUsado instanceof Dado_lento)) {
-            return;
-        }
-
-        p.getInventario().eliminarDado(dadoUsado);
-
-        tipoDadoSeleccionado = "normal";
-        dadoMenu.setText("Tirar dado");
-    }
-
-    // =========================
-    // INVENTARI I TEXTOS
-    // =========================
-    private void afegirMissatge(String text) {
-        if (eventos != null) {
-            eventos.setText(text);
-        }
-
-        if (consolaEventos != null) {
-            consolaEventos.appendText(text + "\n");
-        }
-    }
-
-    private void actualizarTextoTurno() {
-        Jugador actual = gestorPartida.getPartida().getJugadorActual();
-
-        if (actual instanceof Foca) {
-            afegirMissatge("Turno de la Foca CPU");
-        } else {
-            afegirMissatge("Turno de " + actual.getNombre());
-        }
-    }
-
-    private void actualizarTooltipInventario() {
-        if (gestorPartida == null || gestorPartida.getPartida() == null) {
-            tooltipInventari.setText("Sense inventari");
-            return;
-        }
-
-        Jugador actual = gestorPartida.getPartida().getJugadorActual();
-
-        if (actual instanceof Foca) {
-            tooltipInventari.setText("La Foca CPU no tiene inventario");
-            return;
-        }
-
-        if (!(actual instanceof Pinguino)) {
-            tooltipInventari.setText("Este jugador no tiene inventario");
-            return;
-        }
-
-        Pinguino p = (Pinguino) actual;
-        Inventario inv = p.getInventario();
-
-        if (inv == null) {
-            tooltipInventari.setText("Inventario vacío");
-            return;
-        }
-
-        int dadosNormales = 0;
-        int dadosRapidos = 0;
-        int dadosLentos = 0;
-
-        for (Dado d : inv.getDado()) {
-            if (d instanceof Dado_rapido) {
-                dadosRapidos++;
-            } else if (d instanceof Dado_lento) {
-                dadosLentos++;
-            } else {
-                dadosNormales++;
-            }
-        }
-
-        String texto = "Inventari de " + actual.getNombre()
-                + "\nPECES: " + inv.getPez().size()
-                + "\nBOLAS DE NIEVE: " + inv.getBolaNieve().size()
-                + "\nDADO NORMAL: " + dadosNormales
-                + "\nDADO RÁPIDO: " + dadosRapidos
-                + "\nDADO LENTO: " + dadosLentos;
-
-        tooltipInventari.setText(texto);
-    }
-
-    // =========================
-    // ANIMACIONS
-    // =========================
-    private void animarCasillaDestino(StackPane celda) {
-        ScaleTransition st = new ScaleTransition(Duration.millis(180), celda);
-        st.setFromX(1.0);
-        st.setFromY(1.0);
-        st.setToX(1.08);
-        st.setToY(1.08);
-        st.setCycleCount(2);
-        st.setAutoReverse(true);
-        st.play();
-    }
-
-    private void animarFicha(Circle ficha) {
-        TranslateTransition tt = new TranslateTransition(Duration.millis(180), ficha);
-        tt.setFromY(0);
-        tt.setToY(-6);
-        tt.setCycleCount(2);
-        tt.setAutoReverse(true);
-        tt.play();
-    }
+	private void actualizarPosicionesVisuales() {
+
+		for (StackPane celda : casillasVista) {
+			celda.getChildren().removeIf(n -> n instanceof Circle);
+		}
+
+		sortidaPane.getChildren().clear();
+
+		GridPane mini = new GridPane();
+		mini.setHgap(6);
+		mini.setVgap(6);
+		mini.setAlignment(Pos.CENTER);
+
+		ArrayList<Jugador> jugadores = gestorPartida.getPartida().getJugadores();
+
+		for (int i = 0; i < jugadores.size(); i++) {
+			Jugador j = jugadores.get(i);
+			Circle ficha = fichasVista.get(i);
+
+			if (j.getPosicion() < 0) {
+				mini.add(ficha, i % 2, i / 2);
+			} else {
+				StackPane celda = casillasVista.get(j.getPosicion());
+
+				//  separar fichas dentro de la casilla
+				ficha.setTranslateX((i % 2) * 20 - 10);
+				ficha.setTranslateY((i / 2) * 20 - 10);
+
+				celda.getChildren().add(ficha);
+
+				if (j.getPosicion() == ultimaPosicionAnimada) {
+					animarFicha(ficha);
+				}
+
+				if (j.getPosicion() == ultimaPosicionAnimada) {
+					animarFicha(ficha);
+				}
+			}
+		}
+
+		sortidaPane.getChildren().add(mini);
+	}
+
+	private int[] convertirIndiceASerp(int indice) {
+		int fila = indice / COLUMNS;
+		int col = indice % COLUMNS;
+
+		if (fila % 2 == 1) {
+			col = COLUMNS - 1 - col;
+		}
+
+		return new int[] { fila, col };
+	}
+
+	@FXML
+	private void handleDadoNormal(ActionEvent event) {
+
+		// jugador antes de mover
+		Pinguino p = (Pinguino) gestorPartida.getPartida().getJugadorActual();
+
+		// ejecutar turno
+		jugarTurno();
+
+		// sonido del dado
+		System.out.println("SONIDO DADO");
+		audio.reproducirEfecto("/audio/dados.mp3");
+
+		// obtener casilla
+		int pos = p.getPosicion();
+
+		if (pos < 0) {
+			return;
+		}
+
+		Casilla casilla = gestorPartida.getPartida()
+				.getTablero()
+				.getCasillas()
+				.get(pos);
+
+		// delay para que no se solapen sonidos
+		PauseTransition pausa = new PauseTransition(Duration.seconds(1.2));
+
+		pausa.setOnFinished(e -> {
+
+			if (casilla instanceof Oso) {
+				System.out.println("SONIDO OSO");
+				audio.reproducirEfecto("/audio/oso.mp3");
+			}
+			else if (casilla instanceof Agujero) {
+				System.out.println("SONIDO agujero");
+				audio.reproducirEfecto("/audio/agujero.mp3");
+
+			}
+			else if (casilla instanceof Trineo) {
+				System.out.println("SONIDO trineo");
+				audio.reproducirEfecto("/audio/trineo.mp3");
+
+			}
+			else if (casilla instanceof SueloQuebradizo) {
+				System.out.println("SONIDO suelo");
+				audio.reproducirEfecto("/audio/sueloQuebradizo.mp3");
+
+			}
+			else if (casilla instanceof Interrogante) {
+				System.out.println("SONIDO suelo");
+				audio.reproducirEfecto("/audio/exclamacion.mp3");
+
+			}
+
+		});
+
+		pausa.play();
+	}
+
+	@FXML
+	private void seleccionarDadoNormal(ActionEvent event) {
+		tipoDadoSeleccionado = "normal";
+		dadoMenu.setText("Tirar dado");
+	}
+
+	@FXML
+	private void seleccionarDadoRapido(ActionEvent event) {
+		tipoDadoSeleccionado = "rapido";
+		dadoMenu.setText("Tirar rápido");
+	}
+
+	@FXML
+	private void seleccionarDadoLento(ActionEvent event) {
+		tipoDadoSeleccionado = "lento";
+		dadoMenu.setText("Tirar lento");
+	}
+
+	private void jugarTurno() {
+		if (gestorPartida == null || gestorPartida.getPartida() == null) {
+			return;
+		}
+
+		Partida partida = gestorPartida.getPartida();
+
+		if (partida.estaFinalizada()) {
+			return;
+		}
+
+		ejecutarUnTurno();
+
+		while (!partida.estaFinalizada() && partida.getJugadorActual() instanceof Foca) {
+			ejecutarUnTurno();
+		}
+	}
+
+	private void ejecutarUnTurno() {
+
+		Partida partida = gestorPartida.getPartida();
+		Jugador jugador = partida.getJugadorActual();
+
+		Dado dadoElegido = null;
+
+		if (!(jugador instanceof Foca)) {
+			dadoElegido = buscarDadoSegunTipo(jugador, tipoDadoSeleccionado);
+		}
+
+		int resultado = gestorPartida.tirarDado(jugador, dadoElegido);
+		dadoResultText.setText("Ha salido: " + resultado);
+		afegirMissatge(jugador.getNombre() + " ha tret un " + resultado);
+
+		int antes = jugador.getPosicion();
+		partida.jugarTurno(resultado);
+		int despues = jugador.getPosicion();
+
+		consumirDadoEspecialSiHaceFalta(jugador, dadoElegido);
+
+		ultimaPosicionAnimada = despues;
+
+		// reset visual del hielo roto
+		sueloQuebradizoActivo = -1;
+
+		// si cae en suelo quebradizo, mostramos imagen solo este turno
+		if (despues >= 0 && despues < partida.getTablero().getCasillas().size()) {
+			Casilla c = partida.getTablero().getCasillas().get(despues);
+			if (c instanceof SueloQuebradizo) {
+				sueloQuebradizoActivo = despues;
+			}
+		}
+
+		if (dadoElegido instanceof Dado_rapido) {
+			afegirMissatge(jugador.getNombre() + " usa dado rápido y pasa de " + (antes + 1) + " a " + (despues + 1));
+		} else if (dadoElegido instanceof Dado_lento) {
+			afegirMissatge(jugador.getNombre() + " usa dado lento y pasa de " + (antes + 1) + " a " + (despues + 1));
+		} else {
+			afegirMissatge(jugador.getNombre() + " pasa de " + (antes + 1) + " a " + (despues + 1));
+		}
+
+		generarTableroVisual();
+		actualizarPosicionesVisuales();
+		actualizarTooltipInventario();
+
+		if (despues >= 0 && despues < casillasVista.size()) {
+			animarCasillaDestino(casillasVista.get(despues));
+		}
+
+		if (partida.estaFinalizada()) {
+			afegirMissatge("Ha ganado " + partida.getGanador().getNombre());
+			dadoMenu.setDisable(true);
+		} else {
+			actualizarTextoTurno();
+		}
+	}
+
+	private Dado buscarDadoSegunTipo(Jugador jugador, String tipo) {
+
+		if (!(jugador instanceof Pinguino)) {
+			return null;
+		}
+
+		Pinguino p = (Pinguino) jugador;
+
+		if (p.getInventario() == null) {
+			return null;
+		}
+
+		ArrayList<Dado> dados = p.getInventario().getDado();
+
+		for (Dado d : dados) {
+			if (tipo.equalsIgnoreCase("rapido") && d instanceof Dado_rapido) {
+				return d;
+			}
+
+			if (tipo.equalsIgnoreCase("lento") && d instanceof Dado_lento) {
+				return d;
+			}
+
+			if (tipo.equalsIgnoreCase("normal")
+					&& !(d instanceof Dado_rapido)
+					&& !(d instanceof Dado_lento)) {
+				return d;
+			}
+		}
+
+		for (Dado d : dados) {
+			if (!(d instanceof Dado_rapido) && !(d instanceof Dado_lento)) {
+				return d;
+			}
+		}
+
+		return null;
+	}
+
+	private void consumirDadoEspecialSiHaceFalta(Jugador jugador, Dado dadoUsado) {
+		if (!(jugador instanceof Pinguino) || dadoUsado == null) {
+			return;
+		}
+
+		Pinguino p = (Pinguino) jugador;
+
+		if (!(dadoUsado instanceof Dado_rapido) && !(dadoUsado instanceof Dado_lento)) {
+			return;
+		}
+
+		p.getInventario().eliminarDado(dadoUsado);
+
+		tipoDadoSeleccionado = "normal";
+		dadoMenu.setText("Tirar dado");
+	}
+
+	private void afegirMissatge(String text) {
+		if (eventos != null) {
+			eventos.setText(text);
+		}
+
+		if (consolaEventos != null) {
+			consolaEventos.appendText(text + "\n");
+		}
+	}
+
+	private void actualizarTextoTurno() {
+		Jugador actual = gestorPartida.getPartida().getJugadorActual();
+
+		if (actual instanceof Foca) {
+			afegirMissatge("Turno de la Foca CPU");
+		} else {
+			afegirMissatge("Turno de " + actual.getNombre());
+		}
+	}
+
+	private void actualizarTooltipInventario() {
+		if (gestorPartida == null || gestorPartida.getPartida() == null) {
+			tooltipInventari.setText("Sense inventari");
+			return;
+		}
+
+		Jugador actual = gestorPartida.getPartida().getJugadorActual();
+
+		if (actual instanceof Foca) {
+			tooltipInventari.setText("La Foca CPU no tiene inventario");
+			return;
+		}
+
+		if (!(actual instanceof Pinguino)) {
+			tooltipInventari.setText("Este jugador no tiene inventario");
+			return;
+		}
+
+		Pinguino p = (Pinguino) actual;
+		Inventario inv = p.getInventario();
+
+		if (inv == null) {
+			tooltipInventari.setText("Inventario vacío");
+			return;
+		}
+
+		int dadosNormales = 0;
+		int dadosRapidos = 0;
+		int dadosLentos = 0;
+
+		for (Dado d : inv.getDado()) {
+			if (d instanceof Dado_rapido) {
+				dadosRapidos++;
+			} else if (d instanceof Dado_lento) {
+				dadosLentos++;
+			} else {
+				dadosNormales++;
+			}
+		}
+
+		String texto = "Inventari de " + actual.getNombre()
+		+ "\nPECES: " + inv.getPez().size()
+		+ "\nBOLAS DE NIEVE: " + inv.getBolaNieve().size()
+		+ "\nDADO NORMAL: " + dadosNormales
+		+ "\nDADO RÁPIDO: " + dadosRapidos
+		+ "\nDADO LENTO: " + dadosLentos;
+
+		tooltipInventari.setText(texto);
+	}
+
+	private void animarCasillaDestino(StackPane celda) {
+		ScaleTransition st = new ScaleTransition(Duration.millis(180), celda);
+		st.setFromX(1.0);
+		st.setFromY(1.0);
+		st.setToX(1.08);
+		st.setToY(1.08);
+		st.setCycleCount(2);
+		st.setAutoReverse(true);
+		st.play();
+	}
+
+	private void animarFicha(Circle ficha) {
+		TranslateTransition tt = new TranslateTransition(Duration.millis(180), ficha);
+		tt.setFromY(0);
+		tt.setToY(-6);
+		tt.setCycleCount(2);
+		tt.setAutoReverse(true);
+		tt.play();
+	}
 }

@@ -10,6 +10,7 @@ import Modelos.Jugador;
 import Modelos.Partida;
 import Modelos.Pinguino;
 import Modelos.Tablero;
+import Modelos.Usuario;
 
 public class GestorPartida {
 
@@ -41,7 +42,8 @@ public class GestorPartida {
         return resultado;
     }
 
-    public void iniciarPartida(int numeroJugadores) {
+    public void iniciarPartida(int numeroJugadores, ArrayList<Usuario> usuarios) {
+        
         ArrayList<Jugador> jugadores = new ArrayList<>();
 
         String[] nombres = { "Jugador1", "Jugador2", "Jugador3", "Jugador4" };
@@ -52,11 +54,11 @@ public class GestorPartida {
             Dado dado = new Dado();
             inventario.agregarDado(dado);
 
-            jugadores.add(new Pinguino(-1, nombres[i], colores[i], inventario));
+            jugadores.add(new Pinguino(-1, nombres[i], colores[i], inventario, usuarios.get(i)));
         }
 
         if (numeroJugadores == 4) {
-        	Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            Inventario inventario = new Inventario(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             Dado dado = new Dado();
             inventario.agregarDado(dado);
             jugadores.add(new Foca(-1, "FocaCPU", "Gris", inventario));

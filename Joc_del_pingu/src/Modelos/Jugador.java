@@ -2,84 +2,85 @@ package Modelos;
 
 public abstract class Jugador {
 
-	private int posicion = 0;
-	private String nombre = "";
-	private String color = "";
-	private int turnosPerdidos = 0;
-	private Inventario inventario;
-	private int partidasJugadas;
-	private int turno;
-	
+    private int posicion = 0;
+    private String nombre = "";
+    private String color = "";
+    private int turnosPerdidos = 0;
+    private Inventario inventario;
+    private int partidasJugadas;
+    private int turno;
+    private Usuario usuario;
+    
 
-	public Jugador(int posicion, String nombre, String color, Inventario inventario) {
-		this.posicion = posicion;
-		this.nombre = nombre;
-		this.color = color;
-		this.inventario = inventario;
-	}
-	
-	public Jugador(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int partidasJugadas, int turno) {
-		this.posicion = posicion;
-		this.nombre = nombre;
-		this.color = color;
-		this.inventario = inventario;
-		this.turnosPerdidos = turnosPerdidos;
-		this.partidasJugadas = partidasJugadas;
-		this.turno = turno;
-	}
+    public Jugador(int posicion, String nombre, String color, Inventario inventario) {
+        this.posicion = posicion;
+        this.nombre = nombre;
+        this.color = color;
+        this.inventario = inventario;
+    }
+    
+    public Jugador(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int partidasJugadas, int turno) {
+        this.posicion = posicion;
+        this.nombre = nombre;
+        this.color = color;
+        this.inventario = inventario;
+        this.turnosPerdidos = turnosPerdidos;
+        this.partidasJugadas = partidasJugadas;
+        this.turno = turno;
+    }
 
-	public int getPosicion() {
-		return posicion;
-	}
+    public int getPosicion() {
+        return posicion;
+    }
 
-	public void setPosicion(int posicion) {
-		this.posicion = posicion;
-	}
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public String getColor() {
-		return color;
-	}
-	
+    public String getColor() {
+        return color;
+    }
+    
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public void setColor(String color) {
+        this.color = color;
+    }
 
-	public int getTurnosPerdidos() {
-		return turnosPerdidos;
-	}
+    public int getTurnosPerdidos() {
+        return turnosPerdidos;
+    }
 
-	public void setTurnosPerdidos(int turnosPerdidos) {
-		this.turnosPerdidos = turnosPerdidos;
-	}
+    public void setTurnosPerdidos(int turnosPerdidos) {
+        this.turnosPerdidos = turnosPerdidos;
+    }
 
-	public void moverPosicion(int cantidad) {
-		this.posicion += cantidad;
-		if (this.posicion < 0) {
-			this.posicion = 0;
-		}
-	}
+    public void moverPosicion(int cantidad) {
+        this.posicion += cantidad;
+        if (this.posicion < 0) {
+            this.posicion = 0;
+        }
+    }
 
-	public void retroceder(int pasos) {
-		this.posicion -= pasos;
-		if (this.posicion < 0) {
-			this.posicion = 0;
-		}
-	}
-	
-	public Inventario getInventario() {
-		return inventario;
-	}
-	
-	public int getPartidasJugadas() {
-		return partidasJugadas;
-	}
+    public void retroceder(int pasos) {
+        this.posicion -= pasos;
+        if (this.posicion < 0) {
+            this.posicion = 0;
+        }
+    }
+    
+    public Inventario getInventario() {
+        return inventario;
+    }
+    
+    public int getPartidasJugadas() {
+        return partidasJugadas;
+    }
 }

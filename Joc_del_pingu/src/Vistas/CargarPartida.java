@@ -5,19 +5,17 @@ import java.util.ArrayList;
 import Controladores.GestorBBDD;
 import Modelos.Partida;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
 
 public class CargarPartida {
 
     @FXML
-    private VBox contenedor; //es el vbox del scrollbar
+    private VBox contenedorPartidas;
+
+    private VBox selectedCard = null;
 
     @FXML
     public void initialize() {
@@ -25,60 +23,109 @@ public class CargarPartida {
         GestorBBDD gestor = new GestorBBDD();
         ArrayList<Partida> partidas = gestor.obtenerPartidas();
 
-        contenedor.getChildren().clear();
+        contenedorPartidas.getChildren().clear();
 
-        if (partidas.size() == 0) {
-            Label texto = new Label("No hay partidas guardadas");
-            contenedor.getChildren().add(texto);
-        } else {
+        int totalSlots = Math.max(8, partidas.size());
 
-            for (Partida p : partidas) {
-                VBox card = crearCard(p);
-                contenedor.getChildren().add(card);
+        for (int i = 0; i < totalSlots; i++) {
+
+            VBox card;
+
+            if (i < partidas.size()) {
+                card = crearCard(partidas.get(i));
+            } else {
+                card = crearSlotVacio(i);
             }
+
+            contenedorPartidas.getChildren().add(card);
         }
     }
 
     private VBox crearCard(Partida p) {
 
-        VBox card = new VBox();
-        card.setSpacing(5);
+        VBox contenedor = new VBox();
+        contenedor.setPrefWidth(800);
 
-        card.setStyle("-fx-background-color: lightblue; -fx-padding: 15; -fx-background-radius: 10;");
+        HBox card = new HBox();
+        card.setSpacing(20);
+        card.setStyle(estiloNormal());
 
-        Label nombre = new Label("Partida " + p.getId());
-        Label fecha = new Label("Fecha: " + p.getFecha());
-        Label turnos = new Label("Turnos: " + p.getTurnos());
+        Label icono = new Label("🐧");
+        icono.setStyle("-fx-font-size: 20;");
 
-        card.getChildren().addAll(nombre, fecha, turnos);
+        Label nombre = new Label("PARTIDA " + p.getId());
+        nombre.setStyle("-fx-font-size: 14; -fx-font-weight: bold;");
 
-        // CLICK
-        card.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                cargarPartida(p.getId());
-            }
+        Region spacer = new Region();
+        spacer.setMinWidth(200);
+
+        Label fecha = new Label(p.getFecha());
+        fecha.setStyle("-fx-font-size: 12;");
+
+        card.getChildren().addAll(icono, nombre, spacer, fecha);
+
+        contenedor.getChildren().add(card);
+
+        card.setOnMouseClicked(e -> {
+            seleccionar(card);
+            cargarPartida(p.getId());
         });
 
-        return card;
+        return contenedor;
+    }
+
+    private VBox crearSlotVacio(int index) {
+
+        VBox contenedor = new VBox();
+        contenedor.setPrefWidth(800);
+
+        HBox card = new HBox();
+        card.setSpacing(20);
+        card.setStyle(estiloVacio());
+
+        Label icono = new Label("➕");
+        icono.setStyle("-fx-font-size: 18;");
+
+        Label texto = new Label("NUEVA PARTIDA");
+        texto.setStyle("-fx-font-size: 13;");
+
+        card.getChildren().addAll(icono, texto);
+
+        contenedor.getChildren().add(card);
+
+        return contenedor;
+    }
+
+    private String estiloNormal() {
+        return "-fx-background-color: rgba(255,255,255,0.85);" +
+               "-fx-padding: 15;" +
+               "-fx-background-radius: 4;";
+    }
+
+    private String estiloSeleccionado() {
+        return "-fx-background-color: #7cc6e6;" +
+               "-fx-padding: 15;" +
+               "-fx-background-radius: 4;";
+    }
+
+    private String estiloVacio() {
+        return "-fx-background-color: rgba(200,200,200,0.3);" +
+               "-fx-padding: 15;" +
+               "-fx-background-radius: 4;";
+    }
+
+   
+    private void seleccionar(HBox card) {
+
+        if (selectedCard != null) {
+            selectedCard.setStyle(estiloNormal());
+        }
+
+        card.setStyle(estiloSeleccionado());
+        selectedCard = (VBox) card.getParent();
     }
 
     private void cargarPartida(int id) {
-
-        try {
-
-            GestorBBDD gestor = new GestorBBDD();
-            gestor.cargarTablero(id); // carga la partida
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaJuego.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) contenedor.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Partida cargada");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.out.println("Cargar partida " + id);
     }
 }

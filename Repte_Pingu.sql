@@ -70,3 +70,10 @@ BEGIN
 RETURN v_res;
 END;
 /
+
+SET SERVEROUTPUT ON;
+
+BEGIN
+EXISTE('zoro', 'reto');
+END;
+/
