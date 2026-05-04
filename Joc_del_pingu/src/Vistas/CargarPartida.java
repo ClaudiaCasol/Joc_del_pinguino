@@ -1,21 +1,27 @@
 package Vistas;
 
+import java.io.IOException;
 import java.util.ArrayList;
-
 import Controladores.GestorBBDD;
 import Modelos.Partida;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
 public class CargarPartida {
 
     @FXML
     private VBox contenedorPartidas;
 
-    private VBox selectedCard = null;
+    private HBox selectedCard = null;
 
     @FXML
     public void initialize() {
@@ -103,7 +109,14 @@ public class CargarPartida {
     }
 
     private String estiloSeleccionado() {
+
+        String ruta = getClass().getResource("/imatges/brush.png").toExternalForm();
+
         return "-fx-background-color: #7cc6e6;" +
+               "-fx-background-image: url('" + ruta + "');" +
+               "-fx-background-size: cover;" +
+               "-fx-background-repeat: no-repeat;" +
+               "-fx-background-position: center;" +
                "-fx-padding: 15;" +
                "-fx-background-radius: 4;";
     }
@@ -114,7 +127,6 @@ public class CargarPartida {
                "-fx-background-radius: 4;";
     }
 
-   
     private void seleccionar(HBox card) {
 
         if (selectedCard != null) {
@@ -122,10 +134,30 @@ public class CargarPartida {
         }
 
         card.setStyle(estiloSeleccionado());
-        selectedCard = (VBox) card.getParent();
+        selectedCard = card;
     }
 
     private void cargarPartida(int id) {
         System.out.println("Cargar partida " + id);
+    }
+
+    @FXML
+    private void volverPantallaModoJuego(ActionEvent event) {
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("PantallaModoJuego.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 800);
+
+            stage.setScene(scene);
+            stage.setMinWidth(1000);
+            stage.setMinHeight(700);
+            
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
