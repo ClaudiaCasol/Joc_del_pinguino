@@ -257,34 +257,39 @@ public class PantallaJuego {
 
         for (int i = 0; i < jugadores.size(); i++) {
 
-            Circle ficha = new Circle(15);
-            ficha.setStroke(Color.BLACK);
+            Circle ficha = new Circle(11);
+            ficha.setStroke(Color.web("#2c3e50"));
+            ficha.setStrokeWidth(1.5);
+            
+            String ruta;
 
             switch (i) {
                 case 0:
-                    ficha.setFill(new ImagePattern(
-                        new Image(getClass().getResource("/imatges/skipper.jpg").toExternalForm())));
+                    ruta = "/imatges/skipper.jpg";
                     break;
                 case 1:
-                    ficha.setFill(new ImagePattern(
-                        new Image(getClass().getResource("/imatges/kowalski.jpg").toExternalForm())));
+                    ruta = "/imatges/kowalski.jpg";
                     break;
                 case 2:
-                    ficha.setFill(new ImagePattern(
-                        new Image(getClass().getResource("/imatges/rico.jpg").toExternalForm())));
+                    ruta = "/imatges/rico.jpg";
                     break;
                 case 3:
-                    ficha.setFill(new ImagePattern(
-                        new Image(getClass().getResource("/imatges/private.jpg").toExternalForm())));
+                    ruta = "/imatges/private.jpg";
                     break;
                 default:
-                    ficha.setFill(new ImagePattern(
-                        new Image(getClass().getResource("/imatges/focaPingu.jpg").toExternalForm())));
+                    ruta = "/imatges/focaPingu.jpg";
                     break;
             }
 
+            Image img = new Image(getClass().getResource(ruta).toExternalForm());
+
+            //ajusta la imagen al círculo
+            
+            ficha.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+            ficha.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.5, 0, 2);");      
             fichasVista.add(ficha);
         }
+        	
     }
 
 	private void actualizarPosicionesVisuales() {
@@ -305,25 +310,48 @@ public class PantallaJuego {
 		for (int i = 0; i < jugadores.size(); i++) {
 			Jugador j = jugadores.get(i);
 			Circle ficha = fichasVista.get(i);
+			Jugador actual = gestorPartida.getPartida().getJugadorActual();
 
+			// estilo normal para resetear
+			ficha.setStroke(Color.web("#2c3e50"));
+			ficha.setStrokeWidth(1.5);
+			ficha.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.5, 0, 2);");
+
+			// si es el jugador actual lo resalta
+			if (j == actual) {
+				ficha.setStroke(Color.web("#FFD700")); // dorado  suave
+				ficha.setStrokeWidth(2.5);
+				ficha.setStyle("-fx-effect: dropshadow(gaussian, rgba(255,215,0,0.6), 8, 0.5, 0, 0);");
+			}
 			if (j.getPosicion() < 0) {
 				mini.add(ficha, i % 2, i / 2);
-			} else {
-				StackPane celda = casillasVista.get(j.getPosicion());
+			}else {
+			    StackPane celda = casillasVista.get(j.getPosicion());
 
-				//  separar fichas dentro de la casilla
-				ficha.setTranslateX((i % 2) * 20 - 10);
-				ficha.setTranslateY((i / 2) * 20 - 10);
+			    // reset posición por si venía de otra casilla
+			    ficha.setTranslateX(0);
+			    ficha.setTranslateY(0);
 
-				celda.getChildren().add(ficha);
+			    // colocar bien las fichas dentro de la celda
+			    StackPane.setAlignment(ficha, Pos.CENTER);
 
-				if (j.getPosicion() == ultimaPosicionAnimada) {
-					animarFicha(ficha);
-				}
+			    double[][] posiciones = {
+			    	    {-10, -10},
+			    	    {10, -10},
+			    	    {-10, 10},
+			    	    {10, 10}
+			    	};
 
-				if (j.getPosicion() == ultimaPosicionAnimada) {
-					animarFicha(ficha);
-				}
+			    if (i < posiciones.length) {
+			        ficha.setTranslateX(posiciones[i][0]);
+			        ficha.setTranslateY(posiciones[i][1]);
+			    }
+
+			    celda.getChildren().add(ficha); 
+
+			    if (j.getPosicion() == ultimaPosicionAnimada) {
+			        animarFicha(ficha); 
+			    }
 			}
 		}
 
