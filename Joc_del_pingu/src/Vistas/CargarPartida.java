@@ -74,7 +74,14 @@ public class CargarPartida {
 
         card.setOnMouseClicked(e -> {
             seleccionar(card);
-            cargarPartida(p.getId());
+            try {
+            	
+				cargarPartida(GestorBBDD.cargarTablero(p.getId()));
+				
+			} catch (IOException e1) {
+				
+				e1.printStackTrace();
+			}
         });
 
         return contenedor;
@@ -137,9 +144,16 @@ public class CargarPartida {
         selectedCard = card;
     }
 
-    private void cargarPartida(int id) {
-        System.out.println("Cargar partida " + id);
-    }
+    private void cargarPartida(Partida partida) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("PantallaJuego.fxml"));
+    	Parent root = loader.load();
+
+    	PantallaJuego controller = loader.getController();
+    	controller.cargarPartida(partida);
+
+    	Stage stage = (Stage) contenedorPartidas.getScene().getWindow();
+    	stage.setScene(new Scene(root));
+    	stage.show();    }
 
     @FXML
     private void volverPantallaModoJuego(ActionEvent event) {

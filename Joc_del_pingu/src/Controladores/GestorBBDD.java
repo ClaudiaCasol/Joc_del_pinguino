@@ -72,7 +72,7 @@ public class GestorBBDD {
 			varray+= " '" + casillasBBDD.get(i) + "',";
 		}
 		varray += " '" + casillasBBDD.get(49) + "'";
-		String sql = "INSERT INTO PARTIDA VALUES(seq_tablero.NEXTVAL, "+ turnos_tablero + ", " + turnos_tablero + ", casillas_varray (" + varray + "), SYSDATE, 1)";
+		String sql = "INSERT INTO PARTIDA VALUES(seq_tablero.NEXTVAL, "+ turnos_tablero + ", " + posActual + ", casillas_varray (" + varray + "), SYSDATE)";
 		System.out.println(sql);
 
 		BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM PARTIDA",
@@ -84,9 +84,9 @@ public class GestorBBDD {
 		for(int i = 0; i < t1.getJugadores().size(); i++) {
 			if(t1.getJugadores().get(i) instanceof Foca) {
 				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
-						+ t1.getJugadores().get(i).getColor() + "', 'SI', " + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
+						+ t1.getJugadores().get(i).getColor() + "', 'SI', " 
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
-						", seq_tablero.CURRVAL)";
+						", seq_tablero.CURRVAL, 1, "+ i +")";
 
 				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM JUGADOR",
 						new String[]{"TOTAL"});
@@ -123,10 +123,14 @@ public class GestorBBDD {
 				BBDD.insert(con, sqlInventario);
 				
 			} else {
+				
+				Pinguino p = (Pinguino)t1.getJugadores().get(i);
+				int id = obtenerIdUsuario(p.getUsuario());
+				
 				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
-						+ t1.getJugadores().get(i).getColor() + "', 'SI', " + t1.getJugadores().get(i).getPartidasJugadas() + ", " 
+						+ t1.getJugadores().get(i).getColor() + "', 'NO', "
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
-						", seq_tablero.CURRVAL)";
+						", seq_tablero.CURRVAL,"+ id + ",  " + i+")";
 
 				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM JUGADOR",
 						new String[]{"TOTAL"});
@@ -167,13 +171,13 @@ public class GestorBBDD {
 
 	}
 
-	public Partida cargarTablero(int indice) {
+	public static Partida cargarTablero(int indice) {
 		con = BBDD.conectarBaseDatos();
 		
 		//HACEMOS EL SELECT QUE NECESITAMOS DE LA TABLA TABLERO
 		ArrayList<LinkedHashMap<String, String>> partida = //se guarda en un arraylist hashmap por si el select te devuelve mÃ¡s de un resultado.
 				
-				BBDD.select(con, "SELECT ID_PARTIDA, TURNOS, JUGADOR_ACTUAL, FECHA_PARTIDA FROM PARTIDA WHERE ID_TABLERO = " + indice);
+				BBDD.select(con, "SELECT ID_PARTIDA, TURNOS, JUGADOR_ACTUAL, FECHA_PARTIDA FROM PARTIDA WHERE ID_PARTIDA = " + indice);
 		
 		LinkedHashMap<String, String> fila = partida.get(0); //sirve para estructurar en una tabla el resultado de un select.
 
@@ -186,10 +190,10 @@ public class GestorBBDD {
 		
 		
 		try (Statement st = con.createStatement(); //el statement y resultset son librerias sql.
-				ResultSet rs = st.executeQuery("SELECT CASILLAS FROM PARTIDA WHERE ID_PARTIDA = " + indice)) { //devuelve el resultado de la query de los selects.
+				ResultSet rs = st.executeQuery("SELECT TABLERO FROM PARTIDA WHERE ID_PARTIDA = " + indice)) { //devuelve el resultado de la query de los selects.
 
 			if (rs.next()) { //si existe entra en el if.
-				Array array = rs.getArray("CASILLAS"); //guardas en el array de librerias sql un array.
+				Array array = rs.getArray("TABLERO"); //guardas en el array de librerias sql un array.
 				ArrayList<String> casillas = new ArrayList<>();
 				Object[] casillaSQL = (Object[]) array.getArray();
 
@@ -229,14 +233,14 @@ public class GestorBBDD {
 		ArrayList<Jugador>jugadores = new ArrayList<>();
 		
 		ArrayList<LinkedHashMap<String, String>> jugador =
-				BBDD.select(con, "SELECT * FROM JUGADOR WHERE ID_PARTIDA = " + indice + " ORDER BY TURNO ASC");
+				BBDD.select(con, "SELECT * FROM JUGADOR WHERE ID_PARTIDA = " + indice + " ORDER BY TURNOS ASC");
 		
 		for(LinkedHashMap<String, String> tabla : jugador) { 
 			
 			int idJugador = Integer.parseInt(tabla.get("ID_JUGADOR"));
 			
 			ArrayList<LinkedHashMap<String, String>> inventario =
-					BBDD.select(con, "SELECT NUM_PECES, NUM_BOLAS, NUM_DADOR, NUM_DADOL FROM INVENTARIO WHERE ID_JUGADOR = " + idJugador);
+					BBDD.select(con, "SELECT NUM_PECES, NUM_BOLANIEVE, NUM_DADO_RAPIDO, NUM_DADO_LENTO, NUM_DADO_NORMAL FROM INVENTARIO WHERE ID_JUGADOR = " + idJugador);
 			
 			//Realizamos para cada jugador un SELECT de su inventario
 			LinkedHashMap<String, String> Objeto = inventario.get(0);
@@ -247,19 +251,24 @@ public class GestorBBDD {
 				peces.add(new Pez());
 			}
 			
-			int num_bolas = Integer.parseInt(Objeto.get("NUM_BOLAS"));
+			int num_bolas = Integer.parseInt(Objeto.get("NUM_BOLANIEVE"));
 			ArrayList<BolaNieve> bolas = new ArrayList<>();
 			for(int i = 0; i < num_bolas; i++) {
 				bolas.add(new BolaNieve());
 			}
 			
-			int num_dador = Integer.parseInt(Objeto.get("NUM_DADOR"));
+			int num_dador = Integer.parseInt(Objeto.get("NUM_DADO_RAPIDO"));
 			ArrayList<Dado> dados = new ArrayList<>();
 			for(int i = 0; i < num_dador; i++) {
 				dados.add(new Dado_rapido());
 			}
 			
-			int num_dadoL = Integer.parseInt(Objeto.get("NUM_DADOL"));
+			int num_dadon = Integer.parseInt(Objeto.get("NUM_DADO_NORMAL"));
+			for(int i = 0; i < num_dadon; i++) {
+				dados.add(new Dado());
+			}
+			
+			int num_dadoL = Integer.parseInt(Objeto.get("NUM_DADO_LENTO"));
 			for(int i = 0; i < num_dadoL; i++) {
 				dados.add(new Dado_lento());
 			}
@@ -271,29 +280,30 @@ public class GestorBBDD {
 			if(foca.equals("SI")) {
 				
 				int posicion = Integer.parseInt(tabla.get("POSICION"));
-				int turno = Integer.parseInt(tabla.get("TURNO"));
+				int turno = Integer.parseInt(tabla.get("TURNOS"));
 				
 				String nombre = tabla.get("NOMBRE");
 				String color = tabla.get("COLOR");
 				
-				int turnosPerdidos = Integer.parseInt(tabla.get("TURNOSPERDIDOS"));
-				int partidasJugadas = Integer.parseInt(tabla.get("PARTIDASJUGADAS"));
+				int turnosPerdidos = Integer.parseInt(tabla.get("TURNOS_PERDIDOS"));
 				
-				Foca nuevo = new Foca(posicion, nombre, color, inventarios, turnosPerdidos, partidasJugadas, turno);
+				Foca nuevo = new Foca(posicion, nombre, color, inventarios, turnosPerdidos, turno);
 				jugadores.add(nuevo);
 
 			} else {
 				
 				int posicion = Integer.parseInt(tabla.get("POSICION"));
-				int turno = Integer.parseInt(tabla.get("TURNO"));
+				int turno = Integer.parseInt(tabla.get("TURNOS"));
 				
 				String nombre = tabla.get("NOMBRE");
 				String color = tabla.get("COLOR");
 				
-				int turnoPerdido = Integer.parseInt(tabla.get("TURNOSPERDIDOS"));
-				int partidasJugadas = Integer.parseInt(tabla.get("PARTIDASJUGADAS"));
+				int turnoPerdido = Integer.parseInt(tabla.get("TURNOS_PERDIDOS"));
+				int idUsuario = Integer.parseInt(tabla.get("ID_USUARIO"));
 				
-				Pinguino nuevo = new Pinguino(posicion, nombre, color, inventarios, turnoPerdido, partidasJugadas, turno);
+				Usuario usuario = obtenerUsuario(idUsuario);
+				
+				Pinguino nuevo = new Pinguino(posicion, nombre, color, inventarios, turnoPerdido, turno, usuario);
 				jugadores.add(nuevo);
 			}
 
@@ -331,10 +341,7 @@ public class GestorBBDD {
 	    return lista;
 	}
 
-	public Partida cargarBBDD(int id) {
-		// TODO: implementar carga desde base de datos
-		return null;
-	}
+
 	
 	
 	public static boolean validarUsuario(Usuario usuario) {
@@ -358,6 +365,55 @@ public class GestorBBDD {
 	    
 	    }
 	    
+	}
+	
+	public static int obtenerIdUsuario(Usuario usuario) {
+
+	    String sql = "SELECT ID_USUARIO " +
+	                 "FROM USUARIO " +
+	                 "WHERE NOMBRE = ? ";
+
+	    try (Connection con = BBDD.conectarBaseDatos();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setString(1, usuario.getNombre());
+
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getInt("ID_USUARIO");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return -1; // no encontrado
+	}
+	
+	public static Usuario obtenerUsuario(int idUsuario) {
+
+	    String sql = "SELECT NOMBRE, CONTRASEÑA FROM USUARIO WHERE ID_USUARIO = ?";
+
+	    try (Connection con = BBDD.conectarBaseDatos();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setInt(1, idUsuario);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            String nombre = rs.getString("NOMBRE");
+	            String contrasena = rs.getString("CONTRASENA");
+
+	            return new Usuario(nombre, contrasena);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return null; // no encontrado
 	}
 	
 	public static boolean crearUsuario(Usuario u) {

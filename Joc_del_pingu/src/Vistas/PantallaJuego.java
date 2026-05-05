@@ -1,6 +1,8 @@
 package Vistas;
 
 import java.util.ArrayList;
+
+import Controladores.GestorBBDD;
 import Controladores.GestorPartida;
 import Modelos.Agujero;
 import Modelos.AudioManager;
@@ -22,7 +24,11 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextArea;
@@ -37,6 +43,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 
@@ -80,6 +87,7 @@ public class PantallaJuego {
 	private String tipoDadoSeleccionado = "normal";
 	private Tooltip tooltipInventari = new Tooltip();
 	private ArrayList<Usuario> usuarios;
+	private Partida partida;
 
 	// mostra el gel trencat només el torn en què s'activa
 	private int sueloQuebradizoActivo = -1;
@@ -89,18 +97,29 @@ public class PantallaJuego {
 
 	@FXML
 	private void handleNewGame(ActionEvent event) {
-	    System.out.println("Nuevo juego");
+	    prepararPantalla();
 	}
 
 	@FXML
 	private void handleSaveGame(ActionEvent event) {
-	    System.out.println("Guardar partida");
-	}
+		GestorBBDD.guardar(gestorPartida.getPartida());	}
 
 	@FXML
 	private void handleLoadGame(ActionEvent event) {
-	    System.out.println("Cargar partida");
-	}
+		
+		try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/CargarPartida.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) tablero.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Cargar Partida");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	@FXML
 	private void handleQuitGame(ActionEvent event) {
@@ -135,6 +154,23 @@ public class PantallaJuego {
 		audio.reproducirMusica("/audio/tablero.mp3");
 		afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
 
+	}
+	
+	//Creamos la función equivalente apreparar pantalla pero para la funcionalidad de cargar partida desde BBDD
+	public void cargarPartida(Partida partida) {
+	    gestorPartida = new GestorPartida();
+	    gestorPartida.setPartida(partida);
+
+	    generarTableroVisual();
+	    crearFichas();
+	    actualizarPosicionesVisuales();
+	    actualizarTextoTurno();
+	    actualizarTooltipInventario();
+	    
+	    inventarioButton.setTooltip(tooltipInventari);
+		actualizarTooltipInventario();
+		audio.reproducirMusica("/audio/tablero.mp3");
+		afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
 	}
 
 	// Boton para parar el sonido
