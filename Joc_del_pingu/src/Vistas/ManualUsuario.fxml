@@ -3,72 +3,44 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15.0" alignment="CENTER"
-      style="-fx-background-color: #e0f7fa; -fx-padding: 20;"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Vistas.ManualUsuario">
-
-    <Label text="📖 Manual d'usuari — El Joc d'en Pingu"
-           style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0d3b66;"/>
-
-    <TextArea editable="false" wrapText="true"
-              prefHeight="380" prefWidth="540"
-              style="-fx-font-size: 13; -fx-background-color: #f0fbff;
-                     -fx-border-radius: 8; -fx-background-radius: 8;">
-        <text>
-🐧 OBJECTIU DEL JOC
-El Joc d'en Pingu és un joc de taula inspirat en les Escales i Tobogans. El primer pingüí que arribi a la casella final GUANYA!
-
-📋 COM ES JUGA
-• A cada torn, el jugador tira el dau i avança el nombre de caselles indicades.
-• Si arribes a una casella especial, es produirà un efecte.
-• Pots usar objectes de l'inventari al teu torn.
-
-🗺️ TIPUS DE CASELLES
-• 🔵 Forat al gel: Et porta al forat anterior. Si ets al primer, tornes al principi.
-• 🛷 Trineu: Et porta al trineu següent del taulell.
-• 🐻 Ós: Si ets atacat, tornes a l'inici. Pots subornar-lo amb un peix!
-• ❓ Interrogant: Activa un esdeveniment aleatori.
-• 🧊 Terra trencat: Efecte segons l'inventari que portes.
-
-🎒 INVENTARI (màxims per jugador)
-• 🎲 Fins a 3 daus (normal, ràpid o lent)
-• ❄️ Fins a 6 boles de neu (per atacar altres jugadors)
-• 🐟 Fins a 2 peixos (per subornar l'ós)
-
-❄️ GUERRA DE BOLES DE NEU
-• Si dos jugadors cauen a la mateixa casella, es produeix una guerra.
-• Guanya qui tingui més boles de neu.
-• El perdedor retrocedeix tantes caselles com la diferència de boles.
-• En cas d'empat, ningú retrocedeix.
-• Tots dos perden les seves boles de neu.
-
-🦭 LA FOCA CPU (mode 4 jugadors)
-• La foca és controlada per la CPU i intenta dificultar el teu avanç.
-• Si passa per la teva casella, perds la meitat de l'inventari.
-• Si coincideix amb tu, t'envia al forat anterior.
-• Usa un peix per bloquejar-la durant 2 torns!
-
-🎲 TIPUS DE DAU
-• Normal: tira entre 1 i 6.
-• Ràpid: avança entre 5 i 10 caselles (probabilitat baixa d'obtenir-lo).
-• Lent: tira entre 1 i 3 (fàcil d'obtenir).
-
-💡 CONSELLS
-• Guarda els peixos per quan l'ós t'atrapi.
-• Acumula boles de neu abans d'enfrontar-te a altres jugadors.
-• El trineu és el teu millor aliat per avançar ràpid!
-        </text>
-    </TextArea>
-
-    <Button fx:id="btnTancar" text="Tancar"
-            onAction="#handleTancar"
-            prefWidth="150" prefHeight="38"
-            style="-fx-background-color: #0077b6; -fx-text-fill: white;
-                   -fx-font-size: 13; -fx-background-radius: 8;"/>
-
-</VBox>
+<BorderPane fx:controller="Vistas.ManualUsuario" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="876.0" style="-fx-background-color: linear-gradient(to bottom, #e8f9ff, #bfe9ff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox alignment="CENTER" prefHeight="98.0" prefWidth="634.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0b3d91;" text="🐧  Manual de usuario" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <ScrollPane fitToWidth="true" prefHeight="330.0" prefWidth="663.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox alignment="TOP_CENTER" prefHeight="503.0" prefWidth="861.0" spacing="20.0" style="-fx-background-color: rgba(255,255,255,0.6); -fx-background-radius: 20;">
+               <children>
+                  <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0b3d91;" text="❄ OBJETIVO" />
+                  <Label alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="Llega a la última casilla antes que los demás jugadores." wrapText="true" />
+                  <Label text="🎮 MODOS DE JUEGO" />
+                  <Label text="- Multijugador: mínimo 2 jugadores- 4 jugadores + CPU (foca)" wrapText="true" />
+                  <Label text="🎲 CÓMO JUGAR" />
+                  <Label text="Lanza el dado para avanzar y usa los objetos del inventario." />
+                  <Label layoutX="26.0" layoutY="72.0" text=" 🐻 CASILLAS  " />
+                  <Label text="Hay diferentes tipos de casillas, algunas te ayudarán a avanzar y en otras vas a retroceder." />
+                  <Label layoutX="26.0" layoutY="64.0" text="🐟 OBJETOS" />
+                  <Label text="Durante la partida vas a encontrar diferentes objetos, coge todos los que puedas y úsalos en el momento adecuado." />
+                  <Button mnemonicParsing="false" onAction="#volver" style="-fx-background-color: #7fb3d5; -fx-background-radius: 20;" text="Volver">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
