@@ -2,30 +2,49 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #e8f9ff, #bfe9ff);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vistas.PantallaModoJuego">
+<VBox alignment="CENTER" spacing="20.0"
+      style="-fx-background-color: linear-gradient(#bde0fe, #90dbf4);"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Vistas.PantallaModoJuego">
 
-   <center>
-      <VBox alignment="CENTER" spacing="24" BorderPane.alignment="CENTER">
-         <children>
-            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0b3d91;" text="🐧 Selecciona un modo de juego" />
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+    </padding>
 
-            <Label style="-fx-font-size: 15px; -fx-text-fill: #103a6d;" text="Número de jugadores" />
+    <Label text="El Joc d'en Pingu 🐧"
+           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #0d3b66;"/>
 
-            <ComboBox fx:id="comboJugadores" prefWidth="230.0" style="-fx-background-color: #9fdfff; -fx-font-size: 14px; -fx-background-radius: 16;" />
+    <Label fx:id="lblInfo"
+           text="Selecciona el nombre de jugadors"
+           style="-fx-font-size: 16; -fx-text-fill: #1d6fa4;"/>
 
-            <Button onAction="#iniciarPartida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" text="Empezar partida" />
-            <Button text="Cargar Partida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" onAction="#irCargarPartida" />
-            <Button layoutX="225.0" layoutY="267.0" onAction="#irManual" prefHeight="45.0" prefWidth="227.0" style="-fx-background-color: #7fb3d5; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20 10 20; -fx-cursor: hand; -fx-opacity: 0.9;" text="Manual de usuario" />
-         </children>
+    <Button fx:id="btn2Jugadors" text="2 Jugadors"
+            onAction="#handle2Jugadors"
+            prefWidth="220" prefHeight="45"
+            style="-fx-background-color: #0077b6; -fx-text-fill: white;
+                   -fx-font-size: 14; -fx-background-radius: 10;"/>
 
-         <padding>
-            <Insets bottom="20" left="20" right="20" top="20" />
-         </padding>
-      </VBox>
-   </center>
-</BorderPane>
+    <Button fx:id="btn3Jugadors" text="3 Jugadors"
+            onAction="#handle3Jugadors"
+            prefWidth="220" prefHeight="45"
+            style="-fx-background-color: #0096c7; -fx-text-fill: white;
+                   -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+    <Button fx:id="btn4Jugadors" text="4 Jugadors + CPU 🦭"
+            onAction="#handle4Jugadors"
+            prefWidth="220" prefHeight="45"
+            style="-fx-background-color: #00b4d8; -fx-text-fill: white;
+                   -fx-font-size: 14; -fx-background-radius: 10;"/>
+
+    <Button fx:id="btnManual" text="📖 Manual d'usuari"
+            onAction="#handleManual"
+            prefWidth="220" prefHeight="40"
+            style="-fx-background-color: #48cae4; -fx-text-fill: #0d3b66;
+                   -fx-font-size: 13; -fx-background-radius: 10;
+                   -fx-border-color: #0077b6; -fx-border-radius: 10; -fx-border-width: 1.5;"/>
+
+</VBox>

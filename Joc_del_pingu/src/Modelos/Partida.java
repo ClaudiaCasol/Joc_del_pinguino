@@ -196,4 +196,19 @@ public class Partida {
     public void setGanador(Jugador ganador) {
         this.ganador = ganador;
     }
+    public Partida() {
+        this.jugadores = new ArrayList<>();
+        this.jugadorActual = 0;
+        this.turnos = 0;
+        this.finalizada = false;
+        this.ganador = null;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
 }

@@ -1,100 +1,89 @@
 package Vistas;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import Modelos.Usuario;
 
 public class PantallaModoJuego {
 
-    @FXML
-    private ComboBox<String> comboJugadores;
+    @FXML private Button btn2Jugadors;
+    @FXML private Button btn3Jugadors;
+    @FXML private Button btn4Jugadors;
+    @FXML private Button btnManual;
+    @FXML private Label  lblInfo;
 
     @FXML
     private void initialize() {
-        comboJugadores.setItems(FXCollections.observableArrayList(
-                "2 jugadores",
-                "3 jugadores",
-                "4 jugadores + CPU"
-        ));
-
-        comboJugadores.setValue("2 jugadores");
+        if (lblInfo != null) {
+            lblInfo.setText("Selecciona el nombre de jugadors");
+        }
     }
 
     @FXML
-    private void iniciarPartida(ActionEvent event) {
-        try {
-            int numeroJugadores = obtenerNumeroJugadores();
+    private void handle2Jugadors(ActionEvent event) {
+        irAPantallaLogin(event, 2);
+    }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/PantallaMenu.fxml"));
+    @FXML
+    private void handle3Jugadors(ActionEvent event) {
+        irAPantallaLogin(event, 3);
+    }
+
+    @FXML
+    private void handle4Jugadors(ActionEvent event) {
+        irAPantallaLogin(event, 4);
+    }
+
+    @FXML
+    private void handleManual(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/Vistas/ManualUsuario.fxml")
+            );
+            Parent root = loader.load();
+
+            Stage stageManual = new Stage();
+            stageManual.initModality(Modality.APPLICATION_MODAL);
+            stageManual.setTitle("Manual d'usuari — El Joc d'en Pingu");
+            stageManual.setScene(new Scene(root, 600, 500));
+            stageManual.setResizable(false);
+            stageManual.showAndWait();
+
+        } catch (IOException e) {
+            System.out.println("Error obrint el manual d'usuari: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void irAPantallaLogin(ActionEvent event, int numJugadors) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/Vistas/PantallaMenu.fxml")
+            );
             Parent root = loader.load();
 
             PantallaMenu controller = loader.getController();
-            controller.setnumJugadores(numeroJugadores);
+            controller.setnumJugadores(numJugadors);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Pantalla de Login");
+            stage.setTitle("Inici de sessió");
             stage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println("Error carregant la pantalla de login: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void irManual(ActionEvent event) {
-
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/ManualUsuario.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Manual de usuario");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @FXML
-    private void irCargarPartida(ActionEvent event) {
-         try {
-
-             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/CargarPartida.fxml"));
-             Parent root = loader.load();
-
-             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-             stage.setScene(new Scene(root));
-             stage.setTitle("Cargar Partida");
-
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-     }
-
-
-    private int obtenerNumeroJugadores() {
-        String opcion = comboJugadores.getValue();
-
-        switch (opcion) {
-            case "2 jugadores":
-                return 2;
-            case "3 jugadores":
-                return 3;
-            case "4 jugadores + CPU":
-                return 4;
-            default:
-                return 2;
         }
     }
 }

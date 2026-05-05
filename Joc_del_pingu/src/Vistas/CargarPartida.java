@@ -2,7 +2,6 @@ package Vistas;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import Controladores.GestorBBDD;
 import Modelos.Partida;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,8 +25,8 @@ public class CargarPartida {
     @FXML
     public void initialize() {
 
-        GestorBBDD gestor = new GestorBBDD();
-        ArrayList<Partida> partidas = gestor.obtenerPartidas();
+        // Obtenir les partides guardades a la base de dades
+        ArrayList<Partida> partidas = obtenerPartidasGuardadas();
 
         contenedorPartidas.getChildren().clear();
 
@@ -45,6 +44,42 @@ public class CargarPartida {
 
             contenedorPartidas.getChildren().add(card);
         }
+    }
+
+    /**
+     * Obté les partides guardades des de la base de dades.
+     * Retorna una llista buida si no hi ha connexió o no existeix cap partida.
+     *
+     * @return ArrayList amb les partides trobades.
+     */
+    private ArrayList<Partida> obtenerPartidasGuardadas() {
+        ArrayList<Partida> partidas = new ArrayList<>();
+
+        try {
+            java.sql.Connection con = Controladores.BBDD.conectarBaseDatos();
+
+            if (con == null) {
+                System.out.println("No s'ha pogut connectar a la BBDD per carregar partides.");
+                return partidas;
+            }
+
+            String sql = "SELECT ID_PARTIDA, DATA_PARTIDA FROM PARTIDA WHERE ACTIVA = 1 ORDER BY DATA_PARTIDA DESC";
+            ArrayList<java.util.LinkedHashMap<String, String>> resultats = Controladores.BBDD.select(con, sql);
+
+            for (java.util.LinkedHashMap<String, String> fila : resultats) {
+                Partida p = new Partida();
+                p.setId(Integer.parseInt(fila.get("ID_PARTIDA")));
+                p.setFecha(fila.get("DATA_PARTIDA"));
+                partidas.add(p);
+            }
+
+            Controladores.BBDD.cerrar(con);
+
+        } catch (Exception e) {
+            System.out.println("Error carregant partides: " + e.getMessage());
+        }
+
+        return partidas;
     }
 
     private VBox crearCard(Partida p) {
@@ -152,7 +187,6 @@ public class CargarPartida {
             stage.setScene(scene);
             stage.setMinWidth(1000);
             stage.setMinHeight(700);
-            
 
             stage.show();
 
