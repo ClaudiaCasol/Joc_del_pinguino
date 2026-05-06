@@ -332,7 +332,7 @@ public class GestorBBDD {
 	        int jugadorActual = Integer.parseInt(fila.get("JUGADOR_ACTUAL"));
 	        String fecha = fila.get("FECHA_PARTIDA");
 
-	        //aquÃ­ NO reconstruyes todo
+	        
 	        Partida p = new Partida(id, new ArrayList<>(), new Tablero(), fecha, turnos, jugadorActual);
 
 	        lista.add(p);
