@@ -20,6 +20,9 @@
 
             <Button onAction="#iniciarPartida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" text="Empezar partida" />
             <Button text="Cargar Partida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" onAction="#irCargarPartida" />
+
+
+			<Button layoutX="520.0" layoutY="420.0" mnemonicParsing="false" onAction="#irEstadisticas" prefHeight="48.0" prefWidth="250.0" text="Estadísticas" style="-fx-background-color: #8fc6df; -fx-text-fill: #0b3d91; -fx-font-size: 18; -fx-font-weight: bold; -fx-background-radius: 18; -fx-cursor: hand;" />
             <Button layoutX="225.0" layoutY="267.0" onAction="#irManual" prefHeight="45.0" prefWidth="227.0" style="-fx-background-color: #7fb3d5; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20 10 20; -fx-cursor: hand; -fx-opacity: 0.9;" text="Manual de usuario" />
          </children>
 

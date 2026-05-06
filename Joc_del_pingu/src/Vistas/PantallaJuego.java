@@ -481,7 +481,7 @@ public class PantallaJuego {
 		tipoDadoSeleccionado = "lento";
 		dadoMenu.setText("Tirar lento");
 	}
-
+	
 	private void jugarTurno() {
 		if (gestorPartida == null || gestorPartida.getPartida() == null) {
 			return;
