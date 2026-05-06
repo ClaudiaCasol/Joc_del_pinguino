@@ -1,5 +1,7 @@
 package Vistas;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -81,6 +83,40 @@ public class PantallaModoJuego {
              e.printStackTrace();
          }
      }
+    
+ @FXML
+ private void irEstadisticas(ActionEvent event) {
+
+     try {
+
+         FXMLLoader loader = new FXMLLoader(
+                 getClass().getResource("/Vistas/Estadisticas.fxml")
+         );
+
+         Parent root = loader.load();
+
+         Estadisticas controller = loader.getController();
+
+         // PASAMOS LOS USUARIOS REALES
+         // de momento vacío hasta conectar partidas/BBDD
+
+         controller.setUsuarios(new ArrayList<>());
+
+         Stage stage = (Stage)
+                 ((Node) event.getSource())
+                         .getScene()
+                         .getWindow();
+
+         stage.setScene(new Scene(root));
+
+         stage.setTitle("Estadísticas");
+
+         stage.show();
+
+     } catch (Exception e) {
+         e.printStackTrace();
+     }
+ }
 
 
     private int obtenerNumeroJugadores() {

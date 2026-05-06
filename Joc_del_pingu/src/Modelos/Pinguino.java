@@ -11,8 +11,8 @@ public class Pinguino extends Jugador {
           
         }
      
-     public Pinguino(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int partidasJugadas, int turno, Usuario usuario) {
-            super(posicion, nombre, color, inventario, turnosPerdidos, partidasJugadas, turno);
+     public Pinguino(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int turno, Usuario usuario) {
+            super(posicion, nombre, color, inventario, turnosPerdidos, turno);
             this.usuario = usuario;
         }
 
@@ -51,5 +51,11 @@ public class Pinguino extends Jugador {
             return "Pinguino " + getNombre() +
                    " (" + getColor() + ") - Posición: " +
                    getPosicion();
+        }
+        
+        public Usuario getUsuario() {
+            
+            return this.usuario;
+            
         }
 }

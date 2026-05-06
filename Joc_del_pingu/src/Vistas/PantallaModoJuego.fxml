@@ -12,6 +12,8 @@
    <center>
       <VBox alignment="CENTER" spacing="24" BorderPane.alignment="CENTER">
          <children>
+         
+         <Button layoutX="1010.0" layoutY="35.0" mnemonicParsing="false" onAction="#irEstadisticas" prefHeight="34.0" prefWidth="155.0" text="🏆 Estadísticas" style="-fx-background-color: rgba(255,255,255,0.28); -fx-text-fill: #0b3d91; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 18; -fx-cursor: hand; -fx-border-color: rgba(11,61,145,0.12); -fx-border-radius: 18;" />
             <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0b3d91;" text="🐧 Selecciona un modo de juego" />
 
             <Label style="-fx-font-size: 15px; -fx-text-fill: #103a6d;" text="Número de jugadores" />
@@ -20,6 +22,8 @@
 
             <Button onAction="#iniciarPartida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" text="Empezar partida" />
             <Button text="Cargar Partida" style="-fx-background-color: #9fdfff; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 24 10 24; -fx-cursor: hand;" onAction="#irCargarPartida" />
+
+			
             <Button layoutX="225.0" layoutY="267.0" onAction="#irManual" prefHeight="45.0" prefWidth="227.0" style="-fx-background-color: #7fb3d5; -fx-text-fill: #103a6d; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20 10 20; -fx-cursor: hand; -fx-opacity: 0.9;" text="Manual de usuario" />
          </children>
 

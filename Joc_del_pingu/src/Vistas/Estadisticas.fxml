@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="800.0"
+            prefWidth="1280.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Vistas.Estadisticas">
+
+    <children>
+
+        <BorderPane prefHeight="800.0"
+                    prefWidth="1280.0"
+                    style="-fx-background-color: linear-gradient(to bottom, #dff6ff, #8ecae6);">
+
+            <top>
+
+                <HBox alignment="CENTER_LEFT"
+                      spacing="20"
+                      style="-fx-background-color: linear-gradient(to right, #219ebc, #5fa8d3);
+                             -fx-padding: 18;
+                             -fx-border-color: rgba(255,255,255,0.15);
+                             -fx-border-width: 0 0 1 0;">
+
+                    <children>
+
+                        <Button fx:id="btnVolver"
+                                mnemonicParsing="false"
+                                onAction="#volverMenu"
+                                prefHeight="45"
+                                prefWidth="150"
+                                text="← VOLVER"
+                                style="-fx-background-color: #219ebc;
+                                       -fx-text-fill: white;
+                                       -fx-font-size: 16;
+                                       -fx-font-weight: bold;
+                                       -fx-background-radius: 14;
+                                       -fx-cursor: hand;" />
+
+                        <Text text="❄ CENTRO DE ESTADÍSTICAS"
+						      style="-fx-font-size: 32;
+						             -fx-font-weight: bold;
+						             -fx-fill: white;
+						             -fx-stroke: rgba(0,0,0,0.15);
+						             -fx-stroke-width: 1;" />
+
+                    </children>
+
+                    <padding>
+                        <Insets left="25" right="25"/>
+                    </padding>
+
+                </HBox>
+
+            </top>
+
+            <center>
+
+                <HBox spacing="25"
+                      alignment="CENTER"
+                      style="-fx-padding: 25;">
+
+                    <children>
+
+                        <VBox prefWidth="520"
+                              spacing="18"
+                              style="-fx-background-color: rgba(255,255,255,0.18);
+                                     -fx-background-radius: 25;
+                                     -fx-padding: 22;
+                                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20,0,0,5);">
+
+                            <children>
+
+                                <Text text="🏆 RANKING GLOBAL"
+                                      style="-fx-font-size: 24;
+                                             -fx-font-weight: bold;
+                                             -fx-fill: white;" />
+
+                                <Separator />
+
+                                <ScrollPane fitToWidth="true"
+                                            hbarPolicy="NEVER"
+                                            style="-fx-background: transparent;
+                                                   -fx-background-color: transparent;">
+
+                                    <content>
+
+                                        <VBox fx:id="rankingContainer"
+                                              spacing="15"
+                                              style="-fx-padding: 10;" />
+
+                                    </content>
+
+                                </ScrollPane>
+
+                            </children>
+
+                        </VBox>
+
+                        <VBox spacing="20"
+                              prefWidth="580">
+
+                            <HBox spacing="20">
+
+                                <StackPane prefWidth="280"
+                                           prefHeight="160"
+                                           style="-fx-background-color: rgba(255,255,255,0.22);
+                                                  -fx-background-radius: 24;
+                                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15,0,0,5);">
+
+                                    <children>
+
+                                        <VBox alignment="CENTER"
+                                              spacing="10">
+
+                                            <Text text="👑 RECORD"
+                                                  style="-fx-font-size: 22;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                            <Text fx:id="recordLabel"
+                                                  text="0"
+                                                  style="-fx-font-size: 54;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                        </VBox>
+
+                                    </children>
+
+                                </StackPane>
+
+                                <StackPane prefWidth="280"
+                                           prefHeight="160"
+                                           style="-fx-background-color: rgba(255,255,255,0.22);
+                                                  -fx-background-radius: 24;
+                                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15,0,0,5);">
+
+                                    <children>
+
+                                        <VBox alignment="CENTER"
+                                              spacing="10">
+
+                                            <Text text="📊 MEDIA"
+                                                  style="-fx-font-size: 22;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                            <Text fx:id="mediaLabel"
+                                                  text="0"
+                                                  style="-fx-font-size: 54;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                        </VBox>
+
+                                    </children>
+
+                                </StackPane>
+
+                            </HBox>
+                            
+                            <HBox spacing="20">
+
+                                <StackPane prefWidth="280"
+                                           prefHeight="160"
+                                           style="-fx-background-color: rgba(255,255,255,0.22);
+                                                  -fx-background-radius: 24;
+                                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15,0,0,5);">
+
+                                    <children>
+
+                                        <VBox alignment="CENTER"
+                                              spacing="10">
+
+                                            <Text text="❄ % SUPERADOS"
+                                                  style="-fx-font-size: 20;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                            <Text fx:id="porcentajeLabel"
+                                                  text="0%"
+                                                  style="-fx-font-size: 48;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                        </VBox>
+
+                                    </children>
+
+                                </StackPane>
+
+                                <StackPane prefWidth="280"
+                                           prefHeight="160"
+                                           style="-fx-background-color: rgba(255,255,255,0.22);
+                                                  -fx-background-radius: 24;
+                                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15,0,0,5);">
+
+                                    <children>
+
+                                        <VBox alignment="CENTER"
+                                              spacing="10">
+
+                                            <Text text="🎮 POSICIÓN"
+                                                  style="-fx-font-size: 20;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                            <Text fx:id="posicionLabel"
+                                                  text="#0"
+                                                  style="-fx-font-size: 54;
+                                                         -fx-fill: white;
+                                                         -fx-font-weight: bold;" />
+
+                                        </VBox>
+
+                                    </children>
+
+                                </StackPane>
+
+                            </HBox>
+
+                            <VBox spacing="12"
+                                  prefHeight="240"
+                                  style="-fx-background-color: rgba(255,255,255,0.18);
+                                         -fx-background-radius: 24;
+                                         -fx-padding: 20;
+                                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15,0,0,5);">
+
+                                <children>
+
+                                    <Text text="📜 ACTIVIDAD RECIENTE"
+                                          style="-fx-font-size: 22;
+                                                 -fx-font-weight: bold;
+                                                 -fx-fill: white;" />
+
+                                    <Separator />
+
+                                    <VBox fx:id="actividadContainer"
+                                          spacing="10" />
+
+                                </children>
+
+                            </VBox>
+
+                        </VBox>
+
+                    </children>
+
+                </HBox>
+
+            </center>
+
+        </BorderPane>
+
+    </children>
+
+</AnchorPane>

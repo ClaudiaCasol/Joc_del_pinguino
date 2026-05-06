@@ -2,54 +2,54 @@ package Modelos;
 
 public class Foca extends Jugador {
 
-    private boolean bloqueada = false;
-    private int turnosBloqueada = 0;
+	private boolean bloqueada = false;
+	private int turnosBloqueada = 0;
 
-    public Foca(int posicion, String nombre, String color, Inventario inventario) {
-        super(posicion, nombre, color, inventario);
-    }
-    
-    public Foca(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int partidasJugadas, int turno) {
-    	super(posicion, nombre, color, inventario, turnosPerdidos, partidasJugadas, turno);
-    }
+	public Foca(int posicion, String nombre, String color, Inventario inventario) {
+		super(posicion, nombre, color, inventario);
+	}
 
-    public boolean isBloqueada() {
-        return bloqueada;
-    }
+	public Foca(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int turno) {
+		super(posicion, nombre, color, inventario, turnosPerdidos, turno);
+	}
 
-    public int getTurnosBloqueada() {
-        return turnosBloqueada;
-    }
+	public boolean isBloqueada() {
+		return bloqueada;
+	}
 
-    public boolean estaBloqueada() {
-        return turnosBloqueada > 0;
-    }
+	public int getTurnosBloqueada() {
+		return turnosBloqueada;
+	}
 
-    public void bloquear(int turnos) {
-        if (turnos > 0) {
-            this.bloqueada = true;
-            this.turnosBloqueada += turnos;
-        }
-    }
+	public boolean estaBloqueada() {
+		return turnosBloqueada > 0;
+	}
 
-    public void reducirBloqueo() {
-        if (turnosBloqueada > 0) {
-            turnosBloqueada--;
-        }
-        if (turnosBloqueada == 0) {
-            bloqueada = false;
-        }
-    }
+	public void bloquear(int turnos) {
+		if (turnos > 0) {
+			this.bloqueada = true;
+			this.turnosBloqueada += turnos;
+		}
+	}
 
-    public void atacarJugador(Pinguino p) {
-    	p.getInventario().perderMitadInventario();
-    }
+	public void reducirBloqueo() {
+		if (turnosBloqueada > 0) {
+			turnosBloqueada--;
+		}
+		if (turnosBloqueada == 0) {
+			bloqueada = false;
+		}
+	}
 
-   
-    @Override
-    public String toString() {
-        return "Foca " + getNombre() +
-                " (" + getColor() + ") - Posición: " +
-                getPosicion() + " - Bloqueada: " + turnosBloqueada;
-    }
+	public void atacarJugador(Pinguino p) {
+		p.getInventario().perderMitadInventario();
+	}
+
+
+	@Override
+	public String toString() {
+		return "Foca " + getNombre() +
+				" (" + getColor() + ") - Posición: " +
+				getPosicion() + " - Bloqueada: " + turnosBloqueada;
+	}
 }
