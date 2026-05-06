@@ -1,12 +1,13 @@
 package Controladores;
 
 import java.sql.Array;
-
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -432,5 +433,152 @@ public class GestorBBDD {
 	        e.printStackTrace();
 	        return false;
 	    }
+	}
+	
+	public static int obtenerRecord() {
+
+	    int record = 0;
+
+	    try {
+
+	        Connection con = BBDD.conectarBaseDatos();
+
+	        CallableStatement cs = con.prepareCall( "{ ? = call record_victorias() }" );
+
+	        cs.registerOutParameter(1, Types.INTEGER);
+
+	        cs.execute();
+
+	        record = cs.getInt(1);
+
+	        cs.close();
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return record;
+	}
+	
+	public static double obtenerMedia() {
+
+	    double media = 0;
+
+	    try {
+
+	        Connection con = BBDD.conectarBaseDatos();
+
+	        CallableStatement cs = con.prepareCall( "{ ? = call media_victorias() }" );
+
+	        cs.registerOutParameter(1, Types.DOUBLE);
+
+	        cs.execute();
+
+	        media = cs.getDouble(1);
+
+	        cs.close();
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return media;
+	}
+	
+	public static double obtenerPorcentaje(int victorias) {
+
+	    double porcentaje = 0;
+
+	    try {
+
+	        Connection con = BBDD.conectarBaseDatos();
+
+	        CallableStatement cs = con.prepareCall( "{ ? = call porcentaje_inferior(?) }");
+
+	        cs.registerOutParameter(1, Types.DOUBLE);
+
+	        cs.setInt(2, victorias);
+
+	        cs.execute();
+
+	        porcentaje = cs.getDouble(1);
+
+	        cs.close();
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return porcentaje;
+	}
+	
+	public static int obtenerPosicion(String nombre) {
+
+	    int posicion = 0;
+
+	    try {
+
+	        Connection con = BBDD.conectarBaseDatos();
+
+	        CallableStatement cs = con.prepareCall("{ ? = call posicion_ranking(?) }");
+
+	        cs.registerOutParameter(1, Types.INTEGER);
+
+	        cs.setString(2, nombre);
+
+	        cs.execute();
+
+	        posicion = cs.getInt(1);
+
+	        cs.close();
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return posicion;
+	}
+	
+	public static ArrayList<String> obtenerRanking() {
+
+	    ArrayList<String> ranking = new ArrayList<>();
+
+	    try {
+
+	        Connection con = BBDD.conectarBaseDatos();
+
+	        String sql =
+	                "SELECT nombre, num_partidas_jugadas " +
+	                "FROM JUGADOR " +
+	                "ORDER BY num_partidas_jugadas DESC";
+
+	        PreparedStatement ps = con.prepareStatement(sql);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        while(rs.next()) {
+
+	            String texto =
+	                    rs.getString("nombre") +
+	                    " - " +
+	                    rs.getInt("num_partidas_jugadas") +
+	                    " partidas";
+
+	            ranking.add(texto);
+	        }
+
+	        rs.close();
+	        ps.close();
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return ranking;
 	}
 }

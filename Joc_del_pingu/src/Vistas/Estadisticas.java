@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import Controladores.GestorBBDD;
 
 public class Estadisticas {
 
@@ -56,37 +57,25 @@ public class Estadisticas {
 
 	private void generarRanking() {
 
-		rankingContainer.getChildren().clear();
+	    rankingContainer.getChildren().clear();
 
-		if (usuarios == null || usuarios.isEmpty()) {
+	    ArrayList<String> ranking =
+	            GestorBBDD.obtenerRanking();
 
-			Text vacio = new Text("No hay jugadores registrados");
-			vacio.setStyle(
-					"-fx-fill: white;" +
-							"-fx-font-size: 18;"
-					);
+	    int index = 0;
 
-			rankingContainer.getChildren().add(vacio);
+	    for(String texto : ranking) {
 
-			return;
-		}
+	        String icono = "🐧";
 
-		for (int i = 0; i < usuarios.size(); i++) {
+	        if(index == 0) icono = "🥇";
+	        else if(index == 1) icono = "🥈";
+	        else if(index == 2) icono = "🥉";
 
-			Usuario u = usuarios.get(i);
+	        agregarJugadorRanking(icono + " " + texto, "Ranking global", "");
 
-			String icono = "🐧";
-
-			if (i == 0) icono = "🥇";
-			else if (i == 1) icono = "🥈";
-			else if (i == 2) icono = "🥉";
-
-			agregarJugadorRanking(
-					icono + " " + u.getNombre(),
-					(10 - i) + " victorias",
-					(20 - i) + " partidas"
-					);
-		}
+	        index++;
+	    }
 	}
 
 	private void agregarJugadorRanking(String nombre,
@@ -183,16 +172,27 @@ public class Estadisticas {
 
 	private void generarStats() {
 
-		if (usuarios == null) {
-			return;
-		}
+	    int record = GestorBBDD.obtenerRecord();
 
-		int total = usuarios.size();
+	    double media = GestorBBDD.obtenerMedia();
 
-		recordLabel.setText(String.valueOf(total * 3));
-		mediaLabel.setText(String.valueOf(total));
-		porcentajeLabel.setText((total * 25) + "%");
-		posicionLabel.setText("#1");
+	    double porcentaje = GestorBBDD.obtenerPorcentaje(record);
+
+	    recordLabel.setText(String.valueOf(record));
+
+	    mediaLabel.setText(String.valueOf(media));
+
+	    porcentajeLabel.setText(porcentaje + "%");
+
+	    if (usuarios != null && !usuarios.isEmpty()) {
+
+	        String nombre = usuarios.get(0).getNombre();
+
+	        int posicion =
+	                GestorBBDD.obtenerPosicion(nombre);
+
+	        posicionLabel.setText("#" + posicion);
+	    }
 	}
 
 	private void animarEntrada() {
