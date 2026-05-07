@@ -14,7 +14,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.util.Duration;
 
 public class CargarPartida {
 
@@ -73,15 +75,31 @@ public class CargarPartida {
         contenedor.getChildren().add(card);
 
         card.setOnMouseClicked(e -> {
+
             seleccionar(card);
-            try {
-            	
-				cargarPartida(GestorBBDD.cargarTablero(p.getId()));
-				
-			} catch (IOException e1) {
-				
-				e1.printStackTrace();
-			}
+
+            PauseTransition pausa =
+                    new PauseTransition(
+                            Duration.millis(250)
+                    );
+
+            pausa.setOnFinished(ev -> {
+
+                try {
+
+                    cargarPartida(
+                            GestorBBDD.cargarTablero(
+                                    p.getId()
+                            )
+                    );
+
+                } catch(IOException e1) {
+
+                    e1.printStackTrace();
+                }
+            });
+
+            pausa.play();
         });
 
         return contenedor;

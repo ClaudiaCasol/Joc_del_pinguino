@@ -11,8 +11,8 @@ public class Pinguino extends Jugador {
           
         }
      
-     public Pinguino(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, int turno, Usuario usuario) {
-            super(posicion, nombre, color, inventario, turnosPerdidos, turno);
+     public Pinguino(int posicion, String nombre, String color, Inventario inventario, int turnosPerdidos, Usuario usuario) {
+            super(posicion, nombre, color, inventario, turnosPerdidos);
             this.usuario = usuario;
         }
 

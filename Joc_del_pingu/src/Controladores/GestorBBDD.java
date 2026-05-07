@@ -27,6 +27,8 @@ public class GestorBBDD {
 
 	public static void guardar(Partida t1) {
 		con = BBDD.conectarBaseDatos();
+		
+		borrarPartida(t1.getId());
 
 
 		int turnos_tablero = t1.getTurnos();
@@ -59,12 +61,15 @@ public class GestorBBDD {
 			else if(casillas.get(i) instanceof Trineo) {
 				casillasBBDD.add("Trineo");
 				
+			}
+			else if(casillas.get(i) instanceof Oso) {
+				casillasBBDD.add("Oso");
+				
+				
 			} else if(casillas.get(i) instanceof Casilla) {
 				casillasBBDD.add("Casilla");
 				
-			} else if(casillas.get(i) instanceof Oso) {
-				casillasBBDD.add("Oso");
-			}
+			} 
 		}
 		
 		String varray = "";
@@ -73,7 +78,7 @@ public class GestorBBDD {
 			varray+= " '" + casillasBBDD.get(i) + "',";
 		}
 		varray += " '" + casillasBBDD.get(49) + "'";
-		String sql = "INSERT INTO PARTIDA VALUES(seq_tablero.NEXTVAL, "+ turnos_tablero + ", " + posActual + ", casillas_varray (" + varray + "), SYSDATE)";
+		String sql = "INSERT INTO PARTIDA VALUES(seq_partida.NEXTVAL, "+ turnos_tablero + ", " + posActual + ", casillas_varray (" + varray + "), SYSDATE, NULL, NULL)";
 		System.out.println(sql);
 
 		BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM PARTIDA",
@@ -87,7 +92,7 @@ public class GestorBBDD {
 				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
 						+ t1.getJugadores().get(i).getColor() + "', 'SI', " 
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
-						", seq_tablero.CURRVAL, 1, "+ i +")";
+						", seq_partida.CURRVAL, 0)";
 
 				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM JUGADOR",
 						new String[]{"TOTAL"});
@@ -131,7 +136,7 @@ public class GestorBBDD {
 				String sqlJugador = "INSERT INTO JUGADOR VALUES(seq_jugador.NEXTVAL, '" + t1.getJugadores().get(i).getNombre() + "', '"
 						+ t1.getJugadores().get(i).getColor() + "', 'NO', "
 						+ t1.getJugadores().get(i).getPosicion() + ", " + t1.getJugadores().get(i).getTurnosPerdidos() +
-						", seq_tablero.CURRVAL,"+ id + ",  " + i+")";
+						", seq_partida.CURRVAL,"+ id + ")";
 
 				BBDD.print(con, "SELECT COUNT(*) AS TOTAL FROM JUGADOR",
 						new String[]{"TOTAL"});
@@ -219,6 +224,7 @@ public class GestorBBDD {
 					} else if(casillas.get(i).equals("Oso")) {
 						casilla.add(new Oso(i));
 						
+						
 					} else if(casillas.get(i).equals("Agujero")) {
 						casilla.add(new Agujero(i));
 					}
@@ -234,7 +240,7 @@ public class GestorBBDD {
 		ArrayList<Jugador>jugadores = new ArrayList<>();
 		
 		ArrayList<LinkedHashMap<String, String>> jugador =
-				BBDD.select(con, "SELECT * FROM JUGADOR WHERE ID_PARTIDA = " + indice + " ORDER BY TURNOS ASC");
+				BBDD.select(con, "SELECT * FROM JUGADOR WHERE ID_PARTIDA = " + indice);
 		
 		for(LinkedHashMap<String, String> tabla : jugador) { 
 			
@@ -281,20 +287,18 @@ public class GestorBBDD {
 			if(foca.equals("SI")) {
 				
 				int posicion = Integer.parseInt(tabla.get("POSICION"));
-				int turno = Integer.parseInt(tabla.get("TURNOS"));
 				
 				String nombre = tabla.get("NOMBRE");
 				String color = tabla.get("COLOR");
 				
 				int turnosPerdidos = Integer.parseInt(tabla.get("TURNOS_PERDIDOS"));
 				
-				Foca nuevo = new Foca(posicion, nombre, color, inventarios, turnosPerdidos, turno);
+				Foca nuevo = new Foca(posicion, nombre, color, inventarios, turnosPerdidos);
 				jugadores.add(nuevo);
 
 			} else {
 				
 				int posicion = Integer.parseInt(tabla.get("POSICION"));
-				int turno = Integer.parseInt(tabla.get("TURNOS"));
 				
 				String nombre = tabla.get("NOMBRE");
 				String color = tabla.get("COLOR");
@@ -304,7 +308,7 @@ public class GestorBBDD {
 				
 				Usuario usuario = obtenerUsuario(idUsuario);
 				
-				Pinguino nuevo = new Pinguino(posicion, nombre, color, inventarios, turnoPerdido, turno, usuario);
+				Pinguino nuevo = new Pinguino(posicion, nombre, color, inventarios, turnoPerdido, usuario);
 				jugadores.add(nuevo);
 			}
 
@@ -405,7 +409,7 @@ public class GestorBBDD {
 
 	        if (rs.next()) {
 	            String nombre = rs.getString("NOMBRE");
-	            String contrasena = rs.getString("CONTRASENA");
+	            String contrasena = rs.getString("CONTRASEÑA");
 
 	            return new Usuario(nombre, contrasena);
 	        }
@@ -418,7 +422,7 @@ public class GestorBBDD {
 	}
 	
 	public static boolean crearUsuario(Usuario u) {
-	    String sql = "INSERT INTO USUARIO (ID_USUARIO, NOMBRE, CONTRASEÑA) VALUES (SEQ_USUARIO.NEXTVAL, ?, ?)";
+	    String sql = "INSERT INTO USUARIO  VALUES (SEQ_USUARIO.NEXTVAL, ?, ?, 0, 0)";
 
 	    try (Connection con = BBDD.conectarBaseDatos();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -553,8 +557,8 @@ public class GestorBBDD {
 
 	        String sql =
 	                "SELECT nombre, num_partidas_jugadas " +
-	                "FROM JUGADOR " +
-	                "ORDER BY num_partidas_jugadas DESC";
+	                "FROM USUARIO " +
+	                "ORDER BY num_partidas_jugadas";
 
 	        PreparedStatement ps = con.prepareStatement(sql);
 
@@ -581,4 +585,236 @@ public class GestorBBDD {
 
 	    return ranking;
 	}
+	
+	public static ArrayList<Usuario> obtenerRankingUsuarios() {
+
+	    ArrayList<Usuario> ranking =
+	            new ArrayList<>();
+
+	    try {
+
+	        Connection con =
+	                BBDD.conectarBaseDatos();
+
+	        String sql =
+	                "SELECT nombre, num_partidas_jugadas " +
+	                "FROM usuario " +
+	                "ORDER BY num_partidas_jugadas";
+
+	        PreparedStatement ps =
+	                con.prepareStatement(sql);
+
+	        ResultSet rs =
+	                ps.executeQuery();
+
+	        while(rs.next()) {
+
+	            Usuario u = new Usuario();
+
+	            u.setNombre(
+	                    rs.getString("nombre")
+	            );
+
+	            u.setNumPartidasJugadas(
+	                    rs.getInt(
+	                            "num_partidas_jugadas"
+	                    )
+	            );
+
+	            ranking.add(u);
+	        }
+
+	        rs.close();
+	        ps.close();
+	        con.close();
+
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return ranking;
+	}
+	
+	public static ArrayList<String>
+	obtenerJugadoresSobreMedia() {
+
+	    ArrayList<String> jugadores =
+	            new ArrayList<>();
+
+	    try {
+
+	        Connection con =
+	                BBDD.conectarBaseDatos();
+
+	        String sql =
+	                "SELECT nombre " +
+	                "FROM usuario " +
+	                "WHERE num_partidas_ganadas > " +
+	                "(SELECT AVG(num_partidas_ganadas) " +
+	                "FROM usuario)";
+
+	        PreparedStatement ps =
+	                con.prepareStatement(sql);
+
+	        ResultSet rs =
+	                ps.executeQuery();
+
+	        while(rs.next()) {
+
+	            jugadores.add(
+	                    rs.getString("nombre")
+	            );
+	        }
+
+	        rs.close();
+	        ps.close();
+	        con.close();
+
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return jugadores;
+	}
+	
+	public static ArrayList<String>
+	obtenerJugadoresRecord() {
+
+	    ArrayList<String> jugadores =
+	            new ArrayList<>();
+
+	    try {
+
+	        Connection con =
+	                BBDD.conectarBaseDatos();
+
+	        String sql =
+	                "SELECT nombre " +
+	                "FROM usuario " +
+	                "WHERE num_partidas_ganadas = " +
+	                "(SELECT MAX(num_partidas_ganadas) " +
+	                "FROM usuario)";
+
+	        PreparedStatement ps =
+	                con.prepareStatement(sql);
+
+	        ResultSet rs =
+	                ps.executeQuery();
+
+	        while(rs.next()) {
+
+	            jugadores.add(
+	                    rs.getString("nombre")
+	            );
+	        }
+
+	        rs.close();
+	        ps.close();
+	        con.close();
+
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return jugadores;
+	}
+	
+	public static void borrarPartida(int idPartida) {
+
+	    Connection con = BBDD.conectarBaseDatos();
+
+	    try {
+
+	        // Primero inventario
+	        String sqlInventario =
+	                "DELETE FROM INVENTARIO " +
+	                "WHERE ID_JUGADOR IN (" +
+	                "SELECT ID_JUGADOR " +
+	                "FROM JUGADOR " +
+	                "WHERE ID_PARTIDA = " + idPartida +
+	                ")";
+
+	        BBDD.insert(con, sqlInventario);
+
+	        // Luego jugadores
+	        String sqlJugador =
+	                "DELETE FROM JUGADOR " +
+	                "WHERE ID_PARTIDA = " + idPartida;
+
+	        BBDD.insert(con, sqlJugador);
+
+	        // Finalmente partida
+	        String sqlPartida =
+	                "DELETE FROM PARTIDA " +
+	                "WHERE ID_PARTIDA = " + idPartida;
+
+	        BBDD.insert(con, sqlPartida);
+
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void sumarPartidaJugada(
+	        String nombreUsuario) {
+
+	    Connection con =
+	            BBDD.conectarBaseDatos();
+
+	    try {
+
+	        String sql =
+	                "UPDATE USUARIO " +
+	                "SET NUM_PARTIDAS_JUGADAS = " +
+	                "NUM_PARTIDAS_JUGADAS + 1 " +
+	                "WHERE NOMBRE = ?";
+
+	        PreparedStatement ps =
+	                con.prepareStatement(sql);
+
+	        ps.setString(1, nombreUsuario);
+
+	        ps.executeUpdate();
+
+	        ps.close();
+	        con.close();
+
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void sumarPartidaGanada(
+	        String nombreUsuario) {
+
+	    Connection con =
+	            BBDD.conectarBaseDatos();
+
+	    try {
+
+	        String sql =
+	                "UPDATE USUARIO " +
+	                "SET NUM_PARTIDAS_GANADAS = " +
+	                "NUM_PARTIDAS_GANADAS + 1 " +
+	                "WHERE NOMBRE = ?";
+
+	        PreparedStatement ps =
+	                con.prepareStatement(sql);
+
+	        ps.setString(1, nombreUsuario);
+
+	        ps.executeUpdate();
+
+	        ps.close();
+	        con.close();
+
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	
+	
+	
+	
 }

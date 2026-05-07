@@ -4,22 +4,7 @@ import java.util.ArrayList;
 
 import Controladores.GestorBBDD;
 import Controladores.GestorPartida;
-import Modelos.Agujero;
-import Modelos.AudioManager;
-import Modelos.Casilla;
-import Modelos.Dado;
-import Modelos.Dado_lento;
-import Modelos.Dado_rapido;
-import Modelos.Foca;
-import Modelos.Interrogante;
-import Modelos.Inventario;
-import Modelos.Jugador;
-import Modelos.Oso;
-import Modelos.Partida;
-import Modelos.Pinguino;
-import Modelos.SueloQuebradizo;
-import Modelos.Trineo;
-import Modelos.Usuario;
+import Modelos.*;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -97,7 +82,7 @@ public class PantallaJuego {
 
 	@FXML
 	private void handleNewGame(ActionEvent event) {
-	    prepararPantalla();
+		prepararPantalla();
 	}
 
 	@FXML
@@ -106,24 +91,24 @@ public class PantallaJuego {
 
 	@FXML
 	private void handleLoadGame(ActionEvent event) {
-		
+
 		try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/CargarPartida.fxml"));
-            Parent root = loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/CargarPartida.fxml"));
+			Parent root = loader.load();
 
-            Stage stage = (Stage) tablero.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cargar Partida");
+			Stage stage = (Stage) tablero.getScene().getWindow();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Cargar Partida");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	private void handleQuitGame(ActionEvent event) {
-	    System.exit(0);
+		System.exit(0);
 	}
 
 	@FXML
@@ -142,6 +127,13 @@ public class PantallaJuego {
 
 	public void prepararPantalla() {
 		gestorPartida = new GestorPartida();
+
+		for(Usuario u : usuarios) {
+
+			GestorBBDD.sumarPartidaJugada(u.getNombre());
+
+		}
+
 		gestorPartida.iniciarPartida(numeroJugadores, usuarios);
 
 		generarTableroVisual();
@@ -155,19 +147,19 @@ public class PantallaJuego {
 		afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
 
 	}
-	
+
 	//Creamos la función equivalente apreparar pantalla pero para la funcionalidad de cargar partida desde BBDD
 	public void cargarPartida(Partida partida) {
-	    gestorPartida = new GestorPartida();
-	    gestorPartida.setPartida(partida);
+		gestorPartida = new GestorPartida();
+		gestorPartida.setPartida(partida);
 
-	    generarTableroVisual();
-	    crearFichas();
-	    actualizarPosicionesVisuales();
-	    actualizarTextoTurno();
-	    actualizarTooltipInventario();
-	    
-	    inventarioButton.setTooltip(tooltipInventari);
+		generarTableroVisual();
+		crearFichas();
+		actualizarPosicionesVisuales();
+		actualizarTextoTurno();
+		actualizarTooltipInventario();
+
+		inventarioButton.setTooltip(tooltipInventari);
 		actualizarTooltipInventario();
 		audio.reproducirMusica("/audio/tablero.mp3");
 		afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
@@ -186,12 +178,13 @@ public class PantallaJuego {
 			audio.setVolumen(0.0);
 		}
 	}
-	
+
 	private void generarTableroVisual() {
 		tablero.getChildren().clear();
 		casillasVista.clear();
 
 		ArrayList<Casilla> casillas = gestorPartida.getPartida().getTablero().getCasillas();
+		System.out.println(gestorPartida.getPartida().getTablero().getCasillas().toString());
 
 		for (int i = 0; i < casillas.size(); i++) {
 			StackPane celda = crearCeldaVisual(casillas.get(i), i);
@@ -203,6 +196,7 @@ public class PantallaJuego {
 	}
 
 	private StackPane crearCeldaVisual(Casilla casilla, int indice) {
+
 
 		StackPane celda = new StackPane();
 		celda.setPrefSize(140, 78);
@@ -286,46 +280,46 @@ public class PantallaJuego {
 	}
 
 	private void crearFichas() {
-        fichasVista.clear();
+		fichasVista.clear();
 
-        ArrayList<Jugador> jugadores = gestorPartida.getPartida().getJugadores();
+		ArrayList<Jugador> jugadores = gestorPartida.getPartida().getJugadores();
 
-        for (int i = 0; i < jugadores.size(); i++) {
+		for (int i = 0; i < jugadores.size(); i++) {
 
-            Circle ficha = new Circle(11);
-            ficha.setStroke(Color.web("#2c3e50"));
-            ficha.setStrokeWidth(1.5);
-            
-            String ruta;
+			Circle ficha = new Circle(11);
+			ficha.setStroke(Color.web("#2c3e50"));
+			ficha.setStrokeWidth(1.5);
 
-            switch (i) {
-                case 0:
-                    ruta = "/imatges/skipper.jpg";
-                    break;
-                case 1:
-                    ruta = "/imatges/kowalski.jpg";
-                    break;
-                case 2:
-                    ruta = "/imatges/rico.jpg";
-                    break;
-                case 3:
-                    ruta = "/imatges/private.jpg";
-                    break;
-                default:
-                    ruta = "/imatges/focaPingu.jpg";
-                    break;
-            }
+			String ruta;
 
-            Image img = new Image(getClass().getResource(ruta).toExternalForm());
+			switch (i) {
+			case 0:
+				ruta = "/imatges/skipper.jpg";
+				break;
+			case 1:
+				ruta = "/imatges/kowalski.jpg";
+				break;
+			case 2:
+				ruta = "/imatges/rico.jpg";
+				break;
+			case 3:
+				ruta = "/imatges/private.jpg";
+				break;
+			default:
+				ruta = "/imatges/focaPingu.jpg";
+				break;
+			}
 
-            //ajusta la imagen al círculo
-            
-            ficha.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
-            ficha.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.5, 0, 2);");      
-            fichasVista.add(ficha);
-        }
-        	
-    }
+			Image img = new Image(getClass().getResource(ruta).toExternalForm());
+
+			//ajusta la imagen al círculo
+
+			ficha.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+			ficha.setStyle("-fx-effect: dropshadow(gaussian, black, 6, 0.5, 0, 2);");      
+			fichasVista.add(ficha);
+		}
+
+	}
 
 	private void actualizarPosicionesVisuales() {
 
@@ -361,32 +355,32 @@ public class PantallaJuego {
 			if (j.getPosicion() < 0) {
 				mini.add(ficha, i % 2, i / 2);
 			}else {
-			    StackPane celda = casillasVista.get(j.getPosicion());
+				StackPane celda = casillasVista.get(j.getPosicion());
 
-			    // reset posición por si venía de otra casilla
-			    ficha.setTranslateX(0);
-			    ficha.setTranslateY(0);
+				// reset posición por si venía de otra casilla
+				ficha.setTranslateX(0);
+				ficha.setTranslateY(0);
 
-			    // colocar bien las fichas dentro de la celda
-			    StackPane.setAlignment(ficha, Pos.CENTER);
+				// colocar bien las fichas dentro de la celda
+				StackPane.setAlignment(ficha, Pos.CENTER);
 
-			    double[][] posiciones = {
-			    	    {-10, -10},
-			    	    {10, -10},
-			    	    {-10, 10},
-			    	    {10, 10}
-			    	};
+				double[][] posiciones = {
+						{-10, -10},
+						{10, -10},
+						{-10, 10},
+						{10, 10}
+				};
 
-			    if (i < posiciones.length) {
-			        ficha.setTranslateX(posiciones[i][0]);
-			        ficha.setTranslateY(posiciones[i][1]);
-			    }
+				if (i < posiciones.length) {
+					ficha.setTranslateX(posiciones[i][0]);
+					ficha.setTranslateY(posiciones[i][1]);
+				}
 
-			    celda.getChildren().add(ficha); 
+				celda.getChildren().add(ficha); 
 
-			    if (j.getPosicion() == ultimaPosicionAnimada) {
-			        animarFicha(ficha); 
-			    }
+				if (j.getPosicion() == ultimaPosicionAnimada) {
+					animarFicha(ficha); 
+				}
 			}
 		}
 
@@ -481,7 +475,7 @@ public class PantallaJuego {
 		tipoDadoSeleccionado = "lento";
 		dadoMenu.setText("Tirar lento");
 	}
-	
+
 	private void jugarTurno() {
 		if (gestorPartida == null || gestorPartida.getPartida() == null) {
 			return;
@@ -551,10 +545,23 @@ public class PantallaJuego {
 		}
 
 		if (partida.estaFinalizada()) {
-			afegirMissatge("Ha ganado " + partida.getGanador().getNombre());
+
+			afegirMissatge(
+					"Ha ganado " +
+							partida.getGanador().getNombre()
+					);
+
 			dadoMenu.setDisable(true);
-		} else {
-			actualizarTextoTurno();
+
+			if(partida.getGanador() instanceof Pinguino) {
+
+				Pinguino ganador =
+						(Pinguino) partida.getGanador();
+
+				GestorBBDD.sumarPartidaGanada(
+						ganador.getUsuario().getNombre()
+						);
+			}
 		}
 	}
 

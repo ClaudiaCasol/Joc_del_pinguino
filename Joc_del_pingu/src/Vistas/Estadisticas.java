@@ -2,245 +2,285 @@ package Vistas;
 
 import java.util.ArrayList;
 
+import Controladores.GestorBBDD;
 import Modelos.Usuario;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import Controladores.GestorBBDD;
 
 public class Estadisticas {
 
-	@FXML
-	private VBox rankingContainer;
+    @FXML
+    private VBox rankingContainer;
 
-	@FXML
-	private VBox actividadContainer;
+    @FXML
+    private VBox actividadContainer;
 
-	@FXML
-	private Text recordLabel;
+    @FXML
+    private VBox recordPlayersContainer;
 
-	@FXML
-	private Text mediaLabel;
+    @FXML
+    private Text recordLabel;
 
-	@FXML
-	private Text porcentajeLabel;
+    @FXML
+    private Text mediaLabel;
 
-	@FXML
-	private Text posicionLabel;
+    @FXML
+    private Text porcentajeLabel;
 
-	private ArrayList<Usuario> usuarios;
+    @FXML
+    private Text posicionLabel;
 
-	@FXML
-	public void initialize() {
+    private ArrayList<Usuario> usuarios;
 
-		animarEntrada();
-	}
+    @FXML
+    public void initialize() {
 
-	public void setUsuarios(ArrayList<Usuario> usuarios) {
+        animarEntrada();
 
-		this.usuarios = usuarios;
+        generarRanking();
 
-		generarRanking();
-		generarActividad();
-		generarStats();
-	}
+        generarStats();
 
-	private void generarRanking() {
+        generarActividad();
 
-	    rankingContainer.getChildren().clear();
+        generarRecordHolders();
+    }
 
-	    ArrayList<String> ranking =
-	            GestorBBDD.obtenerRanking();
+    public void setUsuarios(ArrayList<Usuario> usuarios) {
 
-	    int index = 0;
+        this.usuarios = usuarios;
 
-	    for(String texto : ranking) {
+        generarStats();
 
-	        String icono = "🐧";
+        generarActividad();
+    }
 
-	        if(index == 0) icono = "🥇";
-	        else if(index == 1) icono = "🥈";
-	        else if(index == 2) icono = "🥉";
+    private void generarRanking() {
 
-	        agregarJugadorRanking(icono + " " + texto, "Ranking global", "");
+        rankingContainer.getChildren().clear();
 
-	        index++;
-	    }
-	}
+        ArrayList<Usuario> ranking =
+                GestorBBDD.obtenerRankingUsuarios();
 
-	private void agregarJugadorRanking(String nombre,
-			String victorias,
-			String partidas) {
+        for(int i = 0; i < ranking.size(); i++) {
 
-		VBox card = new VBox();
+            Usuario u = ranking.get(i);
 
-		card.setSpacing(8);
+            String icono = "🐧";
 
-		card.setStyle(
-				"-fx-background-color: rgba(255,255,255,0.20);" +
-						"-fx-background-radius: 18;" +
-						"-fx-padding: 18;" +
-						"-fx-cursor: hand;"
-				);
+            if(i == 0) icono = "🥇";
+            else if(i == 1) icono = "🥈";
+            else if(i == 2) icono = "🥉";
 
-		Text nombreTxt = new Text(nombre);
+            VBox card = crearCardRanking(
+                    icono,
+                    u.getNombre(),
+                    u.getNumPartidasJugadas(),
+                    i + 1
+            );
 
-		nombreTxt.setStyle(
-				"-fx-fill: white;" +
-						"-fx-font-size: 22;" +
-						"-fx-font-weight: bold;"
-				);
+            rankingContainer.getChildren().add(card);
+        }
+    }
 
-		Text victoriasTxt = new Text("🏆 " + victorias);
+    private VBox crearCardRanking(
+            String icono,
+            String nombre,
+            int partidas,
+            int posicion) {
 
-		victoriasTxt.setStyle(
-				"-fx-fill: white;" +
-						"-fx-font-size: 16;"
-				);
+        VBox card = new VBox();
 
-		Text partidasTxt = new Text("🎮 " + partidas);
+        card.setSpacing(10);
 
-		partidasTxt.setStyle(
-				"-fx-fill: white;" +
-						"-fx-font-size: 16;"
-				);
+        card.setPadding(new Insets(18));
 
-		card.getChildren().addAll(
-				nombreTxt,
-				victoriasTxt,
-				partidasTxt
-				);
+        card.setStyle(
+                "-fx-background-color: rgba(255,255,255,0.28);" +
+                "-fx-background-radius: 18;"
+        );
 
-		card.setOnMouseEntered(e -> {
+        Text nombreTxt = new Text(
+                icono + " " + nombre
+        );
 
-			card.setStyle(
-					"-fx-background-color: rgba(255,255,255,0.32);" +
-							"-fx-background-radius: 18;" +
-							"-fx-padding: 18;" +
-							"-fx-cursor: hand;" +
-							"-fx-effect: dropshadow(gaussian, rgba(255,255,255,0.4), 15,0,0,0);"
-					);
+        nombreTxt.setStyle(
+                "-fx-fill: #1f4e79;" +
+                "-fx-font-size: 22;" +
+                "-fx-font-weight: bold;"
+        );
 
-		});
+        Text partidasTxt = new Text(
+                "🎮 " + partidas + " partidas jugadas"
+        );
 
-		card.setOnMouseExited(e -> {
+        partidasTxt.setStyle(
+                "-fx-fill: #356b8c;" +
+                "-fx-font-size: 16;"
+        );
 
-			card.setStyle(
-					"-fx-background-color: rgba(255,255,255,0.20);" +
-							"-fx-background-radius: 18;" +
-							"-fx-padding: 18;" +
-							"-fx-cursor: hand;"
-					);
+        Text posicionTxt = new Text(
+                "🏆 Posición #" + posicion
+        );
 
-		});
+        posicionTxt.setStyle(
+                "-fx-fill: #1f4e79;" +
+                "-fx-font-size: 16;"
+        );
 
-		rankingContainer.getChildren().add(card);
-	}
+        card.getChildren().addAll(
+                nombreTxt,
+                partidasTxt,
+                posicionTxt
+        );
 
-	private void generarActividad() {
+        return card;
+    }
 
-		actividadContainer.getChildren().clear();
+    private void generarStats() {
 
-		if (usuarios == null) {
-			return;
-		}
+        int record =
+                GestorBBDD.obtenerRecord();
 
-		for (Usuario u : usuarios) {
+        double media =
+                GestorBBDD.obtenerMedia();
 
-			Text texto = new Text(
-					"• " + u.getNombre() + " sigue sobreviviendo al hielo"
-					);
+        recordLabel.setText(
+        		
+                String.valueOf(record)
+                
+        );
 
-			texto.setStyle(
-					"-fx-fill: white;" +
-							"-fx-font-size: 16;"
-					);
+        mediaLabel.setText(
+                String.format("%.2f", media)
+        );
 
-			actividadContainer.getChildren().add(texto);
-		}
-	}
+        double porcentaje =
+                GestorBBDD.obtenerPorcentaje(record);
 
-	private void generarStats() {
+        porcentajeLabel.setText(
+                porcentaje + "%"
+        );
+    }
 
-	    int record = GestorBBDD.obtenerRecord();
+    private void generarActividad() {
 
-	    double media = GestorBBDD.obtenerMedia();
+        actividadContainer.getChildren().clear();
 
-	    double porcentaje = GestorBBDD.obtenerPorcentaje(record);
+        ArrayList<String> jugadoresTop =
+                GestorBBDD.obtenerJugadoresSobreMedia();
 
-	    recordLabel.setText(String.valueOf(record));
+        for(String nombre : jugadoresTop) {
 
-	    mediaLabel.setText(String.valueOf(media));
+            Text texto = new Text(
+                    "🔥 " + nombre +
+                    " supera la media global"
+            );
 
-	    porcentajeLabel.setText(porcentaje + "%");
+            texto.setStyle(
+                    "-fx-fill: white;" +
+                    "-fx-font-size: 16;"
+            );
 
-	    if (usuarios != null && !usuarios.isEmpty()) {
+            actividadContainer
+                    .getChildren()
+                    .add(texto);
+        }
+    }
 
-	        String nombre = usuarios.get(0).getNombre();
+    private void generarRecordHolders() {
 
-	        int posicion =
-	                GestorBBDD.obtenerPosicion(nombre);
+        recordPlayersContainer
+                .getChildren()
+                .clear();
 
-	        posicionLabel.setText("#" + posicion);
-	    }
-	}
+        ArrayList<String> jugadores =
+                GestorBBDD.obtenerJugadoresRecord();
 
-	private void animarEntrada() {
+        for(String nombre : jugadores) {
 
-		FadeTransition fade = new FadeTransition(
-				Duration.seconds(1),
-				rankingContainer
-				);
+            Text texto = new Text(
+                    "👑 " + nombre
+            );
 
-		fade.setFromValue(0);
-		fade.setToValue(1);
-		fade.play();
+            texto.setStyle(
+                    "-fx-fill: white;" +
+                    "-fx-font-size: 18;" +
+                    "-fx-font-weight: bold;"
+            );
 
-		TranslateTransition translate = new TranslateTransition(
-				Duration.seconds(0.8),
-				rankingContainer
-				);
+            recordPlayersContainer
+                    .getChildren()
+                    .add(texto);
+        }
+    }
 
-		translate.setFromX(-40);
-		translate.setToX(0);
-		translate.play();
-	}
+    private void animarEntrada() {
 
+        FadeTransition fade =
+                new FadeTransition(
+                        Duration.seconds(1),
+                        rankingContainer
+                );
 
-	@FXML
-	private void volverMenu(ActionEvent event) {
+        fade.setFromValue(0);
 
-		try {
+        fade.setToValue(1);
 
-			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("/Vistas/PantallaModoJuego.fxml")
-					);
+        fade.play();
 
-			Parent root = loader.load();
+        TranslateTransition translate =
+                new TranslateTransition(
+                        Duration.seconds(0.8),
+                        rankingContainer
+                );
 
-			Stage stage = (Stage)
-					((Node) event.getSource())
-					.getScene()
-					.getWindow();
+        translate.setFromX(-40);
 
-			stage.setScene(new Scene(root));
+        translate.setToX(0);
 
-			stage.setTitle("Modo de Juego");
+        translate.play();
+    }
 
-			stage.show();
+    @FXML
+    private void volverMenu(ActionEvent event) {
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource(
+                                    "/Vistas/PantallaModoJuego.fxml"
+                            )
+                    );
+
+            Parent root = loader.load();
+
+            Stage stage =
+                    (Stage)
+                    ((Node) event.getSource())
+                    .getScene()
+                    .getWindow();
+
+            stage.setScene(new Scene(root));
+
+            stage.show();
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

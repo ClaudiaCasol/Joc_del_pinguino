@@ -349,3 +349,142 @@ BEGIN
 END;
 /
 
+-- INSERTS DE PRUEBA PARA RANKING
+INSERT INTO USUARIO
+VALUES (1, 'Price', '1234', 15, 9);
+
+INSERT INTO USUARIO
+VALUES (2, 'Gaz', '1234', 10, 6);
+
+INSERT INTO USUARIO
+VALUES (3, 'Ghost', '1234', 22, 12);
+
+INSERT INTO USUARIO
+VALUES (4, 'Soap', '1234', 8, 3);
+
+INSERT INTO PARTIDA (id_partida, turnos, jugador_actual, tablero, fecha_partida, ganador, finalizada)
+
+VALUES (1, 18, 1,
+    casillas_varray(
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso',
+        'Casilla','Casilla','Interrogante','Agujero','Oso'
+    ),
+
+    SYSDATE, NULL, 'SI');
+    
+INSERT INTO JUGADOR
+VALUES (1, 'Price', '#4FC3F7', 'NO', 3, 0, 2, 1);
+
+INSERT INTO JUGADOR
+VALUES (2, 'Gaz', '#81D4FA', 'NO', 5, 1, 2, 2);
+
+INSERT INTO JUGADOR
+VALUES (3, 'Ghost', '#29B6F6', 'SI', 1, 2, 2, 3);
+
+INSERT INTO JUGADOR
+VALUES (4, 'Soap', '#0288D1', 'NO', 7, 0, 2, 4);
+
+
+-- INFO TAULES
+DESC JUGADOR;
+DESC PARTIDA;
+SELECT * FROM PARTIDA;
+-----------------------------------------
+
+INSERT INTO INVENTARIO
+VALUES (1, 5, 2, 1, 1, 0, 1);
+
+INSERT INTO INVENTARIO
+VALUES (2, 3, 1, 1,0, 1, 2);
+
+INSERT INTO INVENTARIO
+VALUES (3, 7, 4, 1, 2, 1, 3);
+
+INSERT INTO INVENTARIO
+VALUES (4, 2,0, 1, 0, 0, 4);
+
+create or replace PROCEDURE reset IS
+
+    v_val NUMBER;
+
+BEGIN
+
+    -- BORRAR DATOS
+    DELETE FROM INVENTARIO;
+    DELETE FROM JUGADOR;
+    DELETE FROM PARTIDA;
+    DELETE FROM USUARIO;
+
+    COMMIT;
+
+    -- REINICIAR SEQ_USUARIO
+    SELECT SEQ_USUARIO.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_USUARIO INCREMENT BY -' || (v_val - 1);
+
+    SELECT SEQ_USUARIO.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_USUARIO INCREMENT BY 1';
+
+
+    -- REINICIAR SEQ_JUGADOR
+    SELECT SEQ_JUGADOR.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_JUGADOR INCREMENT BY -' || (v_val - 1);
+
+    SELECT SEQ_JUGADOR.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_JUGADOR INCREMENT BY 1';
+
+
+    -- REINICIAR SEQ_INVENTARIO
+    SELECT SEQ_INVENTARIO.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_INVENTARIO INCREMENT BY -' || (v_val - 1);
+
+    SELECT SEQ_INVENTARIO.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_INVENTARIO INCREMENT BY 1';
+    
+
+    SELECT SEQ_PARTIDA.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_PARTIDA INCREMENT BY -' || (v_val - 1);
+
+    SELECT SEQ_PARTIDA.NEXTVAL INTO v_val FROM dual;
+
+    EXECUTE IMMEDIATE
+    'ALTER SEQUENCE SEQ_PARTIDA INCREMENT BY 1';
+
+
+
+    COMMIT;
+
+END;
+
+SET SERVEROUTPUT ON;
+BEGIN
+reset();
+END;
+/
+
+ALTER TABLE JUGADOR
+DROP COLUMN num_partidas_ganadas;
+
+ALTER TABLE JUGADOR
+DROP COLUMN num_partidas_jugadas;
