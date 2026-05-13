@@ -13,23 +13,37 @@ import java.util.LinkedHashMap;
 
 import Modelos.*;
 
-
-
+/**
+ * Classe controladora que gestiona totes les operacions amb la base de dades.
+ * S'encarrega de guardar i carregar partides, gestionar usuaris i obtenir estadístiques.
+ */
 public class GestorBBDD {
 
+	/** Instància de la classe BBDD per a la connexió */
 	private static BBDD bbdd;
+
+	/** URL de la base de dades */
 	private static String urlBBDD;
+
+	/** Nom d'usuari de la base de dades */
 	private static String username;
+
+	/** Contrasenya de la base de dades */
 	private static String password;
 
+	/** Connexió activa a la base de dades */
 	public static Connection con;
 
-
+	/**
+	 * Guarda l'estat actual d'una partida a la base de dades.
+	 * Primer esborra la partida antiga (si existeix) i després insereix la nova.
+	 *
+	 * @param t1 La partida que es vol guardar
+	 */
 	public static void guardar(Partida t1) {
 		con = BBDD.conectarBaseDatos();
 		
 		borrarPartida(t1.getId());
-
 
 		int turnos_tablero = t1.getTurnos();
 
@@ -177,11 +191,17 @@ public class GestorBBDD {
 
 	}
 
+	/**
+	 * Carrega una partida guardada des de la base de dades a partir del seu identificador.
+	 *
+	 * @param indice Identificador (ID) de la partida a carregar
+	 * @return Objecte Partida amb totes les dades recuperades de la BBDD
+	 */
 	public static Partida cargarTablero(int indice) {
 		con = BBDD.conectarBaseDatos();
 		
 		//HACEMOS EL SELECT QUE NECESITAMOS DE LA TABLA TABLERO
-		ArrayList<LinkedHashMap<String, String>> partida = //se guarda en un arraylist hashmap por si el select te devuelve mÃ¡s de un resultado.
+		ArrayList<LinkedHashMap<String, String>> partida = //se guarda en un arraylist hashmap por si el select te devuelve más de un resultado.
 				
 				BBDD.select(con, "SELECT ID_PARTIDA, TURNOS, JUGADOR_ACTUAL, FECHA_PARTIDA FROM PARTIDA WHERE ID_PARTIDA = " + indice);
 		
@@ -321,6 +341,11 @@ public class GestorBBDD {
 		return partidaN;
 	}
 	
+	/**
+	 * Obté totes les partides guardades a la base de dades.
+	 *
+	 * @return Llista de totes les partides disponibles
+	 */
 	public ArrayList<Partida> obtenerPartidas() {
 
 	    con = BBDD.conectarBaseDatos();
@@ -346,9 +371,12 @@ public class GestorBBDD {
 	    return lista;
 	}
 
-
-	
-	
+	/**
+	 * Valida si un usuari existeix a la base de dades comprovant nom i contrasenya.
+	 *
+	 * @param usuario Objecte Usuario amb el nom i la contrasenya a validar
+	 * @return true si l'usuari és vàlid, false en cas contrari
+	 */
 	public static boolean validarUsuario(Usuario usuario) {
 	    
 	    Connection con = BBDD.conectarBaseDatos();
@@ -372,6 +400,12 @@ public class GestorBBDD {
 	    
 	}
 	
+	/**
+	 * Obté l'identificador numèric d'un usuari a partir del seu objecte Usuario.
+	 *
+	 * @param usuario Objecte Usuario del qual es vol obtenir l'ID
+	 * @return ID de l'usuari, o -1 si no es troba
+	 */
 	public static int obtenerIdUsuario(Usuario usuario) {
 
 	    String sql = "SELECT ID_USUARIO " +
@@ -396,6 +430,12 @@ public class GestorBBDD {
 	    return -1; // no encontrado
 	}
 	
+	/**
+	 * Obté un objecte Usuario a partir del seu identificador numèric.
+	 *
+	 * @param idUsuario ID de l'usuari a cercar
+	 * @return Objecte Usuario amb nom i contrasenya, o null si no es troba
+	 */
 	public static Usuario obtenerUsuario(int idUsuario) {
 
 	    String sql = "SELECT NOMBRE, CONTRASEÑA FROM USUARIO WHERE ID_USUARIO = ?";
@@ -421,6 +461,12 @@ public class GestorBBDD {
 	    return null; // no encontrado
 	}
 	
+	/**
+	 * Crea un nou usuari a la base de dades.
+	 *
+	 * @param u Objecte Usuario amb el nom i la contrasenya del nou usuari
+	 * @return true si s'ha creat correctament, false si hi ha hagut un error
+	 */
 	public static boolean crearUsuario(Usuario u) {
 	    String sql = "INSERT INTO USUARIO  VALUES (SEQ_USUARIO.NEXTVAL, ?, ?, 0, 0)";
 
@@ -439,6 +485,11 @@ public class GestorBBDD {
 	    }
 	}
 	
+	/**
+	 * Obté el rècord màxim de victòries d'entre tots els usuaris.
+	 *
+	 * @return Nombre màxim de victòries (rècord global)
+	 */
 	public static int obtenerRecord() {
 
 	    int record = 0;
@@ -465,6 +516,11 @@ public class GestorBBDD {
 	    return record;
 	}
 	
+	/**
+	 * Obté la mitjana de victòries de tots els usuaris.
+	 *
+	 * @return Mitjana de victòries com a valor decimal
+	 */
 	public static double obtenerMedia() {
 
 	    double media = 0;
@@ -491,6 +547,12 @@ public class GestorBBDD {
 	    return media;
 	}
 	
+	/**
+	 * Calcula el percentatge d'usuaris que tenen menys victòries que el valor indicat.
+	 *
+	 * @param victorias Nombre de victòries de referència
+	 * @return Percentatge d'usuaris per sota d'aquest valor
+	 */
 	public static double obtenerPorcentaje(int victorias) {
 
 	    double porcentaje = 0;
@@ -519,6 +581,12 @@ public class GestorBBDD {
 	    return porcentaje;
 	}
 	
+	/**
+	 * Obté la posició d'un usuari al rànquing global de victòries.
+	 *
+	 * @param nombre Nom de l'usuari a cercar
+	 * @return Posició de l'usuari al rànquing
+	 */
 	public static int obtenerPosicion(String nombre) {
 
 	    int posicion = 0;
@@ -547,6 +615,11 @@ public class GestorBBDD {
 	    return posicion;
 	}
 	
+	/**
+	 * Obté el rànquing d'usuaris ordenat per partides jugades, en format de text.
+	 *
+	 * @return Llista de Strings amb "nom - X partides" de cada usuari
+	 */
 	public static ArrayList<String> obtenerRanking() {
 
 	    ArrayList<String> ranking = new ArrayList<>();
@@ -586,6 +659,12 @@ public class GestorBBDD {
 	    return ranking;
 	}
 	
+	/**
+	 * Obté el rànquing d'usuaris com a llista d'objectes Usuario,
+	 * ordenats per nombre de partides jugades.
+	 *
+	 * @return Llista d'objectes Usuario amb nom i partides jugades
+	 */
 	public static ArrayList<Usuario> obtenerRankingUsuarios() {
 
 	    ArrayList<Usuario> ranking =
@@ -635,6 +714,11 @@ public class GestorBBDD {
 	    return ranking;
 	}
 	
+	/**
+	 * Obté els noms dels jugadors que superen la mitjana global de victòries.
+	 *
+	 * @return Llista de noms dels jugadors per sobre de la mitjana
+	 */
 	public static ArrayList<String>
 	obtenerJugadoresSobreMedia() {
 
@@ -677,6 +761,11 @@ public class GestorBBDD {
 	    return jugadores;
 	}
 	
+	/**
+	 * Obté els noms dels jugadors que tenen el rècord màxim de victòries.
+	 *
+	 * @return Llista de noms dels jugadors amb el rècord de victòries
+	 */
 	public static ArrayList<String>
 	obtenerJugadoresRecord() {
 
@@ -719,6 +808,12 @@ public class GestorBBDD {
 	    return jugadores;
 	}
 	
+	/**
+	 * Esborra una partida completa de la base de dades (inventari, jugadors i partida).
+	 * Primer s'esborren els inventaris, després els jugadors i finalment la partida.
+	 *
+	 * @param idPartida Identificador de la partida a esborrar
+	 */
 	public static void borrarPartida(int idPartida) {
 
 	    Connection con = BBDD.conectarBaseDatos();
@@ -755,6 +850,11 @@ public class GestorBBDD {
 	    }
 	}
 	
+	/**
+	 * Incrementa en 1 el comptador de partides jugades d'un usuari.
+	 *
+	 * @param nombreUsuario Nom de l'usuari al qual se li suma una partida jugada
+	 */
 	public static void sumarPartidaJugada(
 	        String nombreUsuario) {
 
@@ -784,6 +884,11 @@ public class GestorBBDD {
 	    }
 	}
 	
+	/**
+	 * Incrementa en 1 el comptador de partides guanyades d'un usuari.
+	 *
+	 * @param nombreUsuario Nom de l'usuari al qual se li suma una partida guanyada
+	 */
 	public static void sumarPartidaGanada(
 	        String nombreUsuario) {
 
@@ -812,9 +917,5 @@ public class GestorBBDD {
 	        e.printStackTrace();
 	    }
 	}
-	
-	
-	
-	
 	
 }

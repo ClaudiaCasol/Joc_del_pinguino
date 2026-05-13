@@ -12,11 +12,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
+/**
+ * Controlador de la pantalla principal del menú del joc.
+ * Permet seleccionar el nombre de jugadors i navegar a les
+ * diferents seccions: nova partida, manual, carregar partida i estadístiques.
+ */
 public class PantallaModoJuego {
 
+    /** ComboBox per seleccionar el nombre de jugadors de la partida */
     @FXML
     private ComboBox<String> comboJugadores;
 
+    /**
+     * Mètode d'inicialització cridat automàticament per JavaFX en carregar el FXML.
+     * Omple el ComboBox amb les opcions de jugadors i estableix el valor per defecte.
+     */
     @FXML
     private void initialize() {
         comboJugadores.setItems(FXCollections.observableArrayList(
@@ -28,6 +38,12 @@ public class PantallaModoJuego {
         comboJugadores.setValue("2 jugadores");
     }
 
+    /**
+     * Inicia el procés per començar una nova partida.
+     * Llegeix el nombre de jugadors seleccionat i navega a la pantalla de login (PantallaMenu).
+     *
+     * @param event Esdeveniment del botó d'iniciar partida
+     */
     @FXML
     private void iniciarPartida(ActionEvent event) {
         try {
@@ -49,6 +65,11 @@ public class PantallaModoJuego {
         }
     }
 
+    /**
+     * Navega a la pantalla del manual d'usuari.
+     *
+     * @param event Esdeveniment del botó del manual
+     */
     @FXML
     private void irManual(ActionEvent event) {
 
@@ -67,6 +88,11 @@ public class PantallaModoJuego {
         }
     }
     
+    /**
+     * Navega a la pantalla de càrrega de partides guardades.
+     *
+     * @param event Esdeveniment del botó de carregar partida
+     */
     @FXML
     private void irCargarPartida(ActionEvent event) {
          try {
@@ -84,41 +110,51 @@ public class PantallaModoJuego {
          }
      }
     
- @FXML
- private void irEstadisticas(ActionEvent event) {
+    /**
+     * Navega a la pantalla d'estadístiques globals del joc.
+     * Passa una llista buida d'usuaris fins que es connecti amb la BBDD de partides.
+     *
+     * @param event Esdeveniment del botó d'estadístiques
+     */
+    @FXML
+    private void irEstadisticas(ActionEvent event) {
 
-     try {
+        try {
 
-         FXMLLoader loader = new FXMLLoader(
-                 getClass().getResource("/Vistas/Estadisticas.fxml")
-         );
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/Vistas/Estadisticas.fxml")
+            );
 
-         Parent root = loader.load();
+            Parent root = loader.load();
 
-         Estadisticas controller = loader.getController();
+            Estadisticas controller = loader.getController();
 
-         // PASAMOS LOS USUARIOS REALES
-         // de momento vacío hasta conectar partidas/BBDD
+            // PASAMOS LOS USUARIOS REALES
+            // de momento vacío hasta conectar partidas/BBDD
 
-         controller.setUsuarios(new ArrayList<>());
+            controller.setUsuarios(new ArrayList<>());
 
-         Stage stage = (Stage)
-                 ((Node) event.getSource())
-                         .getScene()
-                         .getWindow();
+            Stage stage = (Stage)
+                    ((Node) event.getSource())
+                            .getScene()
+                            .getWindow();
 
-         stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root));
 
-         stage.setTitle("Estadísticas");
+            stage.setTitle("Estadísticas");
 
-         stage.show();
+            stage.show();
 
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
- }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-
+    /**
+     * Converteix l'opció seleccionada al ComboBox en un nombre enter de jugadors.
+     *
+     * @return Nombre de jugadors (2, 3 o 4); per defecte retorna 2
+     */
     private int obtenerNumeroJugadores() {
         String opcion = comboJugadores.getValue();
 

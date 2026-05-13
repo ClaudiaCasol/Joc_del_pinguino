@@ -20,31 +20,47 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Controlador de la pantalla d'estadístiques del joc.
+ * Mostra el rànquing de jugadors, estadístiques globals i els jugadors destacats.
+ */
 public class Estadisticas {
 
+    /** Contenidor del rànquing de jugadors */
     @FXML
     private VBox rankingContainer;
 
+    /** Contenidor de l'activitat dels jugadors per sobre de la mitjana */
     @FXML
     private VBox actividadContainer;
 
+    /** Contenidor dels jugadors amb el rècord de victòries */
     @FXML
     private VBox recordPlayersContainer;
 
+    /** Text que mostra el rècord màxim de victòries */
     @FXML
     private Text recordLabel;
 
+    /** Text que mostra la mitjana de victòries */
     @FXML
     private Text mediaLabel;
 
+    /** Text que mostra el percentatge d'usuaris per sota del rècord */
     @FXML
     private Text porcentajeLabel;
 
+    /** Text que mostra la posició de l'usuari al rànquing */
     @FXML
     private Text posicionLabel;
 
+    /** Llista d'usuaris de la partida actual (pot ser null si es carrega des del menú) */
     private ArrayList<Usuario> usuarios;
 
+    /**
+     * Mètode d'inicialització cridat automàticament per JavaFX en carregar el FXML.
+     * Aplica l'animació d'entrada i carrega totes les seccions d'estadístiques.
+     */
     @FXML
     public void initialize() {
 
@@ -59,6 +75,11 @@ public class Estadisticas {
         generarRecordHolders();
     }
 
+    /**
+     * Estableix la llista d'usuaris actuals i actualitza les estadístiques.
+     *
+     * @param usuarios Llista d'usuaris de la partida actual
+     */
     public void setUsuarios(ArrayList<Usuario> usuarios) {
 
         this.usuarios = usuarios;
@@ -68,6 +89,10 @@ public class Estadisticas {
         generarActividad();
     }
 
+    /**
+     * Genera i omple el contenidor del rànquing amb targetes per a cada usuari.
+     * Els tres primers rebran icones de medalla (or, plata, bronze).
+     */
     private void generarRanking() {
 
         rankingContainer.getChildren().clear();
@@ -96,6 +121,15 @@ public class Estadisticas {
         }
     }
 
+    /**
+     * Crea una targeta visual per a un jugador del rànquing.
+     *
+     * @param icono    Icona a mostrar (medalla o pingüí)
+     * @param nombre   Nom del jugador
+     * @param partidas Nombre de partides jugades
+     * @param posicion Posició al rànquing
+     * @return VBox amb la targeta del jugador
+     */
     private VBox crearCardRanking(
             String icono,
             String nombre,
@@ -150,6 +184,9 @@ public class Estadisticas {
         return card;
     }
 
+    /**
+     * Obté i mostra les estadístiques globals: rècord, mitjana i percentatge.
+     */
     private void generarStats() {
 
         int record =
@@ -176,6 +213,9 @@ public class Estadisticas {
         );
     }
 
+    /**
+     * Genera la secció d'activitat mostrant els jugadors que superen la mitjana global de victòries.
+     */
     private void generarActividad() {
 
         actividadContainer.getChildren().clear();
@@ -201,6 +241,9 @@ public class Estadisticas {
         }
     }
 
+    /**
+     * Genera la secció dels jugadors amb el rècord màxim de victòries.
+     */
     private void generarRecordHolders() {
 
         recordPlayersContainer
@@ -228,6 +271,10 @@ public class Estadisticas {
         }
     }
 
+    /**
+     * Aplica una animació d'entrada de tipus FadeIn i translació horitzontal
+     * al contenidor del rànquing quan es carrega la pantalla.
+     */
     private void animarEntrada() {
 
         FadeTransition fade =
@@ -255,6 +302,11 @@ public class Estadisticas {
         translate.play();
     }
 
+    /**
+     * Torna al menú principal (PantallaModoJuego) quan es prem el botó de tornar.
+     *
+     * @param event Esdeveniment del botó de tornar
+     */
     @FXML
     private void volverMenu(ActionEvent event) {
 

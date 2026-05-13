@@ -18,13 +18,23 @@ import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
+/**
+ * Controlador de la pantalla de càrrega de partides guardades.
+ * Mostra una llista de partides disponibles i permet seleccionar-ne una per continuar jugant.
+ */
 public class CargarPartida {
 
+    /** Contenidor vertical on es mostren les targetes de partides */
     @FXML
     private VBox contenedorPartidas;
 
+    /** Referència a la targeta (HBox) seleccionada actualment */
     private HBox selectedCard = null;
 
+    /**
+     * Mètode d'inicialització cridat automàticament per JavaFX en carregar el FXML.
+     * Obté les partides guardades de la BBDD i crea les targetes visuals corresponents.
+     */
     @FXML
     public void initialize() {
 
@@ -49,6 +59,13 @@ public class CargarPartida {
         }
     }
 
+    /**
+     * Crea una targeta visual per a una partida existent.
+     * En clicar-la, selecciona la targeta i carrega la partida amb un breu retard.
+     *
+     * @param p Partida de la qual es crea la targeta
+     * @return VBox amb la targeta de la partida
+     */
     private VBox crearCard(Partida p) {
 
         VBox contenedor = new VBox();
@@ -105,6 +122,12 @@ public class CargarPartida {
         return contenedor;
     }
 
+    /**
+     * Crea una targeta visual buida que representa un slot disponible per a nova partida.
+     *
+     * @param index Índex del slot buit (no s'utilitza per a la lògica, però pot ser útil per a futures funcions)
+     * @return VBox amb la targeta buida
+     */
     private VBox crearSlotVacio(int index) {
 
         VBox contenedor = new VBox();
@@ -127,12 +150,23 @@ public class CargarPartida {
         return contenedor;
     }
 
+    /**
+     * Retorna l'estil CSS per a una targeta en estat normal (no seleccionada).
+     *
+     * @return String amb l'estil CSS
+     */
     private String estiloNormal() {
         return "-fx-background-color: rgba(255,255,255,0.85);" +
                "-fx-padding: 15;" +
                "-fx-background-radius: 4;";
     }
 
+    /**
+     * Retorna l'estil CSS per a una targeta en estat seleccionat.
+     * Inclou una imatge de fons decorativa.
+     *
+     * @return String amb l'estil CSS
+     */
     private String estiloSeleccionado() {
 
         String ruta = getClass().getResource("/imatges/brush.png").toExternalForm();
@@ -146,12 +180,22 @@ public class CargarPartida {
                "-fx-background-radius: 4;";
     }
 
+    /**
+     * Retorna l'estil CSS per a una targeta buida (slot disponible).
+     *
+     * @return String amb l'estil CSS
+     */
     private String estiloVacio() {
         return "-fx-background-color: rgba(200,200,200,0.3);" +
                "-fx-padding: 15;" +
                "-fx-background-radius: 4;";
     }
 
+    /**
+     * Marca una targeta com a seleccionada i deselecciona l'anterior si n'hi havia.
+     *
+     * @param card Targeta HBox que es vol seleccionar
+     */
     private void seleccionar(HBox card) {
 
         if (selectedCard != null) {
@@ -162,6 +206,12 @@ public class CargarPartida {
         selectedCard = card;
     }
 
+    /**
+     * Carrega una partida i canvia la pantalla a PantallaJuego passant-li la partida carregada.
+     *
+     * @param partida Partida a carregar a la pantalla de joc
+     * @throws IOException Si no es pot carregar el fitxer FXML de PantallaJuego
+     */
     private void cargarPartida(Partida partida) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("PantallaJuego.fxml"));
     	Parent root = loader.load();
@@ -173,6 +223,11 @@ public class CargarPartida {
     	stage.setScene(new Scene(root));
     	stage.show();    }
 
+    /**
+     * Torna a la pantalla de selecció de mode de joc quan es prem el botó de tornar.
+     *
+     * @param event Esdeveniment del botó de tornar
+     */
     @FXML
     private void volverPantallaModoJuego(ActionEvent event) {
 

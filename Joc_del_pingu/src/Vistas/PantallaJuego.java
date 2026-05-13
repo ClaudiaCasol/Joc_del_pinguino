@@ -50,48 +50,105 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Controlador principal de la pantalla de joc.
+ * Gestiona tota la interfície visual durant la partida: el tauler, les fitxes,
+ * les animacions, els sons, els torns i els esdeveniments de les caselles.
+ */
 public class PantallaJuego {
 
+	/** Botó per activar/desactivar el so */
 	@FXML
 	private Button btnSonido;
+
+	/** GridPane que representa visualment el tauler de joc */
 	@FXML
 	private GridPane tablero;
+
+	/** Panell de sortida on es mostren les fitxes que encara no han entrat al tauler */
 	@FXML
 	private StackPane sortidaPane;
+
+	/** Botó desplegable per seleccionar el tipus de dau i tirar-lo */
 	@FXML
 	private SplitMenuButton dadoMenu;
+
+	/** Botó per consultar l'inventari del jugador actual */
 	@FXML
 	private Button inventarioButton;
+
+	/** Text que mostra l'últim esdeveniment de la partida */
 	@FXML
 	private Text eventos;
+
+	/** Text que mostra el resultat de l'últim llançament del dau */
 	@FXML
 	private Text dadoResultText;
+
+	/** Àrea de text que mostra l'historial complet d'esdeveniments de la partida */
 	@FXML
 	private TextArea consolaEventos;
 
+	/** Indica si el so està activat (true) o silenciat (false) */
 	private boolean sonidoActivo = true;
+
+	/** Gestor d'àudio per a música i efectes de so */
 	private AudioManager audio = new AudioManager();
+
+	/** Gestor de la partida que controla la lògica del joc */
 	private GestorPartida gestorPartida;
+
+	/** Nombre de jugadors humans de la partida */
 	private int numeroJugadores = 2;
+
+	/** Nombre de columnes del tauler visual */
 	private static final int COLUMNS = 5;
-	private final ArrayList<StackPane> casillasVista = new ArrayList<>(); // Corregido el tipo
-	private final ArrayList<Circle> fichasVista = new ArrayList<>(); // Corregido el tipo
+
+	/** Llista de les cel·les visuals (StackPane) del tauler */
+	private final ArrayList<StackPane> casillasVista = new ArrayList<>();
+
+	/** Llista de les fitxes visuals (Circle) de cada jugador */
+	private final ArrayList<Circle> fichasVista = new ArrayList<>();
+
+	/** Tipus de dau seleccionat per al pròxim llançament ("normal", "rapido" o "lento") */
 	private String tipoDadoSeleccionado = "normal";
+
+	/** Tooltip que mostra el contingut de l'inventari del jugador actual */
 	private Tooltip tooltipInventari = new Tooltip();
+
+	/** Llista d'usuaris que han iniciat sessió per a la partida */
 	private ArrayList<Usuario> usuarios = new ArrayList<>();
+
+	/** Índex de la casella de sòl trencadís activa (per mostrar la imatge corresponent) */
 	private int sueloQuebradizoActivo = -1;
+
+	/** Última posició on s'ha animat una fitxa (per activar l'animació de bot) */
 	private int ultimaPosicionAnimada = -1;
 
+	/**
+	 * Mètode d'inicialització cridat automàticament per JavaFX en carregar el FXML.
+	 * Mostra un missatge de preparació a la consola d'esdeveniments.
+	 */
 	@FXML
 	private void initialize() {
 		afegirMissatge("Preparando partida...");
 	}
 
+	/**
+	 * Configura el nombre de jugadors i la llista d'usuaris abans de preparar la pantalla.
+	 *
+	 * @param numeroJugadores Nombre de jugadors humans de la partida
+	 * @param usuario         Llista d'usuaris que jugaran
+	 */
 	public void configurarPartida(int numeroJugadores, ArrayList<Usuario> usuario) {
 		this.numeroJugadores = numeroJugadores;
 		this.usuarios = usuario;
 	}
 
+	/**
+	 * Prepara i inicialitza una nova partida: crea el gestor, registra les partides jugades
+	 * a la BBDD, inicia la partida i configura els components visuals i l'àudio.
+	 */
 	public void prepararPantalla() {
 		gestorPartida = new GestorPartida();
 		for (Usuario u : usuarios) {
@@ -103,6 +160,11 @@ public class PantallaJuego {
 		afegirMissatge("Partida iniciada con " + numeroJugadores + " jugadores.");
 	}
 
+	/**
+	 * Carrega una partida guardada i inicialitza els components visuals i l'àudio.
+	 *
+	 * @param partida Partida a carregar (obtinguda des de la BBDD)
+	 */
 	public void cargarPartida(Partida partida) {
 		gestorPartida = new GestorPartida();
 		gestorPartida.setPartida(partida);
@@ -111,6 +173,10 @@ public class PantallaJuego {
 		afegirMissatge("Partida cargada correctamente.");
 	}
 
+	/**
+	 * Inicialitza tots els components visuals de la partida:
+	 * genera el tauler, crea les fitxes, actualitza posicions i tooltip de l'inventari.
+	 */
 	private void inicializarComponentesVisuales() {
 		generarTableroVisual();
 		crearFichas();
@@ -120,16 +186,31 @@ public class PantallaJuego {
 		actualizarTooltipInventario();
 	}
 
+	/**
+	 * Gestiona el clic a "Nova Partida" del menú. Reinicia la pantalla.
+	 *
+	 * @param event Esdeveniment del menú
+	 */
 	@FXML
 	private void handleNewGame(ActionEvent event) {
 		prepararPantalla();
 	}
 
+	/**
+	 * Gestiona el clic a "Guardar Partida" del menú. Desa l'estat actual a la BBDD.
+	 *
+	 * @param event Esdeveniment del menú
+	 */
 	@FXML
 	private void handleSaveGame(ActionEvent event) {
 		GestorBBDD.guardar(gestorPartida.getPartida());
 	}
 
+	/**
+	 * Gestiona el clic a "Carregar Partida" del menú. Navega a la pantalla de càrrega.
+	 *
+	 * @param event Esdeveniment del menú
+	 */
 	@FXML
 	private void handleLoadGame(ActionEvent event) {
 		try {
@@ -143,16 +224,24 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Gestiona el clic a "Sortir" del menú. Tanca l'aplicació.
+	 *
+	 * @param event Esdeveniment del menú
+	 */
 	@FXML
 	private void handleQuitGame(ActionEvent event) {
 		System.exit(0);
 	}
 
+	/**
+	 * Activa o desactiva el so del joc. Actualitza el botó i el volum de l'àudio.
+	 */
 	@FXML
 	private void toggleSonido() {
 		sonidoActivo = !sonidoActivo;
 		if (sonidoActivo) {
-			btnSonido.setText("🔊"); // O el icono que uses
+			btnSonido.setText("🔊");
 			audio.setVolumen(1.0);
 		} else {
 			btnSonido.setText("🔇");
@@ -160,10 +249,16 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Gestiona el clic principal al botó de tirar el dau.
+	 * Executa el torn, reprodueix el so del dau i, amb retard, el so de la casella.
+	 *
+	 * @param event Esdeveniment del botó del dau
+	 */
 	@FXML
 	private void handleDadoNormal(ActionEvent event) {
 		Pinguino p = (Pinguino) gestorPartida.getPartida().getJugadorActual();
-		jugarTurno(); // O jugarTurnAnimat() según prefieras
+		jugarTurno();
 		audio.reproducirEfecto("/audio/dados.mp3");
 
 		int pos = p.getPosicion();
@@ -177,6 +272,11 @@ public class PantallaJuego {
 		pausa.play();
 	}
 
+	/**
+	 * Reprodueix l'efecte de so corresponent al tipus de casella on ha caigut el jugador.
+	 *
+	 * @param casilla Casella on ha caigut el jugador
+	 */
 	private void reproducirSonidoCasilla(Casilla casilla) {
 		if (casilla instanceof Oso) {
 			audio.reproducirEfecto("/audio/oso.mp3");
@@ -191,24 +291,37 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Selecciona el dau normal per al pròxim llançament i actualitza el text del botó.
+	 */
 	@FXML
 	private void seleccionarDadoNormal() {
 		tipoDadoSeleccionado = "normal";
 		dadoMenu.setText("Tirar dado");
 	}
 
+	/**
+	 * Selecciona el dau ràpid per al pròxim llançament i actualitza el text del botó.
+	 */
 	@FXML
 	private void seleccionarDadoRapido() {
 		tipoDadoSeleccionado = "rapido";
 		dadoMenu.setText("Tirar rápido");
 	}
 
+	/**
+	 * Selecciona el dau lent per al pròxim llançament i actualitza el text del botó.
+	 */
 	@FXML
 	private void seleccionarDadoLento() {
 		tipoDadoSeleccionado = "lento";
 		dadoMenu.setText("Tirar lento");
 	}
 
+	/**
+	 * Executa el torn del jugador actual i, si el següent jugador és la Foca (CPU),
+	 * executa automàticament el seu torn també.
+	 */
 	private void jugarTurno() {
 		if (gestorPartida == null || gestorPartida.getPartida() == null) {
 			return;
@@ -224,6 +337,10 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Executa un únic torn: determina el dau, tira el dau, calcula la posició final
+	 * i llança l'animació de moviment casella a casella.
+	 */
 	private void ejecutarUnTurno() {
 		Partida partida = gestorPartida.getPartida();
 		Jugador jugador = partida.getJugadorActual();
@@ -240,6 +357,15 @@ public class PantallaJuego {
 		animarMovimentCasellaACasella(jugador, antes, despues, dadoElegido, partida);
 	}
 
+	/**
+	 * Actualitza la interfície gràfica després d'un torn: refresca el tauler,
+	 * les posicions, el tooltip de l'inventari i anima la casella de destinació.
+	 *
+	 * @param jugador    Jugador que acaba de jugar
+	 * @param antes      Posició abans del moviment
+	 * @param despues    Posició final després del moviment
+	 * @param dadoElegido Dau que s'ha utilitzat
+	 */
 	private void actualizarIUTrasTurno(Jugador jugador, int antes, int despues, Dado dadoElegido) {
 		String msg = (dadoElegido instanceof Dado_rapido) ? " usa dado rápido"
 				: (dadoElegido instanceof Dado_lento) ? " usa dado lento" : "";
@@ -256,6 +382,10 @@ public class PantallaJuego {
 		verificarGanador();
 	}
 
+	/**
+	 * Genera i omple el tauler visual amb les cel·les corresponents a cada casella de la partida.
+	 * Les caselles es col·loquen seguint el patró de serp (esquerra-dreta, dreta-esquerra alternant files).
+	 */
 	private void generarTableroVisual() {
 		tablero.getChildren().clear();
 		casillasVista.clear();
@@ -269,6 +399,14 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Crea la representació visual d'una casella amb el seu estil, número i imatge si n'hi ha.
+	 * Afegeix efectes d'hover (ressaltat de vora en passar el ratolí).
+	 *
+	 * @param casilla Casella del model a representar
+	 * @param indice  Índex de la casella al tauler (0-based)
+	 * @return StackPane amb la representació visual de la casella
+	 */
 	private StackPane crearCeldaVisual(Casilla casilla, int indice) {
 		StackPane celda = new StackPane();
 		celda.setPrefSize(140, 78);
@@ -303,6 +441,10 @@ public class PantallaJuego {
 		return celda;
 	}
 
+	/**
+	 * Crea les fitxes visuals (cercles amb imatge) per a cada jugador de la partida.
+	 * Assigna una imatge diferent per a cada pingüí i la foca.
+	 */
 	private void crearFichas() {
 		fichasVista.clear();
 		ArrayList<Jugador> jugadores = gestorPartida.getPartida().getJugadores();
@@ -324,6 +466,11 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Actualitza la posició visual de totes les fitxes al tauler.
+	 * El jugador amb el torn actiu rep un ressaltat daurat a la vora de la fitxa.
+	 * Els jugadors que encara no han entrat al tauler es mostren al panell de sortida.
+	 */
 	private void actualizarPosicionesVisuales() {
 		for (StackPane celda : casillasVista) {
 			celda.getChildren().removeIf(n -> n instanceof Circle);
@@ -365,6 +512,13 @@ public class PantallaJuego {
 		sortidaPane.getChildren().add(mini);
 	}
 
+	/**
+	 * Retorna l'estil CSS d'una casella en funció del seu tipus.
+	 * Cada tipus de casella té un color de fons diferent.
+	 *
+	 * @param casilla Casella de la qual es vol obtenir l'estil
+	 * @return String amb l'estil CSS de la casella
+	 */
 	private String estiloCasilla(Casilla casilla) {
 		String base = "-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: rgba(60,60,60,0.35); -fx-border-width: 1;";
 		if (casilla instanceof Oso) {
@@ -385,6 +539,13 @@ public class PantallaJuego {
 		return "-fx-background-color: #f5fdff; " + base;
 	}
 
+	/**
+	 * Converteix un índex lineal de casella a coordenades de fila i columna
+	 * seguint el patró de serp (files parells d'esquerra a dreta, imparells al revés).
+	 *
+	 * @param indice Índex de la casella (0-based)
+	 * @return Array de 2 elements: [fila, columna]
+	 */
 	private int[] convertirIndiceASerp(int indice) {
 		int fila = indice / COLUMNS;
 		int col = indice % COLUMNS;
@@ -394,6 +555,13 @@ public class PantallaJuego {
 		return new int[] { fila, col };
 	}
 
+	/**
+	 * Carrega una imatge des d'una ruta relativa i retorna un ImageView amb la mida indicada.
+	 *
+	 * @param path Ruta relativa del recurs d'imatge
+	 * @param size Mida en píxels (amplada i alçada iguals)
+	 * @return ImageView amb la imatge carregada i redimensionada
+	 */
 	private ImageView cargarImagen(String path, double size) {
 		Image img = new Image(getClass().getResourceAsStream(path));
 		ImageView iv = new ImageView(img);
@@ -402,6 +570,11 @@ public class PantallaJuego {
 		return iv;
 	}
 
+	/**
+	 * Afegeix un missatge a la consola d'esdeveniments i al text d'últim event.
+	 *
+	 * @param text Missatge a mostrar
+	 */
 	private void afegirMissatge(String text) {
 		if (eventos != null) {
 			eventos.setText(text);
@@ -411,6 +584,10 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Comprova si la partida ha finalitzat i, si és així, mostra el missatge de victòria,
+	 * desactiva el dau i registra la victòria a la BBDD si el guanyador és un pingüí.
+	 */
 	private void verificarGanador() {
 		Partida partida = gestorPartida.getPartida();
 		if (partida.estaFinalizada()) {
@@ -422,6 +599,10 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Actualitza el text del torn actual mostrant el nom del jugador que ha de jugar.
+	 * Si és la Foca CPU, mostra un missatge específic.
+	 */
 	private void actualizarTextoTurno() {
 		if (gestorPartida == null || gestorPartida.getPartida() == null) {
 			return;
@@ -435,6 +616,15 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Calcula la posició final d'un jugador tenint en compte els límits del tauler.
+	 * Si sobrepassaria l'última posició, s'ajusta a ella.
+	 *
+	 * @param jugador Jugador que es mou
+	 * @param pasos   Nombre de caselles a avançar
+	 * @param partida Partida en curs
+	 * @return Posició final calculada
+	 */
 	private int calcularPosFinal(Jugador jugador, int pasos, Partida partida) {
 		int posActual = jugador.getPosicion() < 0 ? -1 : jugador.getPosicion();
 		int ultimaPos = partida.getTablero().getTamano() - 1;
@@ -450,6 +640,16 @@ public class PantallaJuego {
 		return novaPos;
 	}
 
+	/**
+	 * Anima el moviment d'un jugador casella a casella fins a la posició de destinació.
+	 * Un cop finalitzada l'animació, aplica l'efecte de la casella amb retard.
+	 *
+	 * @param jugador       Jugador que es mou
+	 * @param posOrigen     Posició d'origen
+	 * @param posDestiFinal Posició final de destinació
+	 * @param dadoElegido   Dau que s'ha utilitzat
+	 * @param partida       Partida en curs
+	 */
 	private void animarMovimentCasellaACasella(Jugador jugador, int posOrigen, int posDestiFinal, Dado dadoElegido,
 			Partida partida) {
 		ArrayList<Integer> posicions = new ArrayList<>();
@@ -490,6 +690,15 @@ public class PantallaJuego {
 		timeline.play();
 	}
 
+	/**
+	 * Aplica l'efecte de la casella de destinació, actualitza la IU i finalitza el torn animat.
+	 * Si el jugador ha retrocedit per l'efecte, mostra un missatge de retrocés.
+	 *
+	 * @param jugador       Jugador que ha caigut a la casella
+	 * @param posDestiFinal Posició de la casella on ha caigut
+	 * @param dadoElegido   Dau que s'ha utilitzat
+	 * @param partida       Partida en curs
+	 */
 	private void aplicarEfecteCasellaAmbRetard(Jugador jugador, int posDestiFinal, Dado dadoElegido, Partida partida) {
 		int posAbansEfecte = jugador.getPosicion();
 
@@ -515,6 +724,13 @@ public class PantallaJuego {
 		finalitzarTornAnimat(jugador, partida);
 	}
 
+	/**
+	 * Finalitza el torn animat: comprova si hi ha guanyador, avança al pròxim torn
+	 * i si el següent és la Foca CPU, executa el seu torn automàticament amb un retard.
+	 *
+	 * @param jugador Jugador que acaba de jugar
+	 * @param partida Partida en curs
+	 */
 	private void finalitzarTornAnimat(Jugador jugador, Partida partida) {
 		if (jugador.getPosicion() == partida.getTablero().getTamano() - 1) {
 			afegirMissatge("🏆 ¡Ha guanyat " + jugador.getNombre() + "!");
@@ -535,6 +751,10 @@ public class PantallaJuego {
 		dadoMenu.setDisable(false);
 	}
 
+	/**
+	 * Actualitza el tooltip de l'inventari mostrant els objectes del jugador actual.
+	 * Si el jugador és la Foca o no té inventari, mostra un missatge adequat.
+	 */
 	private void actualizarTooltipInventario() {
 		if (gestorPartida == null || gestorPartida.getPartida() == null) {
 			tooltipInventari.setText("Sense inventari");
@@ -569,6 +789,14 @@ public class PantallaJuego {
 		tooltipInventari.setText(texto);
 	}
 
+	/**
+	 * Cerca a l'inventari del jugador un dau del tipus indicat.
+	 * Si no en troba cap del tipus demanat, retorna el primer dau normal disponible.
+	 *
+	 * @param jugador Jugador del qual es busca el dau
+	 * @param tipo    Tipus de dau: "rapido", "lento" o "normal"
+	 * @return Dau trobat, o null si el jugador no té inventari o no és un pingüí
+	 */
 	private Dado buscarDadoSegunTipo(Jugador jugador, String tipo) {
 		if (!(jugador instanceof Pinguino)) {
 			return null;
@@ -598,6 +826,13 @@ public class PantallaJuego {
 		return null;
 	}
 
+	/**
+	 * Si el jugador ha usat un dau especial (ràpid o lent), l'elimina de l'inventari
+	 * i restableix el tipus de dau seleccionat a "normal".
+	 *
+	 * @param jugador   Jugador que ha jugat el torn
+	 * @param dadoUsado Dau que s'ha usat en el torn
+	 */
 	private void consumirDadoEspecialSiHaceFalta(Jugador jugador, Dado dadoUsado) {
 		if (!(jugador instanceof Pinguino) || dadoUsado == null) {
 			return;
@@ -610,6 +845,13 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Genera el missatge d'event per a la casella on ha caigut el jugador i el mostra.
+	 * Comprova el tipus de casella i construeix el missatge adequat.
+	 *
+	 * @param casilla Casella on ha caigut el jugador
+	 * @param jugador Jugador que ha caigut a la casella
+	 */
 	private void mostrarMissatgeCasella(Casilla casilla, Jugador jugador) {
 		String missatge = null;
 
@@ -645,6 +887,14 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Gestiona la guerra de boles de neu entre dos pingüins que coincideixen a la mateixa casella.
+	 * El perdedor retrocedeix la diferència de boles. En cas d'empat, ningú es mou.
+	 * Mostra un diàleg d'alerta amb el resultat de la guerra.
+	 *
+	 * @param p1 Primer pingüí participant
+	 * @param p2 Segon pingüí participant
+	 */
 	private void resolverGuerraBolas(Pinguino p1, Pinguino p2) {
 		int bolasP1 = p1.getInventario().getBolaNieve().size();
 		int bolasP2 = p2.getInventario().getBolaNieve().size();
@@ -682,12 +932,23 @@ public class PantallaJuego {
 		actualizarTooltipInventario();
 	}
 
+	/**
+	 * Fa retrocedir un jugador un nombre de caselles i mostra un missatge informatiu.
+	 *
+	 * @param j        Jugador que retrocedeix
+	 * @param casillas Nombre de caselles que retrocedeix
+	 */
 	private void retrocederJugador(Jugador j, int casillas) {
 		int nuevaPos = Math.max(-1, j.getPosicion() - casillas);
 		j.setPosicion(nuevaPos);
 		afegirMissatge("↩️ " + j.getNombre() + " retrocede " + casillas + " casillas.");
 	}
 
+	/**
+	 * Versió alternativa d'afegirMissatge (duplicat intern per compatibilitat).
+	 *
+	 * @param text Missatge a mostrar
+	 */
 	private void afegirMissatge1(String text) {
 		if (eventos != null) {
 			eventos.setText(text);
@@ -697,6 +958,13 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Mostra el missatge de casella amb efecte pop-art visual animat.
+	 * Determina el color i el text en funció del tipus de casella i llança l'animació.
+	 *
+	 * @param casilla Casella on ha caigut el jugador
+	 * @param jugador Jugador que ha caigut a la casella
+	 */
 	private void mostrarMissatgeCasella1(Casilla casilla, Jugador jugador) {
 		String missatge = null;
 		Color colorPop = Color.WHITE;
@@ -740,6 +1008,13 @@ public class PantallaJuego {
 		}
 	}
 
+	/**
+	 * Mostra un text amb animació pop-art sobre el tauler (FadeOut + moviment cap amunt).
+	 * Un cop acabada l'animació, elimina el text del panell pare.
+	 *
+	 * @param mensaje Missatge a mostrar
+	 * @param color   Color del text pop-art
+	 */
 	private void mostrarPopArt(String mensaje, Color color) {
 		Text popText = new Text(mensaje);
 		popText.setStyle("-fx-font-family: 'Arial Black'; -fx-font-size: 35px; -fx-font-weight: bold;");
@@ -771,6 +1046,11 @@ public class PantallaJuego {
 		pt.play();
 	}
 
+	/**
+	 * Anima la casella de destinació amb un lleuger augment d'escala (efecte "pulse").
+	 *
+	 * @param celda StackPane de la casella a animar
+	 */
 	private void animarCasillaDestino(StackPane celda) {
 		ScaleTransition st = new ScaleTransition(Duration.millis(180), celda);
 		st.setFromX(1.0);
@@ -782,6 +1062,11 @@ public class PantallaJuego {
 		st.play();
 	}
 
+	/**
+	 * Anima la fitxa del jugador amb un petit bot vertical.
+	 *
+	 * @param ficha Circle (fitxa) a animar
+	 */
 	private void animarFicha(Circle ficha) {
 		TranslateTransition tt = new TranslateTransition(Duration.millis(180), ficha);
 		tt.setFromY(0);
@@ -791,6 +1076,12 @@ public class PantallaJuego {
 		tt.play();
 	}
 
+	/**
+	 * Comprova si el jugador que s'ha mogut coincideix a la mateixa casella que un altre pingüí.
+	 * Si és així, inicia una guerra de boles de neu entre tots dos.
+	 *
+	 * @param jugadorMovido Jugador que s'ha mogut en aquest torn
+	 */
 	private void comprobarConflictos(Jugador jugadorMovido) {
 		if (!(jugadorMovido instanceof Pinguino)) {
 			return;
